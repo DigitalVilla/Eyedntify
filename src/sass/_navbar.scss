@@ -1,0 +1,277 @@
+.myNav-bar {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    background: -webkit-gradient(linear, left top, right top, from(#579ca5), to(#5fc48c));
+    background: linear-gradient(to right, #579ca5, #5fc48c);
+    width: 100vw;
+    height: 5rem;
+    padding: 1rem;
+    -webkit-box-shadow: 0 0.5rem 3rem rgba(41, 43, 44, 0.2);
+    box-shadow: 0 0.5rem 3rem rgba(41, 43, 44, 0.2)
+}
+
+.myNav-container {
+    position: relative;
+    height: 100%;
+    z-index: 2000;
+    padding: 1rem;
+    margin: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    max-width: 100rem;
+
+    & .myNav_btn {
+        position: relative;
+        border: none;
+        background: inherit;
+        cursor: pointer;
+        
+        & svg {
+            border: 1px solid #00f;
+            padding-top: .5rem;
+            height: 3.1rem;
+            width: 3.1rem;
+            fill: #ebebeb
+
+        }
+
+        &:active {
+            -webkit-transform: translateY(1px);
+            transform: translateY(1px)
+        }
+    }
+}
+
+
+.myNav-container [class^="myNav_btn_icon"] {
+    padding-top: .5rem;
+    height: 3.1rem;
+    width: 3.1rem;
+    fill: #ebebeb
+}
+
+.myNav-container [class*="icon-menu"] {
+    height: 3.5rem;
+    width: 3.5rem
+}
+
+.myNav-container .search {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 60%;
+    flex: 0 0 60%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-left: -1rem
+}
+
+.myNav-container .search_input {
+    font-family: inherit;
+    font-size: inherit;
+    color: #338a5a;
+    background-color: #ebebeb;
+    border: none;
+    border-radius: 3rem;
+    padding: .7rem 3rem;
+    width: 90%;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+    margin-right: -3.25rem;
+    height: 3rem
+}
+
+.myNav-container .search_input:focus {
+    -webkit-box-shadow: 0 0.5rem 0.5rem rgba(41, 43, 44, 0.1);
+    box-shadow: 0 0.5rem 0.5rem rgba(41, 43, 44, 0.1);
+    background-color: #ebebeb;
+    outline: none;
+    width: 100%
+}
+
+.myNav-container .search_input:focus+.search_icon {
+    fill: #7ba890;
+    cursor: pointer
+}
+
+.myNav-container .search_icon {
+    padding: 0;
+    height: 2rem;
+    width: 2rem;
+    outline: 0;
+    fill: #abc0a8;
+    cursor: none;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    -webkit-transition: all .3s;
+    transition: all .3s
+}
+
+.myNav-container .search_icon:focus {
+    -webkit-transform: translateY(0);
+    transform: translateY(0)
+}
+
+.myNav-container .search_icon:active {
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px)
+}
+
+.menu-container {
+    position: fixed;
+    right: 0;
+    top: 5rem;
+    z-index: 500;
+    min-height: 100%;
+    width: 100vw;
+    overflow: hidden !important;
+    display: none
+}
+
+.menu-bg {
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    min-height: 100vh;
+    -webkit-animation: showIn .5s;
+    animation: showIn .5s
+}
+
+.menu-bg::after {
+    content: "";
+    position: absolute;
+    z-index: 2200;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 35vw
+}
+
+
+.App-Container {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    width: 100vw;
+    overflow-x: hidden !important
+}
+
+
+.myBanner {
+    width: 100vw;
+    height: 35vh;
+    background: -webkit-gradient(linear, left top, right top, from(#579ca5), to(#5fc48c));
+    background: linear-gradient(to right, #579ca5, #5fc48c);
+    -webkit-box-shadow: 0 0.2rem 3rem rgba(41, 43, 44, 0.5);
+    box-shadow: 0 0.2rem 3rem rgba(41, 43, 44, 0.5);
+    color: #ebebeb;
+    opacity: 0;
+    position: relative;
+    top: -.1rem;
+    z-index: 0
+}
+
+.myProfile {
+    width: 9rem !important;
+    border-radius: 50%;
+    margin: 2rem 0
+}
+
+.user_tilte {
+    margin: auto;
+    position: relative;
+    width: 60vw;
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center
+}
+
+.user_name {
+    font-size: 2rem;
+    font-weight: 300;
+    display: inline
+}
+
+.settings_icon {
+    margin-left: 1rem;
+    width: 2rem;
+    height: 2rem;
+    fill: rgba(235, 235, 235, 0.8)
+}
+
+.myNav {
+    margin-top: -3.3rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    list-style: none;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    bottom: 0;
+    position: relative;
+    opacity: 0
+}
+
+.myNav li {
+    color: #ebebeb;
+    font-weight: 399
+}
+
+.myNav li:first-of-type a {
+    border-bottom: 3px solid #ebebeb
+}
+
+.myNav li a {
+    color: #ebebeb;
+    text-decoration: none;
+    padding: .7rem .7rem
+}
+
+[class^="myCard"] {
+    background: transparent;
+    width: 100vw;
+    height: 100%;
+    margin: 4rem auto 0 auto;
+    padding: 3rem;
+    border: none;
+    border-radius: 1rem;
+    opacity: 0;
+    display: none
+}
+
+[class^="myCard"]:target {
+    display: block
+}
+
+[class^="myCard"] p {
+    text-align: justify
+}
+
+[class^="myCard"] button {
+    color: aliceblue;
+    background: #41af72;
+    margin-top: 2rem;
+    border: none;
+    border-radius: .5rem;
+    padding: 1rem 4rem;
+    cursor: pointer
+}

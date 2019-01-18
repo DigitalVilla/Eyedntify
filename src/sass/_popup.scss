@@ -1,0 +1,153 @@
+.popup {
+    position: fixed;
+    z-index: 9999;
+    display: none
+}
+
+.popup-container {
+    position: relative;
+    z-index: 9999
+}
+
+.popup-container .login {
+    position: absolute;
+    -webkit-transform: translate(5.5%, 30%);
+    transform: translate(5.5%, 30%);
+    background: #ebebeb;
+    top: 0;
+    left: 0;
+    width: 90vw;
+    max-height: 40rem;
+    height: 70vh;
+    max-width: 600px;
+    border-radius: 2rem;
+    padding: 2rem;
+    z-index: 1000 !important;
+    -webkit-box-shadow: 0 0.5rem 3rem rgba(41, 43, 44, 0.4);
+    box-shadow: 0 0.5rem 3rem rgba(41, 43, 44, 0.4)
+}
+
+.popup-container .login .login-head {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    opacity: 0
+}
+
+.popup-container .login .login-head img {
+    width: 5rem
+}
+
+.popup-container .login .login-head h2 {
+    font-size: 2.2em;
+    font-weight: 300;
+    text-align: center;
+    color: #41af72
+}
+
+.popup-container .login input {
+    opacity: 0;
+    font-family: inherit;
+    margin: 1.7rem auto;
+    padding: 1rem 2rem;
+    font-size: 1.2em;
+    width: 90%;
+    color: #636c72 !important;
+    outline: none;
+    font-weight: 400;
+    border-radius: .5rem;
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(41, 43, 44, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(41, 43, 44, 0.2);
+    background: transparent;
+    -webkit-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+    border: none;
+    border-left: 1rem solid transparent
+}
+
+.popup-container .login input:hover {
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(41, 43, 44, 0.3);
+    box-shadow: 0 0.5rem 1rem rgba(41, 43, 44, 0.3);
+    border-left: 1rem solid #5fc48c;
+    background: rgba(255, 255, 255, 0.282)
+}
+
+.popup-container .login input:last-of-type {
+    margin-bottom: .7rem
+}
+
+.popup-container .login .validInput {
+    display: block;
+    color: #ff8181;
+    opacity: 0;
+    font-size: 1.4rem
+}
+
+.popup-container .login [class*="login_btn"] {
+    opacity: 0;
+    margin: .7rem 0 1.5rem 0;
+    text-decoration: none;
+    border-radius: .5rem;
+    padding: 1rem 3rem;
+    text-align: center;
+    border: none;
+    color: #fff;
+    background: #ff6767;
+    cursor: pointer;
+    font-size: 1.4rem !important;
+    text-align: center;
+    -webkit-transition: all .1s;
+    transition: all .1s;
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(41, 43, 44, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(41, 43, 44, 0.2)
+}
+
+.popup-container .login [class*="login_btn"]:hover {
+    background: inherit;
+    -webkit-transform: translateY(1px);
+    transform: translateY(1px)
+}
+
+.popup-container .login [class*="login_btn"]:not(:last-of-type) {
+    padding: 1rem 5rem;
+    margin-right: 2rem
+}
+
+.popup-container .background {
+    background: rgba(41, 43, 44, 0.6);
+    background-image: -webkit-gradient(linear, right top, left bottom, from(rgba(87, 156, 165, 0.2)), to(rgba(95, 196, 140, 0.2)));
+    background-image: linear-gradient(to bottom left, rgba(87, 156, 165, 0.2), rgba(95, 196, 140, 0.2));
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    width: 100vw;
+    z-index: 999 !important
+}
+
+.popup-container .register {
+    opacity: 0
+}
+
+.popup-container .register hr {
+    margin: 1rem 0 2rem 0
+}
+
+.popup-container .register a {
+    text-decoration: none;
+    color: #636c72;
+    opacity: .5;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+    cursor: default
+}
+
+.popup-container .register a:not(:last-of-type) {
+    margin-right: 4rem
+}
