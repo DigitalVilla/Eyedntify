@@ -1,19 +1,8 @@
-@-webkit-keyframes hideOut {
+
+@keyframes fadeOut1 {
 
     0%,
-    30% {
-        opacity: 1
-    }
-
-    100% {
-        opacity: 0
-    }
-}
-
-@keyframes hideOut {
-
-    0%,
-    30% {
+    20% {
         opacity: 1
     }
 
@@ -296,9 +285,9 @@
     display: block
 }
 
-.hide {
-    -webkit-animation: hideOut .6s;
-    animation: hideOut .6s
+.fadeOut{
+    -webkit-animation: fadeOut1 .5s;
+    animation: fadeOut1 .5s
 }
 
 .fadeIn {
@@ -313,10 +302,10 @@
     opacity: 1
 }
 
-.fadeIn1 {
+.fadeIn2 {
     -webkit-animation: .3s showIn 0s forwards;
     animation: .3s showIn 0s forwards;
-    opacity: 1
+    // opacity: 1
 }
 
 .slidefadeL {

@@ -70,7 +70,7 @@
 
 .sideMenu-img {
     cursor: pointer;
-    display: none;
+    // display: none;
     position: absolute;
     top: 47%;
     z-index: 0;
@@ -78,5 +78,6 @@
     margin-top: -4rem;
     left: 0;
     -webkit-transition: margin .35s;
-    transition: margin .35s
+    transition: margin .35s;
+    animation: fadeInRight .6s
 }

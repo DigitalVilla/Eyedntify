@@ -3,7 +3,7 @@
     top: 0;
     z-index: 1000;
     background: -webkit-gradient(linear, left top, right top, from(#579ca5), to(#5fc48c));
-    background: linear-gradient(to right, #579ca5, #5fc48c);
+    background: linear-gradient(to right,$color1, $color2);
     width: 100vw;
     height: 5rem;
     padding: 1rem;
@@ -35,12 +35,10 @@
         cursor: pointer;
         
         & svg {
-            border: 1px solid #00f;
             padding-top: .5rem;
             height: 3.1rem;
             width: 3.1rem;
             fill: #ebebeb
-
         }
 
         &:active {
@@ -50,13 +48,6 @@
     }
 }
 
-
-.myNav-container [class^="myNav_btn_icon"] {
-    padding-top: .5rem;
-    height: 3.1rem;
-    width: 3.1rem;
-    fill: #ebebeb
-}
 
 .myNav-container [class*="icon-menu"] {
     height: 3.5rem;
@@ -138,7 +129,10 @@
     min-height: 100%;
     width: 100vw;
     overflow: hidden !important;
-    display: none
+}
+
+.hide {
+    display: none; 
 }
 
 .menu-bg {
