@@ -2,6 +2,7 @@
 *,
 *::after,
 *::before {
+    outline: none !important;
     padding: 0;
     margin: 0;
     -webkit-box-sizing: inherit;
@@ -15,8 +16,14 @@ html {
 }
 
 *:focus {
-    outline: none !important
+    outline: none !important;
+    border: 0; 
 }
+
+button::-moz-focus-inner { 
+    border: 0; 
+  }
+
 
 body {
     font-family: "Lato", sans-serif;
@@ -25,6 +32,7 @@ body {
     font-weight: 400;
     line-height: 1.7;
     background: #e7e7e7;
+    padding-top: 4rem;
 }
 
 
@@ -38,5 +46,18 @@ body {
     border: 1px solid #ccc !important
 }
 
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
 $color1 : #579ca5;
 $color2 : #5fc48c;
+
+$bp-1200: 75em;
+$bp-1000: 62.5 em;
+$bp-800: 50 em;
+$bp-600: 37.5 em;
+$bp-450: 28.13 em;
+
+@media only screen and (max-width: bp-600) {}

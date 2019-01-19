@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
-import NavBtn from './NavBtn'
+import Icon from '../../utils/Icon'
 import SideMenu from './SideMenu'
 
 class Header extends Component {
@@ -44,11 +44,11 @@ class Header extends Component {
         return (
             <nav className="myNav-bar" >
                 <div className="myNav-container">
-                    <NavBtn icon="-home" />
+                    <Icon icon="camera" size="3rem"/>
                     <SearchBar placeholder="Search by..." />
-                    <NavBtn icon="-menu" action={this.openMenu} />
+                    <Icon icon="menu" size="2.7rem" action={this.openMenu} />
                 </div>
-                <SideMenu />
+                <SideMenu closeMenu={this.openMenu}/>
             </nav>
         )
     }

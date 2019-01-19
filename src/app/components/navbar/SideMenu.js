@@ -4,7 +4,7 @@ class SideMenu extends Component {
     render() {
         return (
             <div className="menu-container hide">
-                <div className="menu-bg fadeOut"> </div>
+                <div onClick={this.props.closeMenu} className="menu-bg fadeOut"> </div>
                 <div className="sideMenu fadeOutRight">
                     <ul className="sideMenu-list">
                         <li className="sideMenu-item"> Login | Register</li>

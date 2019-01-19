@@ -28,7 +28,7 @@
     align-items: center;
     max-width: 100rem;
 
-    & .myNav_btn {
+    & button {
         position: relative;
         border: none;
         background: inherit;
@@ -38,7 +38,8 @@
             padding-top: .5rem;
             height: 3.1rem;
             width: 3.1rem;
-            fill: #ebebeb
+            fill: #ffffff;
+            
         }
 
         &:active {
