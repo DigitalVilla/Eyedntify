@@ -29,8 +29,8 @@ export default class Cards extends Component {
       },
       {
         id: "02",
-        author: "Omar Villa",
-        image: "/img/card-1.jpg",
+        author: "Alterrester",
+        image: "/img/card-2.jpg",
         caption: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur, itaque?',
         favorite:true,
         likes: [
@@ -53,8 +53,8 @@ export default class Cards extends Component {
       },
       {
         id: "03",
-        author: "Omar Villa",
-        image: "/img/card-1.jpg",
+        author: "DigitalVilla",
+        image: "/img/card-3.jpg",
         caption: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur, itaque?',
         favorite:false,
         likes: [
@@ -77,7 +77,7 @@ export default class Cards extends Component {
       {
         id: "04",
         author: "Omar Villa",
-        image: "/img/card-1.jpg",
+        image: "/img/card-4.jpg",
         caption: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur, itaque?',
         favorite:false,
         likes: [

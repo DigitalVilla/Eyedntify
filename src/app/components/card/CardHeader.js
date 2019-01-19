@@ -1,11 +1,11 @@
 import React from 'react'
 import Icon from '../../utils/Icon'
-const CardHeader = () => {
+const CardHeader = (props) => {
   return (
     <div className="EyeCard__header">
       <div>
         <img src="" alt="d$@" />
-        <span> Username</span>
+        <span> {props.author}</span>
       </div>
       <Icon
         // className={favorite ? "favorite" : ""}

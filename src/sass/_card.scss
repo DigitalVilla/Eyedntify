@@ -32,11 +32,11 @@
         }
     }
     &__header {
-        // padding-top: .5rem;
+        padding: .5rem 1rem;
         display: flex;
         height: 4rem;
         justify-content: space-between;
-        background: rgb(223, 223, 223);
+        background: rgb(245, 245, 245);
 
         & svg {
             // border: 1px solid #00f;

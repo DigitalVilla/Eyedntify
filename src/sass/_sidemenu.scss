@@ -33,8 +33,9 @@
 
 .sideMenu-item {
     z-index: 2000;
-    padding: .5rem 0;
-    width: 85%;
+    padding: 1rem 0;
+    width: 90%;
+    color:  darken($color1, 10%);
     background-color: rgba(255, 255, 255, 0.479);
     border-radius: .3rem;
     -webkit-transition: all .2s;
