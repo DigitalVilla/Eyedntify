@@ -1,4 +1,4 @@
-# Etedentify
-> A Progressive Web Application in React/Redux and MongoD
+# Eyedentify
+> A Progressive Web Application in React/Redux and MongoDB
 
 ![](screenshot.png)
