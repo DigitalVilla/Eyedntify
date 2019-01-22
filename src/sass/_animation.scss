@@ -291,8 +291,8 @@
 }
 
 .fadeIn {
-    -webkit-animation: 1s showIn 1s forwards;
-    animation: 1s showIn 1s forwards;
+    -webkit-animation:  showIn.5s forwards;
+    animation:  showIn .5s forwards;
     opacity: 1
 }
 

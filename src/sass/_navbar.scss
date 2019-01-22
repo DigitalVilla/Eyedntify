@@ -75,7 +75,7 @@
     font-family: inherit;
     font-size: inherit;
     color: #338a5a;
-    background-color: #ebebeb;
+    background-color: #eee;
     border: none;
     border-radius: 3rem;
     padding: .7rem 3rem;
@@ -83,15 +83,17 @@
     -webkit-transition: all .2s;
     transition: all .2s;
     margin-right: -3.25rem;
-    height: 3rem
+    height: 3rem;
+    opacity: .85;
 }
 
 .myNav-container .search_input:focus {
     -webkit-box-shadow: 0 0.5rem 0.5rem rgba(41, 43, 44, 0.1);
     box-shadow: 0 0.5rem 0.5rem rgba(41, 43, 44, 0.1);
-    background-color: #ebebeb;
+    background-color: #eee;
     outline: none;
-    width: 100%
+    width: 100%;
+    opacity: 1;
 }
 
 .myNav-container .search_input:focus+.search_icon {
@@ -136,23 +138,6 @@
     display: none; 
 }
 
-.menu-bg {
-    background: rgba(0, 0, 0, 0.2);
-    width: 100%;
-    min-height: 100vh;
-    -webkit-animation: showIn .5s;
-    animation: showIn .5s
-}
-
-.menu-bg::after {
-    content: "";
-    position: absolute;
-    z-index: 2200;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 35vw
-}
 
 
 .App-Container {

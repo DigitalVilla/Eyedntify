@@ -1,15 +1,24 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Eyedentify",
+  "name": "A PWA React Application to share the world around you",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "./img/mobile/favicon.ico",
+      "sizes": "128x128 64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "./img/mobile/app-icon-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
     }
   ],
-  "start_url": ".",
+  "start_url": "index.html",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#579ca5",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "description": "An Instagram Clone to view the world around you",
+  "dir": "ltr",
+  "lang": "en-US"
 }

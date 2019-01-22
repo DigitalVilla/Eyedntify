@@ -4,14 +4,15 @@ import sprite from '../../img/sprite.svg'
 const Icon = (props) => {
     
     const styles = {
-        height: props.size,
-        width: props.size
+        height: props.size || "3rem",
+        width: props.size || "3rem",
     }
 
     return (
-        <button style={styles}
+        <button 
             className="icon_BTN"
             onClick={props.action}>
+            
             <svg className={props.className}
                 style={styles}>
                 <use

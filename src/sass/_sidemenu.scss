@@ -36,24 +36,18 @@
     padding: 1rem 0;
     width: 90%;
     color:  darken($color1, 10%);
-    background-color: rgba(255, 255, 255, 0.479);
+    background-color: #ddd;
     border-radius: .3rem;
     -webkit-transition: all .2s;
-    transition: all .2s
+    transition: all .2s;
+    cursor: pointer
 }
 
-.sideMenu-item:first-of-type {
-    background-color: #ebebeb
-}
 
-.sideMenu-item:first-of-type:hover {
+.sideMenu-item:hover {
     -webkit-box-shadow: 0 0.5rem 0.5rem rgba(41, 43, 44, 0.2);
     box-shadow: 0 0.5rem 0.5rem rgba(41, 43, 44, 0.2);
     border-left: 3px solid transparent
-}
-
-.sideMenu-item:first-of-type a:hover {
-    cursor: pointer
 }
 
 .sideMenu-link:active,
@@ -66,12 +60,9 @@
     font-size: 1.8rem;
     -webkit-transition: all .6s;
     transition: all .6s;
-    cursor: default
 }
 
 .sideMenu-img {
-    cursor: pointer;
-    // display: none;
     position: absolute;
     top: 47%;
     z-index: 0;
@@ -81,4 +72,24 @@
     -webkit-transition: margin .35s;
     transition: margin .35s;
     animation: fadeInRight .6s
+}
+
+
+.menu-bg {
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    min-height: 100vh;
+    opacity: 0;
+    // -webkit-animation: showIn .5s;
+    // animation: showIn .5s
+}
+
+.menu-bg::after {
+    content: "";
+    position: absolute;
+    z-index: 2200;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 35vw
 }

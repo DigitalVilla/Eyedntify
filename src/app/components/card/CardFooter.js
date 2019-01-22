@@ -1,38 +1,36 @@
 import React from 'react'
 import Icon from '../../utils/Icon'
+import classnames from 'classnames'
 
-const CardFooter = (props) => {
-
-  const LikeHandler = (e) => {
-    props.action();
-    let svg = e.target.children[0];
-    svg.classList.toggle("liked")
-
+const CardFooter = ({body, dispatch}) => {
+  
+  const likeHandler = (id,e) => {
+    dispatch({type:'LIKE_IMAGE', payload:id})
   }
 
-  const favHandler = (e) => {
-    props.action();
-    let svg = e.target.children[0];
-    svg.classList.toggle("liked")
-    // this.forceUpdate()
+  const favHandler = (id,e) => {
+    dispatch({type:'FAV_IMAGE', payload:id})
   }
-
-
-  const { isLiked, favorite } = props;
 
   const size = "3rem";
   return (
     <div className="EyeCard__footer">
       <Icon size={size}
-      className= {isLiked ? "liked" : ""}
-        action={LikeHandler}
-        icon={isLiked ? "heartFull": "heart" } />
+        className={classnames({ "liked": body.liked })}
+        action={likeHandler.bind(this, body.id)}
+        icon={classnames({
+          "heart": !body.liked,
+          "heartFull": body.liked,
+        })} />
       <Icon size={size} icon="comment" />
       <Icon
-      className={favorite ? "favorite" : ""}
+        className={classnames({ "favorite": body.favorite })}
         size={size}
-        action={favHandler}
-        icon={!favorite ? "star" : "starFull"} />
+        action={favHandler.bind(this, body.id)}
+        icon={classnames({
+          "star": !body.favorite,
+          "starFull": body.favorite,
+        })} />
     </div>
   )
 }

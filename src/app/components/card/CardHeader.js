@@ -4,13 +4,11 @@ const CardHeader = (props) => {
   return (
     <div className="EyeCard__header">
       <div>
-        <img src="" alt="d$@" />
+        <img src={props.logo} alt="d$@" />
         <span> {props.author}</span>
       </div>
       <Icon
-        // className={favorite ? "favorite" : ""}
         size='3rem'
-        // action={favHandler}
         icon="dots" />
     </div>
   )

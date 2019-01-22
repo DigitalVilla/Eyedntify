@@ -6,7 +6,7 @@ export default function searchBox(props) {
         <div className="search">
             <input type="text" className="search_input" placeholder={props.placeholder}/>
             <svg className="search_icon">
-                <use href="/img/sprite.svg#icon-magnifying-glass"></use>
+                <use href="../../img/sprite.svg#icon-search"></use>
             </svg>
         </div>
     )

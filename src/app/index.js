@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Navbar from './components/navbar';
 import Home from './components/Home';
+import { Provider } from './Context'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Navbar />
-        <Home />
-      </div>
-    );
-  }
+const App = () => {
+return (
+  <Provider>
+    <div className="App">
+      <Navbar />
+      <Home />
+    </div>
+  </Provider>
+)
 }
 
 export default App;
