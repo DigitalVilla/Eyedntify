@@ -10,6 +10,9 @@ class Header extends Component {
     }
 
     openMenu = (e) => {
+        if (e.target.className === "title" && this.state.showMenu === false) 
+            return
+        this.setState({ showMenu: !this.state.showMenu })
         let container = document.querySelector(".menu-container");
         container.children[0].classList.toggle("fadeOut")
         container.children[1].classList.toggle("fadeInRight")
@@ -19,7 +22,6 @@ class Header extends Component {
         setTimeout(function () {
             container.classList.toggle("hide");
         }, time)
-        this.setState({ showMenu: !this.state.showMenu })
     }
 
     animate = (a) => {
@@ -48,7 +50,7 @@ class Header extends Component {
                     <Link to="/camera">
                         <Icon icon="camera" size="3rem" />
                     </Link>
-                    <SearchBar placeholder="Search by..." />
+                    <SearchBar action={this.openMenu} placeholder="Search by..." />
                     <Icon icon="menu" size="2.7rem" action={this.openMenu} />
                 </div>
                 <SideMenu buttons={btns} toShow={this.state.showMenu} closeMenu={this.openMenu} />

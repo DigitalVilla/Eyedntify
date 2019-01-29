@@ -6,7 +6,7 @@ export default function searchBox(props) {
     
     return (
         <Link to= "/home">
-        <div className="title">
+        <div className="title" onClick={props.action.bind(this)}>
         <img src={logo} alt="logo"/>
             Eyedentify
         </div>
