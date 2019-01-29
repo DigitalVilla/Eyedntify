@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './pages/Home';
 import Camera from './pages/Camera';
+import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Error404 from './pages/Error404';
 import { Provider } from './Context';
@@ -12,7 +13,7 @@ const App = () => {
       <Router>
         <div className="App">
           <Switch>
-            {/* <Route exact path="/" component={Home} /> */}
+            <Route exact path="/" component={Login} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/camera" component={Camera} />
             <Route exact path="/profile" component={Profile} />

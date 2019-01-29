@@ -1,0 +1,128 @@
+.login {
+  height: 100vh;
+  margin: 0;
+  margin: auto;
+  overflow: hidden;
+
+
+  &__container {
+    border-radius: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 500px;
+    color: #fff;
+    overflow: hidden;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 1rem 5rem rgba(0, 0, 0, .3);
+
+    & .header {
+      background: linear-gradient(to right top, $color1, $color2);
+      padding: 2rem 0;
+      margin-bottom: 1rem;
+
+      & h1 {
+        line-height: 1;
+      }
+
+      & img {
+        height: 12rem;
+        width: 12rem;
+      }
+    }
+
+
+
+    & input {
+      width: 80%;
+      border: none;
+      padding: 2rem;
+      margin: 1rem 0;
+      background: rgba(255, 255, 255, 0.367);
+      border: 1px solid $color3;
+      color: $color1;
+      font-size: 1.6rem;
+      letter-spacing: 1px;
+      text-align: center;
+      border-radius: 5px;
+    }
+
+    ::placeholder {
+      color: $color1;
+      font-size: 1.6rem;
+    }
+
+    & [type="submit"] {
+      background: linear-gradient(to right top, $color1, $color2);
+      color: #fff;
+      font-size: 1.8rem;
+      padding: 1.5rem;
+      width: 50%;
+      border-radius: 50px;
+      letter-spacing: 2px;
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
+    }
+
+    .next {
+      display: block;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: $color3;
+      font-size: 1.4rem;
+      padding: 0 1rem 4px 1rem;
+      margin: 3rem auto;
+      letter-spacing: 1px;
+      border-bottom: 1px solid $color3;
+    }
+
+
+    @media only screen and (max-height: $bp-600) {
+      & img {
+        height: 10rem;
+        width: 10rem;
+      }
+
+      & input {
+        font-size: 1.4rem;
+        padding: 1.4rem;
+        margin: .8rem 0;
+      }
+
+      ::placeholder {
+        font-size: 1.4rem;
+      }
+
+      & [type="submit"] {
+        padding: 1rem;
+      }
+
+      .next {
+        margin: 2rem auto;
+      }
+    }
+  }
+
+  @media only screen and (max-width: $bp-450) {
+    background: linear-gradient(to right top, $color1, $color2);
+
+    &__container {
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, .0);
+      border-radius: 0;
+      background: transparent;
+
+      .header {
+        background: transparent;
+      }
+
+      input,
+      ::placeholder,
+      .next {
+        color: #fff;
+      }
+
+    }
+  }
+}
