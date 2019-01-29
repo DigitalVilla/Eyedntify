@@ -8,8 +8,9 @@ const CardHeader = (props) => {
         <span> {props.author}</span>
       </div>
       <Icon
+        action = {props.action}
         size='3rem'
-        icon="dots" />
+        icon={props.icon ||"dots"} />
     </div>
   )
 }

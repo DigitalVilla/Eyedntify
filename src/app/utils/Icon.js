@@ -8,11 +8,10 @@ const Icon = (props) => {
         width: props.size || "3rem",
     }
 
+
     return (
-        <button 
-            className="icon_BTN"
-            onClick={props.action}>
-            
+        <button className="icon_BTN"
+            onClick={props.action || null}>
             <svg className={props.className}
                 style={styles}>
                 <use

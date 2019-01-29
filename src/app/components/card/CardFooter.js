@@ -31,6 +31,7 @@ const CardFooter = ({body, dispatch}) => {
           "star": !body.favorite,
           "starFull": body.favorite,
         })} />
+        
     </div>
   )
 }

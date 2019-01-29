@@ -1,0 +1,34 @@
+.home {
+  // padding-top: .5rem;
+  border: 1px solid transparent;
+}
+
+.plusBtn{
+  background: linear-gradient(to right, #579ca5, $color2) !important;
+  border-radius: 50%;
+  height: 6rem !important;
+  width: 6rem !important;
+  transition: all .2s;
+  & svg{
+      width: 5.5rem;
+      height: 5.5rem;
+      fill: #fff;
+      padding: 1rem;
+      padding-left: .3rem;
+  }
+
+  position:fixed;
+  left: 2rem;
+  bottom: 2rem;
+  box-shadow: 0 .5rem 1.4rem rgba(0,0,0, 0.4);
+  z-index: 100;
+  
+  @media only screen and (min-width: $bp-900) {
+      left: calc(50vw - 430px);
+  }
+
+  &:active {
+      transform: translateY(3px)
+  }
+  
+}

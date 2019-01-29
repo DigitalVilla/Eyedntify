@@ -1,6 +1,7 @@
 import React from 'react'
 import CardHeader from './CardHeader'
 import CardFooter from './CardFooter'
+import CardCaption from './CardCaption'
 import Icon from '../../utils/Icon'
 import classnames from 'classnames'
 const Card = ({ body, dispatch }) => {
@@ -22,11 +23,12 @@ const Card = ({ body, dispatch }) => {
         {
           <Icon
             className={classnames({ "hide": !body.liked })}
-            size={"30rem"}
+            size={"15rem"}
             icon={"heartFull"} />
         }
       </figure>
       <CardFooter body={body} dispatch={dispatch} />
+      <CardCaption author={body.author} body={body} dispatch={dispatch} />
     </div>
   )
 }

@@ -1,0 +1,193 @@
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.8)
+    }
+
+    15% {
+        opacity: .3;
+        transform: translate(-50%, -50%) scale(1.1)
+    }
+
+    30% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(.9)
+    }
+
+    40% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1)
+    }
+
+    90% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1)
+    }
+
+    100% {
+        opacity: .6;
+        transform: translate(-50%, -50%) scale(.5)
+    }
+}
+
+
+
+.EyeCard {
+    margin-bottom: 3rem;
+    height: 67rem;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.212);
+    transition: all .3s;
+
+    & figure {
+        position: relative;
+        height: 50rem;
+        z-index: 0;
+
+        & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        & svg {
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 10;
+            transform: translate(-50%, -50%);
+            fill: rgb(247, 247, 247);
+            animation: bounceIn .8s ease-in-out;
+        }
+
+
+    }
+
+    @media only screen and (max-width: $bp-450) {
+        height: 65rem;
+
+        & figure {
+            height: 48rem;
+        }
+    }
+
+
+    &__header {
+        padding: .5rem 1rem;
+        display: flex;
+        height: 4rem;
+        justify-content: space-between;
+        align-items: center;
+        background: rgb(245, 245, 245);
+        transition: all .3s;
+
+        & div {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            letter-spacing: 1px;
+        }
+
+        // logo
+        & img {
+            width: 3.4rem;
+            height: 3.4rem;
+            margin: 0 1.5rem 0 .5rem;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        // more icon
+        & svg {
+            fill: #555;
+            width: 3rem !important;
+            height: 3rem !important;
+        }
+
+        @media only screen and (max-width: $bp-450) {
+            height: 3.2rem;
+
+            & div {
+                font-size: 1.8rem;
+            }
+
+            & img {
+                width: 2.8rem;
+                height: 2.8rem;
+            }
+
+            & svg {
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+            }
+        }
+    }
+
+    &__footer {
+        position: relative;
+        z-index: 20;
+        padding-top: 1px;
+        display: flex;
+        height: 3.5rem;
+        justify-content: space-around;
+        background: rgb(243, 243, 243);
+
+        & svg {
+            fill: #555;
+
+            &.liked {
+                fill: rgb(243, 43, 70);
+                animation: .2s showIn;
+            }
+
+            &.favorite {
+                animation: .2s showIn;
+                fill: rgb(36, 132, 156);
+            }
+        }
+
+        @media only screen and (max-width: $bp-450) {
+            height: 3rem;
+
+            & svg {
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+            }
+        }
+    }
+
+    &__caption {
+        background: none;
+        transition: all .3s;
+        font-size: 1.8rem;
+        text-align: left;
+        padding: 0;
+        // overflow: scroll;
+
+        & span.likes {
+            margin-left: 2rem;
+        }
+
+        & span {
+            font-weight: 700;
+            color: #333;
+            line-height: 1;
+        }
+
+        & p {
+            padding: 0 2rem;
+            text-align: justify;
+            line-height: 1.4;
+        }
+
+        @media only screen and (max-width: $bp-800) {
+            font-size: 1.6rem;
+        }
+
+        @media only screen and (max-width: $bp-450) {
+            height: 8.6rem;
+            font-size: 1.4rem;
+        }
+    }
+}

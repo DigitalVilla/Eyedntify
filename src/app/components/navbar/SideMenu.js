@@ -1,21 +1,37 @@
 import React from 'react'
 import classnames from 'classnames'
+import sprite from '../../../img/sprite.svg'
+import { Link } from 'react-router-dom'
 
 const SideMenu = (props) => {
+
+    const onURL = (value) => {
+        return window.location.pathname.indexOf(value) === 1;
+    }
+
     return (
         <div className="menu-container hide">
             <div onClick={props.closeMenu}
-                className={classnames("menu-bg",{
+                className={classnames("menu-bg", {
                     "fadeIn": props.toShow,
                     "fadeOut": !props.toShow
-                    })}> </div>
+                })}> </div>
             <div className="sideMenu fadeOutRight">
                 <ul className="sideMenu-list">
-                    <li className="sideMenu-item"> Login | Register</li>
-                    <li className="sideMenu-item">  Gallery </li>
-                    <li className="sideMenu-item">  Favorites </li>
-                    <li className="sideMenu-item">  Check List </li>
-                    <li className="sideMenu-item">  Trip Planning</li>
+                    {
+                        props.buttons.map((e, i) => {
+                            let myClass = (onURL(e.value)) ? "active" : "";
+                            return <Link key={i} to={"/" + e.value}>
+                                <li className={"sideMenu-item " + myClass} >
+                                    <svg className="sm">
+                                        <use href={sprite + '#icon-' + e.icon}>
+                                        </use>
+                                    </svg>
+                                    <span>{e.value}</span>
+                                </li>
+                            </Link>
+                        })
+                    }
                     <div className="sideMenu-img colibri"></div>
                     <div className="sideMenu-bg "></div>
                 </ul>

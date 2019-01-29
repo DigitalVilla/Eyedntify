@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import SearchBar from './SearchBar'
 import Icon from '../../utils/Icon'
 import SideMenu from './SideMenu'
+import { Link } from 'react-router-dom'
 
 class Header extends Component {
     state = {
@@ -21,28 +22,36 @@ class Header extends Component {
         this.setState({ showMenu: !this.state.showMenu })
     }
 
-    animate = (a) =>{
+    animate = (a) => {
         const image = document.querySelector(".sideMenu-img");
-            for (let i = 1; i <= 5; i++) {
-                setTimeout(function (a) {
-                    image.classList.add("colibri" + i);
-                    1 === i && (image.style.marginTop = "-4.3rem");
-                    image.classList.remove("colibri" + (i - 1));
-                    5 === i && (image.style.marginTop = "-4rem")
-                }, a += 100)
-            }
-            image.style.marginTop = "-3.8rem";
+        for (let i = 1; i <= 5; i++) {
+            setTimeout(function (a) {
+                image.classList.add("colibri" + i);
+                1 === i && (image.style.marginTop = "-4.3rem");
+                image.classList.remove("colibri" + (i - 1));
+                5 === i && (image.style.marginTop = "-4rem")
+            }, a += 100)
+        }
+        image.style.marginTop = "-3.8rem";
     }
 
     render() {
+        const btns = [
+            {value:"home",icon:"send" },
+            {value:"profile",icon:"user-cirlce" },
+            {value:"settings",icon:"settings" },
+            {value:"logout",icon:"exit" }];
+
         return (
             <nav className="myNav-bar" >
                 <div className="myNav-container">
-                    <Icon icon="camera" size="3rem" />
+                    <Link to="/camera">
+                        <Icon icon="camera" size="3rem" />
+                    </Link>
                     <SearchBar placeholder="Search by..." />
                     <Icon icon="menu" size="2.7rem" action={this.openMenu} />
                 </div>
-                <SideMenu toShow={this.state.showMenu}closeMenu={this.openMenu} />
+                <SideMenu buttons={btns} toShow={this.state.showMenu} closeMenu={this.openMenu} />
             </nav>
         )
     }
