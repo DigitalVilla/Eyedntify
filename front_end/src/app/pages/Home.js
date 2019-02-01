@@ -5,28 +5,48 @@ import Navbar from '../components/navbar';
 import NewPost from '../components/NewPost';
 import sprite from '../../img/sprite.svg'
 
+// const serverURI = process.env.REACT_APP_SERVER 
+const io = require('socket.io-client')
+
 class Home extends Component {
   state = {
-    newPost : false,
-    post:{
-          image: "",
-          caption:""
-        }
+    socket: null,
+    newPost: false,
+    post: {
+      image: "",
+      caption: ""
+    }
 
   }
 
-  addImage=()=> {
+  componentWillMount() {
+    const socketURL = "http://localhost:5000";
+    // const socketURL = " http://192.168.23.1:5000/";
+    
+    var socket = io(socketURL)
+		this.setState({ socket })
+    this.initSocket(socket)
   }
-  addCaption=()=> {
-   
+
+  initSocket = (socket) => {
+    socket.on('connect', (value) => {
+      console.log("Client Connected", value);
+    })
+    socket.on('disconnect', this.reconnectUserInfo)
+  }
+
+  addImage = () => {
+  }
+  addCaption = () => {
+
   }
 
   newPost = (e) => {
-    const {newPost} = this.state;
+    const { newPost } = this.state;
 
     if (!newPost)
-    return this.setState({newPost: true})
-  
+      return this.setState({ newPost: true })
+
     // let el = document.getElementById("newPost")
 
     // let img = el.children;
@@ -43,11 +63,12 @@ class Home extends Component {
 
 
   cancelPost = () => {
-    this.setState({newPost: false})
+    this.setState({ newPost: false })
   }
 
+
   render() {
-    const {newPost} = this.state;
+    const { newPost } = this.state;
     return (
       <Consumer>
         {value => {
@@ -55,10 +76,10 @@ class Home extends Component {
           return (
             <React.Fragment>
               <Navbar />
-              { newPost &&
+              {newPost &&
                 <NewPost logo={user.logo}
                   username={user.username}
-                  action={this.cancelPost}/>
+                  action={this.cancelPost} />
               }
               <div className="container home">
                 {

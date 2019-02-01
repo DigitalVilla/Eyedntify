@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/front_end/node_modules
 /.pnp
 .pnp.js
 /.vscode
@@ -21,3 +22,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# this is a file with my DB credentials you should crete ypur own and export it.
+server/config/secret.js

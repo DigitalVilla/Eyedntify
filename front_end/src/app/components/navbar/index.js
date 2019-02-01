@@ -4,14 +4,12 @@ import Icon from '../../utils/Icon'
 import SideMenu from './SideMenu'
 import { Link } from 'react-router-dom'
 
-class Header extends Component {
+class navbar extends Component {
     state = {
         showMenu: false
     }
 
     openMenu = (e) => {
-        console.log(e.target);
-        
         if (e.target.className === "title" && this.state.showMenu === false) 
             return
         this.setState({ showMenu: !this.state.showMenu })
@@ -60,4 +58,4 @@ class Header extends Component {
         )
     }
 }
-export default Header;
+export default navbar;
