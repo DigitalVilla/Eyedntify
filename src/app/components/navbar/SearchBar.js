@@ -5,13 +5,10 @@ import {Link} from 'react-router-dom'
 export default function searchBox(props) {
     
     return (
-        <Link to= "/home">
-        <div className="title" onClick={props.action.bind(this)}>
-        <img src={logo} alt="logo"/>
+        <Link to= "/home" className="title" onClick={props.action.bind(this)}>
+            <img className="title" src={logo} alt="logo"/>
             Eyedentify
-        </div>
         </Link>
-
         // <div className="search">
         //     <input type="text" className="search_input" placeholder={props.placeholder}/>
         //     <Icon 

@@ -10,6 +10,8 @@ class Header extends Component {
     }
 
     openMenu = (e) => {
+        console.log(e.target);
+        
         if (e.target.className === "title" && this.state.showMenu === false) 
             return
         this.setState({ showMenu: !this.state.showMenu })

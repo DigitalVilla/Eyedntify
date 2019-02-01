@@ -1,13 +1,11 @@
 // File Upload
-// 
-function ekUpload(){
+export default function ekUpload() {
   function Init() {
+    console.log("Upload Initialized");
 
-    console.log("Upload Initialised");
-
-    var fileSelect    = document.getElementById('file-upload'),
-        fileDrag      = document.getElementById('file-drag'),
-        submitButton  = document.getElementById('submit-button');
+    var fileSelect = document.getElementById('file-upload'),
+      fileDrag = document.getElementById('file-drag'),
+      submitButton = document.getElementById('submit-button');
 
     fileSelect.addEventListener('change', fileSelectHandler, false);
 
@@ -57,7 +55,7 @@ function ekUpload(){
     output(
       '<strong>' + encodeURI(file.name) + '</strong>'
     );
-    
+
     // var fileType = file.type;
     // console.log(fileType);
     var imageName = file.name;
@@ -70,8 +68,7 @@ function ekUpload(){
       // Thumbnail Preview
       document.getElementById('file-image').classList.remove("hidden");
       document.getElementById('file-image').src = URL.createObjectURL(file);
-    }
-    else {
+    } else {
       document.getElementById('file-image').classList.add("hidden");
       document.getElementById('notimage').classList.remove("hidden");
       document.getElementById('start').classList.remove("hidden");
@@ -111,7 +108,7 @@ function ekUpload(){
         xhr.upload.addEventListener('progress', updateFileProgress, false);
 
         // File received / failed
-        xhr.onreadystatechange = function(e) {
+        xhr.onreadystatechange = function (e) {
           if (xhr.readyState == 4) {
             // Everything is good!
 
@@ -139,4 +136,3 @@ function ekUpload(){
     document.getElementById('file-drag').style.display = 'none';
   }
 }
-ekUpload();

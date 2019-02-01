@@ -1,10 +1,13 @@
 import React from 'react'
 import CardHeader from '../components/card/CardHeader'
-// import me from '../../img/me.jpg'
 import sprite from '../../img/sprite.svg'
+// import upLoader from '../js/uploader'
 
 export default function NewPost(props) {
 
+  // const upHandler =() => {
+  //   upLoader();
+  // }
 
   return (
     <React.Fragment>

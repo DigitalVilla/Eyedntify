@@ -11,7 +11,7 @@
     a {
         text-decoration: none;
         &:active {
-            transform: translateY(2px);
+            // transform: translateY(2px);
         }
     }
 }
@@ -145,9 +145,13 @@
         width: 4rem;
         margin-right: 1rem;
     }
-    
     color: #fff;
     letter-spacing: 2px;
     font-weight: 500;
     font-size: 2.5rem;
+
+    &:active {
+        // transform: translateY(2px);
+        opacity: .7;
+    }
 }
