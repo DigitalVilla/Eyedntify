@@ -7,8 +7,7 @@ export default class Profile extends Component {
     return (
       <Consumer>
         {value => {
-          const { user } = value;
-          const { profile } = user;
+          const { user, profile } = value;
           return (
             <React.Fragment>
               <Navbar />

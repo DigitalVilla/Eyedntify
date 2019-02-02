@@ -1,0 +1,98 @@
+    cards: [{
+        id: "01",
+        logo: "/img/me.jpg",
+        author: "OmarVilla",
+        image: "/img/card-1.jpg",
+        caption: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur, itaque?',
+        favorite: false,
+        liked: false,
+        likes: [
+          "JoDoe",
+          "JaneHall",
+          "Vincent Miles"
+        ],
+        comments: [{
+            author: "Eli",
+            comment: "text asjdasdasd lkjasd ",
+          },
+          {
+            author: "Alex",
+            comment: "text asjdasdasd lkjasd "
+          }
+
+        ]
+      },
+      {
+        id: "02",
+        logo: "/img/me.jpg",
+        author: "Alterrester",
+        image: "/img/card-2.jpg",
+         caption: 'esta imagen a hcambiado mi perspectiva de la vida ae unad ela s mas ermsoas de ka camisna se ens daoe aler u  nsa nehr smaej en un ade las tard',
+        favorite: true,
+        liked: true,
+        likes: [
+          "JonDoe",
+          "JaneHall",
+          "DigitalVilla",
+          "Vincent Miles"
+        ],
+        comments: [{
+            author: "Eli",
+            comment: "text asjdasdasd lkjasd ",
+          },
+          {
+            author: "Alex",
+            comment: "text asjdasdasd lkjasd "
+          }
+
+        ]
+      },
+      {
+        id: "03",
+        logo: "/img/me.jpg",
+        author: "DigitalVilla",
+        image: "/img/card-3.jpg",
+        caption: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur, itaque?',
+        favorite: false,
+        liked: true,
+        likes: [
+          "Jon Doe",
+          "Jane Hall",
+          "Vincent Miles"
+        ],
+        comments: [{
+            author: "Eli",
+            comment: "text asjdasdasd lkjasd ",
+          },
+          {
+            author: "Alex",
+            comment: "text asjdasdasd lkjasd "
+          }
+
+        ]
+      },
+      {
+        id: "04",
+        logo: "/img/me.jpg",
+        author: "Villa",
+        image: "/img/card-4.jpg",
+        caption: 'esta imagen a hcambiado mi perspectiva de la vida ae unad ela s mas ermsoas de ka camisna se ens daoe aler u  nsa nehr smaej en un ade las tard',
+        favorite: false,
+        liked: false,
+        likes: [
+         
+        ],
+        comments: [{
+            author: "Eli",
+            comment: "text asjdasdasd lkjasd ",
+          },
+          {
+            author: "Alex",
+            comment: "text asjdasdasd lkjasd "
+          }
+
+        ]
+
+      }
+    ],
+   

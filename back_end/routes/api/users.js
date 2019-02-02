@@ -1,9 +1,10 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const keys = require('../../config/keys');
 const passport = require('passport'); 
 const router = express.Router();
+const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
 
 // Load Input Validation
 const validateRegisterInput = require('../../validation/register');
@@ -26,17 +27,21 @@ router.post('/register', (req, res) => {
   if (!isValid) return res.status(400).json(errors);
   
   const {email, username, password} = req.body;
-  User.findOne({ username }).then(user => {
-    if (user) return res.status(400).json('Username already exists');
-    User.findOne({ email }).then(user => {
-      if (user) return res.status(400).json('Email already exists');
+  User.findOne({ username })
+    .catch(err => res.status(400).json(parse(err.errmsg)))
+    .then(user => {
       const newUser = new User();
-      newUser.email = email;
-      newUser.username = username;
-      newUser.avatar = newUser.gravatar();
-      newUser.bcrypt(password, res);
-    })
-  })
+      newUser.email = email.toLowerCase();
+      newUser.username = username.toLowerCase();
+      newUser.avatar = gravatar(newUser.email);
+      
+      scrypt(password, (hash) => {
+        newUser.password = hash;
+        newUser.save()
+          .then(user => res.json({ok:true}))
+          .catch(err => res.status(400).json(parse(err.errmsg)))
+      });
+  });
 });
 
 // @route   GET api/users/login
@@ -55,52 +60,48 @@ router.post('/login', (req, res) => {
       if (!isMatch) return res.status(400).json({password: 'Password is invalid'});
         // Create JWT Payload & // Sign Token
         const payload = { id: user.id, username: user.username, avatar: user.avatar }; 
-        console.log(payload);
         
-        jwt.sign(payload, keys.secret,{ expiresIn: 3600 },
-          (err, token) => res.json({success: true, token: 'Bearer ' + token})
+        jwt.sign(payload, keys.secret,{ expiresIn: 36000 },
+          (err, token) => res.json({ok: true, token: 'Bearer ' + token})
         );
     });
   });
 });
 
 
-// @route   GET api/users/login
-// @desc    Login User / Returning JWT Token
+// @route   GET api/users/
+// @desc    update with a JWT Token
 // @access  Public
-router.post('/update', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body);
+router.put('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body, true);
   if (!isValid) return res.status(400).json(errors);
-
+  
+  const {email,avatar, password, username} = req.body;
   //SPECIAL Profile updates
   const userFields = {};
-  if (req.body.email) userFields.email = req.body.email;
-  if (req.body.avatar) userFields.avatar = req.body.avatar;
-  if (req.body.username) userFields.username = req.body.username;
-
-  if (!isEmpty(userFields)) {
-    const { errors, isValid } = validateUser(req.body.username, true);
-    if (!isValid) return res.status(400).json(errors);
-
-    User.findOne({ user: req.user.id }).then(user => {
-      if (userFields.avatar) user.avatar = userFields.avatar;
-      
-      if (userFields.email && userFields.email !== user.email) {
-        User.findOne({ email: req.body.email }).then(u => {
-          if (u) return res.status(400).json({username: 'Email already exists'});
-            user.email = req.body.email;
-          })
-      }
-      
-      if (userFields.username && userFields.username !== user.username) {
-        User.findOne({ username: req.body.username }).then(u => {
-          if (u) return res.status(400).json({username: 'Username already exists'});
-            user.username = req.body.username;
-          })
-      }
+  if (req.body.avatar) userFields.avatar = avatar;
+  if (req.body.email) userFields.email = email.toLowerCase();
+  if (req.body.username) userFields.username = username.toLowerCase();
+  
+  if (req.body.password)
+    scrypt(password, (hash)=>{
+      userFields.password = hash;
+      User.findOneAndUpdate({ email: req.user.email }, { $set: userFields }, { new: true })
+        .then((user) => res.json({ok:true})) 
+        .catch(err => res.status(400).json(parse(err.errmsg)))
     })
-  }
+  else
+    User.findOneAndUpdate({ email: req.user.email }, { $set: userFields }, { new: true })
+      .then((user) => res.json({ok:true})) 
+      .catch(err => res.status(400).json(parse(err.errmsg)))
 })
+
+const parse = (err) => {
+  let start = err.indexOf('$') +1;
+  let end = err.indexOf('_');
+  const type = err.slice(start, end);
+  return {error: `That ${type} already exists` };
+}
 
 // @route   GET api/users/current
 // @desc    Return current user
@@ -115,6 +116,26 @@ router.get('/current', passport.authenticate('jwt', { session: false }),
     });
   }
 );
+
+
+
+const gravatar = function(email,size) {
+  // '&d=robohash':
+  const style = '&d=retro';
+  if (!size) size = 200;
+  var md5 = crypto.createHash('md5').update(email).digest('hex');
+  return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + style;
+};
+
+const scrypt =  (password,  callback) => {
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(password, salt, (err, hash) => {
+      if (err) throw err;
+      callback(hash);  
+  });
+});
+} 
+
 
 
 module.exports = router;

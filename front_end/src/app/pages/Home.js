@@ -72,7 +72,7 @@ class Home extends Component {
     return (
       <Consumer>
         {value => {
-          const { dispatch, cards, user } = value;
+          const { dispatch, posts, user } = value;
           return (
             <React.Fragment>
               <Navbar />
@@ -83,7 +83,7 @@ class Home extends Component {
               }
               <div className="container home">
                 {
-                  cards.map((c) => {
+                  posts.map((c) => {
                     return <Card key={c.id} body={c} dispatch={dispatch} />
                   })
                 }
