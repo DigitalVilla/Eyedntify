@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
-import Icon from '../../utils/Icon'
+import Icon from '../Icon'
 import SideMenu from './SideMenu'
 import { Link } from 'react-router-dom'
+import { logoutUser } from '../../redux/actions/act_authorize'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-class navbar extends Component {
+class Navbar extends Component {
     state = {
         showMenu: false
     }
@@ -37,6 +40,21 @@ class navbar extends Component {
         image.style.marginTop = "-3.8rem";
     }
 
+    btnHandler =(btn)=> {
+        switch (btn) {
+            case "logout":
+            this.props.logoutUser();
+                
+                break;
+        
+            default:
+                break;
+        }
+        console.log(btn);
+        
+    }
+
+
     render() {
         const btns = [
             {value:"home",icon:"send" },
@@ -53,9 +71,20 @@ class navbar extends Component {
                     <SearchBar action={this.openMenu} placeholder="Search by..." />
                     <Icon icon="menu" size="2.7rem" action={this.openMenu} />
                 </div>
-                <SideMenu buttons={btns} toShow={this.state.showMenu} closeMenu={this.openMenu} />
+                <SideMenu buttons={btns} btnHandler={this.btnHandler}
+                    toShow={this.state.showMenu} closeMenu={this.openMenu} />
             </nav>
         )
     }
 }
-export default navbar;
+
+Navbar.propTypes = {
+    logoutUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+  };
+  
+  const mapStateToProps = state => ({
+    auth: state.auth,
+  });
+
+export default connect(mapStateToProps, { logoutUser })(Navbar);

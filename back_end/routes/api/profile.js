@@ -1,5 +1,29 @@
 const router = require('express').Router();
 const passport = require('passport');
+const multer = require('multer');
+
+// https://www.youtube.com/watch?v=3f5Q9wDePzY
+
+
+const storage = multer.diskStorage({
+  destination: function(req, file, next) {
+    next(null, 'back_end/uploads/')
+  },
+  filename: function(req, file, next) {
+    next(null, file.originalname);
+  }
+})
+
+const fileFilter = (req, file, cb) => {
+  // reject a file
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({storage, fileFilter, limits:{fileSize:1024*1024/2}})
 
 // Load Validation
 const validateProfileInput = require('../../validation/profile');
@@ -92,9 +116,16 @@ router.get('/email/:email', passport.authenticate('jwt', { session: false }), (r
 // @route   POST api/profile
 // @desc    Create or edit user profile
 // @access  Private
-router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { errors, isValid } = validateProfileInput(req.body);
-    if (!isValid) return res.status(400).json(errors);
+router.post('/', upload.single('avatar'), passport.authenticate('jwt', { session: false }), (req, res) => {
+    // const { errors, isValid } = validateProfileInput(req.body);
+    // if (!isValid) return res.status(400).json(errors);
+    
+    console.log(req.file);                 
+    
+    if (req.body.avatar) {
+      // User.findOneAndUpdate({ email: req.user.email }, { $set: {avatar: req.body.avatar} }, { new: true })
+      // .catch(err => res.status(400).json(parse(err.errmsg)))
+    }
 
      const profileFields = {};
      profileFields.user = req.user.id;
@@ -137,6 +168,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
       }
     });
 });
+
 
 // @route   DELETE api/profile
 // @desc    Delete user and profile

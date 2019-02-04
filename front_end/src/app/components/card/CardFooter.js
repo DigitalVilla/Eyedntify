@@ -1,5 +1,5 @@
 import React from 'react'
-import Icon from '../../utils/Icon'
+import Icon from '../Icon'
 import classnames from 'classnames'
 
 const CardFooter = ({body, dispatch}) => {

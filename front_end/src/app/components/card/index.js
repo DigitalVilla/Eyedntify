@@ -2,7 +2,7 @@ import React from 'react'
 import CardHeader from './CardHeader'
 import CardFooter from './CardFooter'
 import CardCaption from './CardCaption'
-import Icon from '../../utils/Icon'
+import Icon from '../Icon'
 import classnames from 'classnames'
 const Card = ({ body, dispatch }) => {
   let counter = 0;

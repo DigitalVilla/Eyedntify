@@ -39,14 +39,35 @@
       width: 80%;
       border: none;
       padding: 2rem;
-      margin: 1rem 0;
+      margin-top: 2rem;
       background: rgba(255, 255, 255, 0.367);
       border: 1px solid $color3;
       color: $color1;
       font-size: 1.6rem;
       letter-spacing: 1px;
       text-align: center;
-      border-radius: 5px;
+      border-radius: 1px;
+      transition: all .2s;
+
+      &:focus {
+        border-left: 10px solid $color2;
+      }
+    }
+
+    & .isInvalid {
+      border-bottom: 2px solid $color-danger;
+    }
+
+    & .errMsg {
+      color: $color-danger;
+      line-height: 1.4;
+      letter-spacing: 1px;
+      margin-bottom: -1rem;
+
+    }
+
+    & .welcome {
+      color: $color2;
     }
 
     ::placeholder {
@@ -64,10 +85,16 @@
       letter-spacing: 2px;
       box-shadow: 0 1rem 2rem rgba(0, 0, 0, .3);
       cursor: pointer;
+      border: none !important;
+      transition: all .1s;
 
       &:active {
         transform: translate(0, 2px) !important;
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+      }
+
+      &:focus {
+        border: none !important;
       }
     }
 
@@ -84,13 +111,13 @@
     }
 
     .links {
-
       width: 80%;
       display: flex;
       justify-content: space-around;
       margin: auto;
       padding: 2rem 0 3rem 0;
       opacity: .8;
+      border: 1px solid transparent;
     }
 
     @media only screen and (max-height: $bp-600) {
@@ -123,23 +150,70 @@
     background: linear-gradient(to right top, $color1, $color2);
 
     &__container {
-      box-shadow: 0 1rem 2rem rgba(0, 0, 0, .0);
-      border-radius: 0;
+      box-shadow: none;
       background: transparent;
 
       .header {
         background: transparent;
+
+        & h1 {
+          font-size: 2.8rem;
+        }
+
+        & img {
+          height: 10rem;
+          width: 10rem;
+        }
       }
-      & [type="submit"] { 
-        padding: 1.3rem;
+
+      .links {
+        width: 90%;
+        display: flex;
+        justify-content: space-around;
+        margin: auto;
+        padding: 1rem 0 2rem 0;
+        opacity: .8;
+     
+      }
+
+      & .errMsg {
+        line-height: 1.4;
+        
+      }
+
+      & .welcome {
+        color: #fff;
+      }
+
+      & input {
+        color: #fff;
+        border-radius: none;
+        padding: 1.4rem;
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+        border: 1px solid transparent;
+
+        &:focus {
+          border: 1px solid transparent;
+          border-left: 10px solid rgba(231, 231, 231, 0.653);
+        }
+      }
+
+      & [type="submit"],
+      [type="submit"]:focus {
+        padding: 1.4rem;
         font-size: 1.4rem;
         color: #eee;
+        border: none !important;
+        box-shadow: 0 .3rem .8rem rgba(0, 0, 0, .2);
+        background: #eee;
+        margin: 2rem auto;
+        color: $color3;
+        font-weight: 700;
       }
-      input,
+
       ::placeholder,
       .next {
         color: #fff;
-        border: #fff;
       }
 
       .next {
@@ -149,4 +223,41 @@
       }
     }
   }
+  @media only screen and (max-width: $bp-360) {
+
+    &__container {
+      .header {
+        & h1 {
+          font-size: 2.2rem;
+        }
+        & img {
+          height: 8rem;
+          width: 8rem;
+        }
+      }
+      .links {
+        margin-bottom:2rem;
+        padding: 0; 
+      }
+
+      & .errMsg {
+        line-height: 1;
+        font-size:  1.3rem;
+      }
+
+      & input {
+        padding: 1.4rem;
+      }
+
+      & [type="submit"],
+      [type="submit"]:focus {
+        padding: 1.1rem;
+      }
+
+      .next {
+        margin: 0;
+      }
+    }
+  }
+
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-// import Icon from '../../utils/Icon'
+// import Icon from '../Icon'
 import logo  from '../../../img/icon.png'
 import {Link} from 'react-router-dom'
 export default function searchBox(props) {

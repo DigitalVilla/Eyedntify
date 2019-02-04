@@ -1,5 +1,5 @@
 import React from 'react'
-import Icon from '../../utils/Icon'
+import Icon from '../Icon'
 const CardHeader = (props) => {
   return (
     <div className="EyeCard__header">

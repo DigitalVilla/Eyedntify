@@ -2,12 +2,15 @@ $color1 : #579ca5;
 $color2 : #41bd9c;
 $color3 : #57a5a2;
 
+$color-danger : #ff004c;
+
 $bp-1200: 75em;
 $bp-1000: 62.5em;
 $bp-900: 56.25em;
 $bp-800: 50em;
 $bp-600: 37.5em;
 $bp-450: 28.13em;
+$bp-360: 22.5em;
 
 
 *,
@@ -26,14 +29,18 @@ html {
     color: #333;
 }
 
-*:focus {
+
+input:active ,
+input:focus,
+button:active ,
+button:focus, {
     outline: none !important;
-    border: 0;
 }
 
-button::-moz-focus-inner {
-    border: 0;
-}
+::-moz-focus-inner { 
+    border: 0; 
+  }
+  
 
 
 body {

@@ -12,8 +12,8 @@ module.exports = function validateProfileInput(data) {
     errors.intro = 'Share something cool about you!';
   }
 
-  if (!Validator.isLength(data.intro, { min: 4, max: 400 })) {
-    errors.intro = 'Your intro must be between 10 and 400 characters';
+  if (!Validator.isLength(data.intro, { min: 4, max: 300 })) {
+    errors.intro = 'Your intro must be between 10 and 300 characters';
   }
 
 

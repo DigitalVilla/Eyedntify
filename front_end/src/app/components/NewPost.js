@@ -1,7 +1,6 @@
 import React from 'react'
 import CardHeader from '../components/card/CardHeader'
 import sprite from '../../img/sprite.svg'
-// import upLoader from '../js/uploader'
 
 export default function NewPost(props) {
 

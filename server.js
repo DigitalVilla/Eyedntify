@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
 const passport = require('passport');
+const cors = require('cors');
 const path = require('path');
 
 //Routes
@@ -18,6 +19,28 @@ const io = require('socket.io')(http);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(bodyParser.json());
+app.use(cors())
+
+
+// var whitelist = ['http://example1.com', 'http://example2.com']
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
+
+//DB connection
+const db = require('./back_end/config/keys').database;
+mongoose.connect(db,{
+  useCreateIndex: true,
+  useNewUrlParser: true})
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err))
+mongoose.set('useFindAndModify', false)
 
 // Passport Config
 require('./back_end/config/passport')(passport);
@@ -25,14 +48,6 @@ require('./back_end/config/passSocketIO')(io);
 //socket
 require('./back_end/realtime/socket')(io);
 
-const db = require('./back_end/config/keys').database;
-
-mongoose.connect(db,{
-  useCreateIndex: true,
-  useNewUrlParser: true})
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err))
-mongoose.set('useFindAndModify', false)
 // Use Routes
 app.use('/api/users', users);
 app.use('/api/profile', profile); 

@@ -57,12 +57,12 @@ router.post('/login', (req, res) => {
   User.findOne(search).then(user => {
     if (!user) return res.status(404).json({login: 'User not found'});
     bcrypt.compare(password, user.password).then(isMatch => {
-      if (!isMatch) return res.status(400).json({password: 'Password is invalid'});
+      if (!isMatch) return res.status(400).json({password: 'Password is incorrect'});
         // Create JWT Payload & // Sign Token
         const payload = { id: user.id, username: user.username, avatar: user.avatar }; 
         
-        jwt.sign(payload, keys.secret,{ expiresIn: 36000 },
-          (err, token) => res.json({ok: true, token: 'Bearer ' + token})
+        jwt.sign(payload, keys.secret,{ expiresIn: 3600 },
+          (err, token) => res.json({token: 'Bearer ' + token})
         );
     });
   });
@@ -100,7 +100,7 @@ const parse = (err) => {
   let start = err.indexOf('$') +1;
   let end = err.indexOf('_');
   const type = err.slice(start, end);
-  return {error: `That ${type} already exists` };
+  return {[type]: `That ${type} already exists` };
 }
 
 // @route   GET api/users/current
