@@ -61,7 +61,13 @@ router.post('/login', (req, res) => {
     bcrypt.compare(password, user.password).then(isMatch => {
       if (!isMatch) return res.status(400).json({password: 'Password is incorrect'});
         // Create JWT Payload & // Sign Token
-        const payload = { id: user.id, username: user.username, email: user.email}; 
+        const payload = {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          avatar: user.avatar,
+          banner: user.banner,
+        };
         
         jwt.sign(payload, keys.secret,{ expiresIn: 3600 },
           (err, token) => res.json({token: 'Bearer ' + token})
@@ -137,6 +143,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 
 
 const gravatar = function(email,size) {
+  return '';
   // '&d=robohash':
   const style = '&d=retro';
   if (!size) size = 200;

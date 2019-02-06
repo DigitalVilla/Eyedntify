@@ -24,6 +24,7 @@ import axios from 'axios';
 import {
   VALID_REGISTRATION,
   SET_CURRENT_USER,
+  GET_THIS_USER,
   GET_ERRORS,
   GET_USER
 } from './types';
@@ -44,9 +45,10 @@ export const validateUser = (newUser, login) => dispatch => {
     .catch(err => dispatch(errorSetup(err.response.data)));
 };
 
-let counter = 0;
-export const fetchUser = () => dispatch => {
-  console.log("fetch", counter++);
+export const fetchUser = ({local}) => dispatch => {
+
+  if(local)
+  return dispatch({  type: GET_THIS_USER  })
   
   axios.get(`/api/users/`)
     .then(res => {
@@ -128,3 +130,4 @@ export const validateTokenAsynch = () => {
   else
    store.dispatch(userSetup(token, false)) // set up user
 }
+

@@ -1,46 +1,86 @@
-import React from 'react'
+import React, {Component} from 'react'
 import CardHeader from '../components/card/CardHeader'
 import sprite from '../../img/sprite.svg'
+import { uploadImage, renderURL } from '../redux/actions/act_fileUploader'
+import { connect } from 'react-redux';
+import postImg from '../../img/holder_P.png';
+class  NewPost extends Component {
 
-export default function NewPost(props) {
-
+  state = {
+    loading : false,
+    postImg
+  }
   // const upHandler =() => {
   //   upLoader();
   // }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile && nextProps.profile.profile) {
+      const {following, followers, posts, favorite, user, intro} = nextProps.profile.profile;
+      this.setState({  following, followers, posts, favorite, user, intro});
+    }
+
+    if (nextProps.uploads && nextProps.uploads.file)
+      this.setState({ image: nextProps.uploads.file });
+
+    if (nextProps.errors)
+      this.setState({ errors: nextProps.errors});
+  }
+
+  uploadFile = (e) => {
+    const image = e.target.files[0];
+    const value = e.target.name;
+    if (image)
+      this.props.uploadImage(image, value);
+  }
+
+render (){
+  const {loading} = this.state;
   return (
     <React.Fragment>
       <div className="newPost__BG">
       </div>
       <div className="newPost">
-        <CardHeader icon="cancel" action={props.action} logo={props.logo} author={props.username} />
-        <form id="file-upload-form" className="uploader">
-          <input id="file-upload" type="file" name="fileUpload" accept="image/*" />
-          <label htmlFor="file-upload" id="file-drag">
-            <img id="file-image" src="#" alt="Preview" className="hidden" />
-            <div id="start">
-              <svg id="file-upload-btn">
-                <use
-                  href={sprite + '#icon-photo'}>
-                </use>
-              </svg>
-              <div className="caption"><span>Eyedentify the world!</span></div>
-              <div id="notimage" className="hidden">Please select an image</div>
+        <CardHeader icon="cancel" action={this.props.action} logo={renderURL('avatar',this.props.avatar)} author={this.props.username} />
+        
+        <form className="uploader">
+        
+        <input type="file" id="uploader" 
+             onChange={this.uploadFile} name="post"
+            ref={fileInput => this.postPicture = fileInput} />
 
+          <figure onClick={()=>this.postPicture.click()} >
+            <img id="file-image"  src={this.state.postImg} alt="placeholder" className="" />
+
+            {/* <div id="placeholder">
+              <span>Eyedentify the world!</span>
+              <svg >
+                <use href={sprite + '#icon-photo'}> </use>
+              </svg>
             </div>
-            <div id="response" className="hidden">
-              <div id="messages"></div>
+           */}
+            { loading && 
+              <div id="messages">
               <progress className="progress" id="file-progress" value="0">
                 <span>0</span>%
               </progress>
-            </div>
-          </label>
-          <textarea placeholder="Write a caption in 144 characters or less!" className="textArea" maxLength="144" >
-          
+              </div>
+            }
+
+          </figure>
+          <textarea placeholder="Write a caption in 144 characters or less!"
+          className="textArea" maxLength="144" > 
           </textarea>
-          <div className="stats"></div>
         </form>
       </div>
     </React.Fragment>
   )
 }
+}
+const mapStateToProps = state => ({
+  errors: state.errors,
+  uploads: state.uploads,
+  profile: state.profile
+});
+
+export default connect(mapStateToProps, { uploadImage })(NewPost);

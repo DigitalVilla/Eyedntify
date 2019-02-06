@@ -3,43 +3,34 @@ import axios from 'axios';
 import {
   GET_PROFILE,
   PROFILE_LOADING,
-  CLEAR_CURRENT_PROFILE,
-  GET_ERRORS
+  CLEAR_PROFILE,
+  GET_ERRORS,
+  SET_PROFILE
 } from './types';
 
 // Get current profile
-export const setProfile = () => dispatch => {
-  dispatch(setProfileLoading());
-  axios.get('/api/profile')
+export const updateProfile = (profile) => dispatch => {
+  // dispatch(setProfileLoading());
+  axios.post('/api/profile', profile)
     .then(res =>
       dispatch({
-        type: GET_PROFILE,
+        type: SET_PROFILE,
         payload: res.data
       })
     )
-    .catch(err =>
-      dispatch({
-        type: GET_PROFILE,
-        payload: {}
-      })
-    );
+    .catch(err => dispatch(errorSetup(err)));
 };
 // Get current profile
-export const getCurrentProfile = () => dispatch => {
-  dispatch(setProfileLoading());
-  axios.get('/api/profile')
+export const getProfile = (username = '') => dispatch => {
+  // dispatch(setProfileLoading());
+  axios.get('/api/profile/' + username)
     .then(res =>
       dispatch({
         type: GET_PROFILE,
         payload: res.data
       })
     )
-    .catch(err =>
-      dispatch({
-        type: GET_PROFILE,
-        payload: {}
-      })
-    );
+    .catch(err => dispatch(errorSetup(err)));
 };
 
 // Profile loading
@@ -50,11 +41,15 @@ export const setProfileLoading = () => {
 };
 
 // Clear profile
-export const clearCurrentProfile = () => {
+export const clearProfile = () => {
   return {
-    type: CLEAR_CURRENT_PROFILE
+    type: CLEAR_PROFILE,
+    payload: {}
   };
 };
 
 // eslint-disable-next-line
-const errorSetup = (error) => ({type: GET_ERRORS, payload: error })
+const errorSetup = (error) => ({
+  type: GET_ERRORS,
+  payload: error
+})

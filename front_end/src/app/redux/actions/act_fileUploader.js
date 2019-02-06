@@ -91,7 +91,7 @@ const compress = (image, {
 // https://zocada.com/compress-resize-images-javascript-browser
 export const renderURL = (type, image) => {
   if (!image) return '';
-  if (image.indexOf('http') > -1) return image; 
+  if (image.indexOf('http') > -1 || image.indexOf('data:image') > -1) return image; 
   let url = `${PROXY}/api/files/${type}/${image}`;
   return url;
 }

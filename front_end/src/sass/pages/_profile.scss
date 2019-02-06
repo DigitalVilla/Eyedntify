@@ -21,6 +21,7 @@
       text-shadow: 0 .4rem .1rem rgba(0, 0, 0, 0.5);
     }
 
+  
     & img {
       width: 100%;
       height: 100%;
@@ -64,6 +65,7 @@
         flex-direction: column;
         font-weight: 700;
         color: $color1;
+        font-size: 2.2rem;
 
         & span {
           font-weight: 700;
@@ -83,13 +85,19 @@
 
     & p {
       padding: 1rem 2rem;
-      font-size: 1.6rem;
+      font-size: 2rem;
       text-align: justify;
       height: 80%;
       width: 100%;
       word-wrap: break-word;
+      color: #444;
     }
-  }
+    p.placeholder {
+      text-align: center;
+      margin-top: 6rem;
+      font-size: 2.5rem;
+    }
+   }
 
 
   @media only screen and (min-width: $bp-900) {
@@ -138,12 +146,28 @@
 
       }
 
+      li {
+       font-size: 1.8rem 
+      }
+
       & ul:last-of-type {
         & li:last-of-type {
           // border: 1px solid #00f;
           // padding-right: 1rem;
         }
       }
+
+      & p {
+        padding: 1rem 2rem;
+        font-size: 1.6rem;
+        color: #444;
+      }
+      p.placeholder {
+        text-align: center;
+        margin-top: 4rem;
+        font-size: 2rem;
+      }
+
     }
   }
 
@@ -178,22 +202,23 @@
   figure.editImage,
   img.editImage {
     filter: blur(0) !important;
-    border: 10px solid $color1 !important;
+    border: 4px solid #eee !important;
     cursor: pointer !important;
   }
 
   @keyframes border {
     0% {
-      border: 1px solid $color1;
+      border: 1px solid rgba($color2, .3);
     }
 
     100% {
-      border: 10px solid $color1;
+      border: 2px solid rgba($color2, .8);
     }
 
   }
 
   textarea.editText {
+    background: none;
     padding: 0 2rem;
     border: none;
     width: 100%;
@@ -204,7 +229,7 @@
     font-family: inherit;
     line-height: 1.5;
     animation: border .3s;
-    border: 10px solid $color1;
+    border: 4px solid rgba($color2, .8);
 
   }
 

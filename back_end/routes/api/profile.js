@@ -61,10 +61,13 @@ router.get('/all', passport.authenticate('jwt', { session: false }), (req, res) 
 router.get('/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
   const errors = {};
   Profile.findOne({ handler: req.params.username })
-    .populate('user', ['username', 'avatar','banner'])
+    .populate('posts', ['username', 'avatar'])
+    .populate('following', ['username', 'avatar'])
+    .populate('followers', ['username', 'avatar'])
+    .populate('favorite', ['username', 'avatar'])
+    .populate('user', ['username', 'avatar', 'banner'])
     .then(profile => {
       console.log(profile);
-      
       if (profile) return res.json(profile);
        return res.status(404).json({profile : 'There is no profile for this user'});
     })
@@ -122,11 +125,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
           .then(profile => res.json(profile));
       } else {  // Create
         Profile.findOne({ user: req.user.id})
-        .populate('posts', ['username', 'avatar'])
-        .populate('following', ['username', 'avatar'])
-        .populate('followers', ['username', 'avatar'])
-        .populate('favorite', ['username', 'avatar'])
-        .populate('user', ['username', 'avatar', 'banner'])
         .then(profile => {
           if (profile) {
             errors.handle = 'That Profile already exists';

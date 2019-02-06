@@ -4,6 +4,8 @@ import Icon from '../Icon'
 import SideMenu from './SideMenu'
 import { Link } from 'react-router-dom'
 import { logoutUser } from '../../redux/actions/act_authorize'
+import { clearProfile } from '../../redux/actions/act_profile'
+import { clearPOSTS } from '../../redux/actions/act_post'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -44,6 +46,8 @@ class Navbar extends Component {
         switch (btn) {
             case "logout":
             this.props.logoutUser();
+            this.props.clearProfile();
+            this.props.clearPOSTS();
                 
                 break;
         
@@ -86,4 +90,4 @@ Navbar.propTypes = {
     auth: state.auth,
   });
 
-export default connect(mapStateToProps, { logoutUser })(Navbar);
+export default connect(mapStateToProps, { clearProfile, clearPOSTS,logoutUser })(Navbar);
