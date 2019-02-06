@@ -50,15 +50,14 @@ class Navbar extends Component {
             default:
                 break;
         }
-        console.log(btn);
-        
+        // console.log(btn);
     }
-
 
     render() {
         const btns = [
             {value:"home",icon:"send" },
             {value:"profile",icon:"user-cirlce" },
+            {value:"finder",icon:"globe" },
             {value:"settings",icon:"settings" },
             {value:"logout",icon:"exit" }];
 

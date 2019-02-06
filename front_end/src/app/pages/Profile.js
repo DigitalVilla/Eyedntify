@@ -2,17 +2,18 @@ import React, { Component } from 'react'
 import Navbar from '../components/navbar';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCurrentProfile, createProfile } from '../redux/actions/act_profile'
-import { getUser } from '../redux/actions/act_authorize'
+import { getCurrentProfile, setProfile } from '../redux/actions/act_profile'
+import { uploadImage, renderURL } from '../redux/actions/act_fileUploader'
 import EyeBtn from '../components/EyeBtn'
-import Icon from '../components/Icon'
 import classnames from 'classnames';
+import { fetchUser, validateToken } from '../redux/actions/act_authorize';
 
 class Profile extends Component {
   state = {
-    user: {},
+    user: {
+
+    },
     profile: {
-      banner: "",
       followers: [],
       favorite: [],
       following: [],
@@ -23,42 +24,45 @@ class Profile extends Component {
   }
 
   componentWillMount() {
-    getUser().then((user) => this.setState({ user }))
+    this.props.validateToken();
+    this.props.fetchUser();
+  }
+  componentDidMount() {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.profile.profile)
+    if (nextProps.profile && nextProps.profile.profile)
       this.setState({ profile: nextProps.profile.profile });
-    if (nextProps.auth.user)
+
+    if (nextProps.auth && nextProps.auth.user)
       this.setState({ user: nextProps.auth.user });
+
+    if (nextProps.uploads && nextProps.uploads.file)
+      this.setState({ user: { ...this.state.user, [nextProps.uploads.type]: nextProps.uploads.file } });
 
     // if (nextProps.errors)
     //   this.setState({ errors: nextProps.errors, hasRegistered: false });
 
   }
 
-  editProfile = () => {
+  editProfile = (e) => {
+    console.log(e.target.value);
+    
     const edit = this.state.edit;
     this.setState({ edit: !edit })
     if (edit) { //upload
-
+      // this.props.setProfile()
     }
   }
 
-  onChange = (e) => this.setState({ profile: { ...this.state.profile, intro: e.target.value} });
-  
-  
-  imageHandler = (e) => {
-    // const file = e.target.files[0];
-    console.log(e.target);
+  onChange = (e) => this.setState({ profile: { ...this.state.profile, intro: e.target.value } });
 
-    // this.setState({edit:!this.state.edit})
-  }
+
   fileHandler = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-
-    // this.setState({edit:!this.state.edit})
+    const image = e.target.files[0];
+    const value = e.target.name;
+    if (image)
+      this.props.uploadImage(image, value);
   }
 
   render() {
@@ -68,22 +72,24 @@ class Profile extends Component {
         <Navbar />
 
         <div className="container profile">
-          {false &&
-            <div>
-              <input type="file" onChange={this.fileHandler} />
-            </div>
-          }
-          <figure className={classnames("banner", {"editImage": edit})} >
-          <h1>{user.username}</h1>
+          <input type="file" name="banner"
+            id="uploader" onChange={this.fileHandler}
+            ref={fileInput => this.bannerPicker = fileInput} />
 
-            <img onClick={edit? this.imageHandler: ""}
-            src={profile.banner || user.avatar} 
-            alt="banner" />
-            
-            <img onClick={edit? this.imageHandler: ''}
-            className={classnames("headShot", {"editImage": edit})}
-            src={user.avatar} alt="user" />
-          
+          <input type="file" name="avatar"
+            id="uploader" onChange={this.fileHandler}
+            ref={fileInput => this.avatarPicker = fileInput} />
+
+          <figure className={classnames("banner", { "editImage": edit })} >
+            <h1>{user.username}</h1>
+            <img onClick={() => edit ? this.bannerPicker.click() : ""}
+              src={renderURL('banner', user.banner)}
+              alt="Add Banner" />
+
+            <img onClick={() => edit ? this.avatarPicker.click() : ""}
+              className={classnames("headShot", { "editImage": edit })}
+              src={renderURL('avatar', user.avatar)} alt="Avatar" />
+
           </figure>
           <div className="badges">
             <ul>
@@ -98,11 +104,11 @@ class Profile extends Component {
           <div className="about">
             {!edit && <p>{profile.intro || "Tell the world about you "}</p>}
             {edit && <textarea className="editText"
-            onChange={this.onChange}
-            placeholder="Write here"
-            maxLength="300" 
-            name='intro'
-            value={profile.intro} />}
+              onChange={this.onChange}
+              placeholder="Write here"
+              maxLength="300"
+              name='intro'
+              value={profile.intro} />}
 
           </div>
           <EyeBtn icon={!edit ? "pencil" : "upload"}
@@ -114,15 +120,16 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
-  createProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  uploads: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  uploads: state.uploads,
+  profile: state.profile
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, createProfile })(Profile);
+export default connect(mapStateToProps, { setProfile, fetchUser, validateToken, getCurrentProfile, uploadImage })(Profile);

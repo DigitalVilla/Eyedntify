@@ -1,6 +1,6 @@
 import {isEmpty} from '../utils/utils';
 
-import { SET_CURRENT_USER, VALID_REGISTRATION } from '../actions/types';
+import {GET_USER, SET_CURRENT_USER, VALID_REGISTRATION } from '../actions/types';
 
 const initialState = {
   isAuthenticated: false,
@@ -21,6 +21,13 @@ export default function(state = initialState, action) {
         isAuthenticated: !isEmpty(action.payload),
         user: action.payload
       };
+
+    case GET_USER:
+    return {
+      ...state,
+      user: action.payload
+    };
+
     default:
       return state;
   }

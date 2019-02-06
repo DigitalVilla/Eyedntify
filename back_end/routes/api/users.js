@@ -1,8 +1,7 @@
-const express = require('express');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport'); 
-const router = express.Router();
+const router = require('express').Router();
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
@@ -33,6 +32,8 @@ router.post('/register', (req, res) => {
       const newUser = new User();
       newUser.email = email.toLowerCase();
       newUser.username = username.toLowerCase();
+      // const img = gravatar(newUser.email);
+      newUser.banner = gravatar(newUser.email);
       newUser.avatar = gravatar(newUser.email);
       
       scrypt(password, (hash) => {
@@ -52,6 +53,7 @@ router.post('/login', (req, res) => {
   if (!isValid)  return res.status(400).json(errors);
   
   const {login, password} = req.body;
+  //verify if the login is through email or username
   const search = isEmail ? { email:login } : { username:login };
 
   User.findOne(search).then(user => {
@@ -59,7 +61,7 @@ router.post('/login', (req, res) => {
     bcrypt.compare(password, user.password).then(isMatch => {
       if (!isMatch) return res.status(400).json({password: 'Password is incorrect'});
         // Create JWT Payload & // Sign Token
-        const payload = { id: user.id, username: user.username, avatar: user.avatar }; 
+        const payload = { id: user.id, username: user.username, email: user.email}; 
         
         jwt.sign(payload, keys.secret,{ expiresIn: 3600 },
           (err, token) => res.json({token: 'Bearer ' + token})
@@ -76,10 +78,9 @@ router.put('/', passport.authenticate('jwt', { session: false }), (req, res) => 
   const { errors, isValid } = validateRegisterInput(req.body, true);
   if (!isValid) return res.status(400).json(errors);
   
-  const {email,avatar, password, username} = req.body;
+  const {email, password, username} = req.body;
   //SPECIAL Profile updates
   const userFields = {};
-  if (req.body.avatar) userFields.avatar = avatar;
   if (req.body.email) userFields.email = email.toLowerCase();
   if (req.body.username) userFields.username = username.toLowerCase();
   
@@ -96,11 +97,14 @@ router.put('/', passport.authenticate('jwt', { session: false }), (req, res) => 
       .catch(err => res.status(400).json(parse(err.errmsg)))
 })
 
-const parse = (err) => {
-  let start = err.indexOf('$') +1;
-  let end = err.indexOf('_');
+const parse = (err) => { // parse duplicate key error
+  const start = (err.indexOf('$') >= 0)
+    ? err.indexOf('$') + 1 //mlab error
+    : err.indexOf('x:') + 3; // local mongo error 
+  const end = err.indexOf('_');
   const type = err.slice(start, end);
-  return {[type]: `That ${type} already exists` };
+  console.log(type);
+  return {[type]: `That ${type} already exists`};
 }
 
 // @route   GET api/users/current
@@ -111,12 +115,25 @@ router.get('/current', passport.authenticate('jwt', { session: false }),
     res.json({
       id: req.user.id,
       username: req.user.username,
-      avatar: req.user.avatar,
       email: req.user.email
     });
   }
 );
-
+// @route   GET api/users/
+// @desc    Return current user
+// @access  Private
+router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+  User.findOne({username : req.user.username})
+  .then(user => {
+    if (!user) return res.status(404).json({error: 'User not found'});
+    res.json({
+      avatar:user.avatar,
+      banner:user.banner,
+      username: user.username
+    });
+  })
+  .catch((error)=> res.status(404).json({error: error}))
+});
 
 
 const gravatar = function(email,size) {

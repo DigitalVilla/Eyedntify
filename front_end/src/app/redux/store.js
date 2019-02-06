@@ -17,3 +17,4 @@ const store = createStore(
 
 
 export default store; 
+// https://hackernoon.com/shape-your-redux-store-like-your-database-98faa4754fd5

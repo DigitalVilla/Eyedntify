@@ -10,6 +10,7 @@
     transition: all .3s;
 
     & h1 {
+      font-size: 6rem;
       position: absolute;
       color: #fff;
       top: 50%;
@@ -17,7 +18,7 @@
       transform: translate(-50%, -50%);
       text-transform: capitalize;
       letter-spacing: 2px;
-      text-shadow: 0 .4rem .1rem rgba(0, 0, 0, 0.4);
+      text-shadow: 0 .4rem .1rem rgba(0, 0, 0, 0.5);
     }
 
     & img {
@@ -101,6 +102,9 @@
   @media only screen and (max-width: $bp-600) {
 
     & figure.banner {
+      & h1 {
+        font-size: 4rem;
+      }
       img.headShot {
         width: 16rem !important;
         height: 16rem !important;
@@ -115,6 +119,10 @@
   @media only screen and (max-width: $bp-450) {
 
     & figure.banner {
+      & h1 {
+        font-size: 4rem;
+        top: 40%;
+      }
       img.headShot {
         width: 14rem !important;
         height: 14rem !important;
@@ -144,7 +152,7 @@
       // height: 35vh;
 
       & h1 {
-        top: 30%;
+        top: 35%;
       }
 
       img.headShot {

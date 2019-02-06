@@ -5,33 +5,24 @@ const passport = require('passport');
 const cors = require('cors');
 const path = require('path');
 
-//Routes
-const users = require('./back_end/routes/api/users');
-const posts = require('./back_end/routes/api/posts');
-const profile = require('./back_end/routes/api/profile');
-
 //server setup 
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+
+
+//Routes
+const users = require('./back_end/routes/api/users');
+const posts = require('./back_end/routes/api/posts');
+const profile = require('./back_end/routes/api/profile');
+const files = require('./back_end/routes/api/files');
+
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(cors())
-
-
-// var whitelist = ['http://example1.com', 'http://example2.com']
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
 
 //DB connection
 const db = require('./back_end/config/keys').database;
@@ -50,8 +41,9 @@ require('./back_end/realtime/socket')(io);
 
 // Use Routes
 app.use('/api/users', users);
-app.use('/api/profile', profile); 
 app.use('/api/posts', posts);
+app.use('/api/profile', profile); 
+app.use('/api/files', files);
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') {
@@ -62,5 +54,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// require('./back_end/realtime/ipAddress')
 const port = process.env.PORT || 5000;
 http.listen(port, () => console.log(`Server running on port ${port}`));

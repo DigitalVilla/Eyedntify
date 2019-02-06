@@ -35,9 +35,8 @@
 
 
 
-    & input {
+    & input.loginInput {
       width: 80%;
-      border: none;
       padding: 2rem;
       margin-top: 2rem;
       background: rgba(255, 255, 255, 0.367);
@@ -75,26 +74,23 @@
       font-size: 1.6rem;
     }
 
-    & [type="submit"] {
+    & [type="submit"].loginBtn {
+      margin-top: 2rem;
       background: linear-gradient(to right top, $color1, $color2);
       color: #fff;
       font-size: 1.8rem;
       padding: 1.5rem;
       width: 50%;
-      border-radius: 50px;
+      border-radius: 30px;
       letter-spacing: 2px;
+      transition: all .1s;
+      border: 1px solid $color3 !important; 
       box-shadow: 0 1rem 2rem rgba(0, 0, 0, .3);
       cursor: pointer;
-      border: none !important;
-      transition: all .1s;
 
-      &:active {
-        transform: translate(0, 2px) !important;
+      &:active  {
+        transform: translate(0, 1px) !important;
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
-      }
-
-      &:focus {
-        border: none !important;
       }
     }
 
@@ -126,7 +122,7 @@
         width: 10rem;
       }
 
-      & input {
+      & input.loginInput {
         font-size: 1.4rem;
         padding: 1.4rem;
         margin: .8rem 0;
@@ -178,14 +174,13 @@
 
       & .errMsg {
         line-height: 1.4;
-        
       }
 
       & .welcome {
         color: #fff;
       }
 
-      & input {
+      & input.loginInput {
         color: #fff;
         border-radius: none;
         padding: 1.4rem;
@@ -198,9 +193,9 @@
         }
       }
 
-      & [type="submit"],
-      [type="submit"]:focus {
-        padding: 1.4rem;
+      & [type="submit"].loginBtn,
+      [type="submit"].loginBtn:focus {
+        padding: 1.5rem;
         font-size: 1.4rem;
         color: #eee;
         border: none !important;
@@ -243,10 +238,12 @@
       & .errMsg {
         line-height: 1;
         font-size:  1.3rem;
+        margin-top: -5px;
       }
 
-      & input {
+      & input.loginInput {
         padding: 1.4rem;
+        margin-top: 2rem;
       }
 
       & [type="submit"],

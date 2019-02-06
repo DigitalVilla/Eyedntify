@@ -1,29 +1,5 @@
 const router = require('express').Router();
 const passport = require('passport');
-const multer = require('multer');
-
-// https://www.youtube.com/watch?v=3f5Q9wDePzY
-
-
-const storage = multer.diskStorage({
-  destination: function(req, file, next) {
-    next(null, 'back_end/uploads/')
-  },
-  filename: function(req, file, next) {
-    next(null, file.originalname);
-  }
-})
-
-const fileFilter = (req, file, cb) => {
-  // reject a file
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-
-const upload = multer({storage, fileFilter, limits:{fileSize:1024*1024/2}})
 
 // Load Validation
 const validateProfileInput = require('../../validation/profile');
@@ -47,7 +23,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
     // .populate('favorite', ['username', 'avatar'])
     // .populate('followers', ['username', 'avatar'])
     // .populate('following', ['username', 'avatar'])
-    .populate('user', ['username', 'avatar'])
+    .populate('user', ['username', 'avatar','banner'])
       .then(profile => {
         if (!profile) {
           errors.noprofile = 'There is no profile for this user';
@@ -66,7 +42,7 @@ router.get('/all', passport.authenticate('jwt', { session: false }), (req, res) 
   const errors = {};
 
   Profile.find()
-    .populate('user', ['username', 'avatar'])
+    .populate('user', ['username', 'avatar','banner'])
     .then(profiles => {
       if (!profiles) {
         errors.noprofile = 'There are no profiles';
@@ -82,10 +58,10 @@ router.get('/all', passport.authenticate('jwt', { session: false }), (req, res) 
 // @desc    Get profile by user ID
 // @access  Public
 
-router.get('/user/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
   const errors = {};
   Profile.findOne({ handler: req.params.username })
-    .populate('user', ['name', 'avatar'])
+    .populate('user', ['username', 'avatar','banner'])
     .then(profile => {
       console.log(profile);
       
@@ -103,7 +79,7 @@ router.get('/user/:username', passport.authenticate('jwt', { session: false }), 
 router.get('/email/:email', passport.authenticate('jwt', { session: false }), (req, res) => {
   const errors = {};
   Profile.findOne({ email: req.params.email })
-    .populate('user', ['name', 'avatar'])
+    .populate('user', ['username', 'avatar','banner'])
     .then(profile => {
       if (profile) return res.json(profile);
         return res.status(404).json({profile : 'There is no profile for this user'});
@@ -116,23 +92,14 @@ router.get('/email/:email', passport.authenticate('jwt', { session: false }), (r
 // @route   POST api/profile
 // @desc    Create or edit user profile
 // @access  Private
-router.post('/', upload.single('avatar'), passport.authenticate('jwt', { session: false }), (req, res) => {
-    // const { errors, isValid } = validateProfileInput(req.body);
-    // if (!isValid) return res.status(400).json(errors);
-    
-    console.log(req.file);                 
-    
-    if (req.body.avatar) {
-      // User.findOneAndUpdate({ email: req.user.email }, { $set: {avatar: req.body.avatar} }, { new: true })
-      // .catch(err => res.status(400).json(parse(err.errmsg)))
-    }
+router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const { errors, isValid } = validateProfileInput(req.body);
+    if (!isValid) return res.status(400).json(errors);
 
      const profileFields = {};
      profileFields.user = req.user.id;
      profileFields.handler = req.user.username;
-    
     if (req.body.intro) profileFields.intro = req.body.intro;
-    if (req.body.banner) profileFields.banner = req.body.banner;
     
     // Skills - Spilt into array
     if (typeof req.body.following !== 'undefined') 
@@ -155,11 +122,14 @@ router.post('/', upload.single('avatar'), passport.authenticate('jwt', { session
           .then(profile => res.json(profile));
       } else {  // Create
         Profile.findOne({ user: req.user.id})
+        .populate('posts', ['username', 'avatar'])
         .populate('following', ['username', 'avatar'])
-        .populate('user', ['username', 'avatar'])
+        .populate('followers', ['username', 'avatar'])
+        .populate('favorite', ['username', 'avatar'])
+        .populate('user', ['username', 'avatar', 'banner'])
         .then(profile => {
           if (profile) {
-            errors.handle = 'That handle already exists';
+            errors.handle = 'That Profile already exists';
             res.status(400).json(errors);
           }
           // Save Profile

@@ -18,7 +18,7 @@ export const validate = (payload) => {
     }
     
     if (key === "password2" && !isEmpty(payload[key]) && 
-    (payload.username.length < 4 || payload.username.length > 20)) {
+    (payload.username.length < 4 || payload.username.length > 14)) {
       errors["username"] = `Username must be between 4 and 20 characters`
     }
     

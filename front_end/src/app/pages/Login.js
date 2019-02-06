@@ -19,15 +19,20 @@ class Login extends Component {
     errors: {},
   }
 
+  
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.user.ok)
-     this.resetState(true);
-
-    if (nextProps.errors)
-      this.setState({ errors: nextProps.errors, hasRegistered: false});
-
+    return this.resetState(true);
+ 
     if (nextProps.auth.isAuthenticated)
-      this.props.history.push('/home');
+      return this.props.history.push('/home');
+
+      
+    if (nextProps.errors) {
+      console.log(nextProps);
+      this.setState({ errors: nextProps.errors, hasRegistered: false});
+    }
+
   }
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
@@ -89,7 +94,9 @@ resetState = (login) => {
               <Input value="email" state={this.state} onChange={this.onChange} errors={errors} />
             </React.Fragment>
           }
-          <input type="submit" value={this.state.login ? "Login" : "Sign up"} />
+          <button className="loginBtn" type="submit">
+          {this.state.login ? "Login" : "Sign up"} 
+          </button>
           <div className="links">
             {this.state.login && !this.state.hasRegistered &&
               <button className="next" onClick={this.resetPass}>Password?</button>}
@@ -110,7 +117,8 @@ function Input({ onChange, value, state, errors, login }) {
         onChange={onChange}
         value={state[value]}
         maxLength={value === "email" ? "50" : "20"}
-        className={classnames({ "isInvalid": errors[value] || (value === "username" && errors.login) })}
+        className={classnames("loginInput",
+        { "isInvalid": errors[value] || (value === "username" && errors.login) })}
         name={value} type={value.indexOf('pass') > -1 ? 'password' : 'text'}
         placeholder={login ? "Username or Email" : value === "password2" ? "Repeat password" : capsWord(value)} />
       {(errors[value] || (value === "username" && errors.login)) &&

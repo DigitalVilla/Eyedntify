@@ -24,4 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # this is a file with my DB credentials you should crete ypur own and export it.
-server/config/secret.js
+server/config/keys.js

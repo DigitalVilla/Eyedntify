@@ -18,12 +18,13 @@ class Home extends Component {
   }
 
   componentWillMount() {
+    // validateToken()
     const socketURL = "http://localhost:5000";
     // const socketURL = " http://192.168.23.1:5000/";
 
-    var socket = io(socketURL)
-    this.setState({ socket })
-    this.initSocket(socket)
+    // var socket = io(socketURL)
+    // this.setState({ socket })
+    // this.initSocket(socket)
   }
 
   initSocket = (socket) => {

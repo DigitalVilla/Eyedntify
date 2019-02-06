@@ -7,7 +7,7 @@ module.exports = function validateRegisterInput(data, update) {
   data.password = !isEmpty(data.password) ? data.password : '';
   data.email = !isEmpty(data.email) ? data.email : '';
 
-  if (data.username && !Validator.isLength(data.username, {min: 4, max: 30}))
+  if (data.username && !Validator.isLength(data.username, {min: 4, max: 14}))
     errors.username = 'Username must be between 4 and 20 characters';
 
   if (data.email && !Validator.isEmail(data.email))
@@ -32,7 +32,7 @@ module.exports = function validateRegisterInput(data, update) {
       errors.password2 = 'Confirm Password field is required';
 
     if (!Validator.equals(data.password, data.password2))
-      errors.password2 = 'Passwords must match';
+      errors.password2 = 'Passwords do not match';
   }
   return {
     errors,

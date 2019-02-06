@@ -1,14 +1,32 @@
-import {setAxiosToken} from '../utils/authorize';
-import { Route, Redirect } from 'react-router-dom';
-import {persistLS, deleteLS, getLS} from '../utils/persistance';
+import {
+  setAxiosToken
+} from '../utils/setAxios';
+import {
+  Route,
+  Redirect
+} from 'react-router-dom';
+import {
+  persistLS,
+  deleteLS,
+  getLS
+} from '../utils/persistance';
 import React from 'react';
-import { isEmpty } from '../utils/utils';
-import {validate} from '../utils/validate';
+import {
+  isEmpty
+} from '../utils/utils';
+import {
+  validate
+} from '../utils/validate';
 import jwt_decode from 'jwt-decode';
-import  store  from '../store';
+import store from '../store';
 import axios from 'axios';
 
-import { VALID_REGISTRATION, SET_CURRENT_USER, GET_ERRORS } from './types';
+import {
+  VALID_REGISTRATION,
+  SET_CURRENT_USER,
+  GET_ERRORS,
+  GET_USER
+} from './types';
 
 // Register User
 export const validateUser = (newUser, login) => dispatch => {
@@ -17,11 +35,37 @@ export const validateUser = (newUser, login) => dispatch => {
   //Fetch Server
   axios.post(`/api/users/${login ? "login" : "register"}`, newUser)
     .then(res => {
-      if (login) return dispatch(userSetup(res.data.token)) 
-      return dispatch({ type: VALID_REGISTRATION, payload: res.data })
+      if (login) return dispatch(userSetup(res.data.token))
+      return dispatch({
+        type: VALID_REGISTRATION,
+        payload: res.data
+      })
     })
     .catch(err => dispatch(errorSetup(err.response.data)));
 };
+
+let counter = 0;
+export const fetchUser = () => dispatch => {
+  console.log("fetch", counter++);
+  
+  axios.get(`/api/users/`)
+    .then(res => {
+      return dispatch({
+        type: GET_USER,
+        payload: res.data
+      })
+    })
+    .catch(err => dispatch(errorSetup(err.response.data)));
+};
+
+export const logoutUser = () => dispatch => {
+  dispatch(deleteToken(null));
+};
+
+const errorSetup = (error) => ({
+  type: GET_ERRORS,
+  payload: error
+})
 
 export const userSetup = (token, persist = true) => {
   if (persist) persistLS("jwtToken", token);
@@ -33,30 +77,54 @@ export const userSetup = (token, persist = true) => {
   }
 }
 
-export const logoutUser = () => dispatch => {
+export const deleteToken = () => {
   // Remove token from localStorage
   deleteLS('jwtToken');
   // Remove auth header for future requests
   setAxiosToken(false);
   // Set current user to {} which will set isAuthenticated to false
-  dispatch({type: SET_CURRENT_USER, payload: {} });
-};
-
-const errorSetup = (error) => ({type: GET_ERRORS, payload: error })
-
-
-export const PrivateRoute = ({component: Component, ...rest}) => (
-  <Route {...rest} render = { (props) => (
-   getLS("jwtToken") ? <Component {...props} /> : <Redirect to='/' />
-  )}/>
-);
-
-export const validToken = () => {
-  const token = getLS("jwtToken");
-  if (token) store.dispatch(userSetup(token, false))
+  return {
+    type: SET_CURRENT_USER,
+    payload: {}
+  }
 }
 
-export const getUser = (callback) => {
-  const decoded = jwt_decode(getLS("jwtToken"));
-  return new Promise((res, rej) => res(decoded))
+export const validateToken = () => dispatch => {
+  const token = getToken();
+  if (token.error && token.error === "Expired")
+     dispatch(deleteToken)
+  if (token.error && token.error === "Not found")
+     dispatch(errorSetup(token.error))
+  else
+   dispatch(userSetup(token, false)) // set up user
+}
+
+export const getToken = () => {
+  const token = getLS("jwtToken")
+  if (!token)
+    return { error: "Not found" }
+  if (jwt_decode(token).exp < Date.now().valueOf() / 1000) /* dead  */
+    return {
+      error: "Expired"
+    }
+  else
+    return token;
+}
+
+export const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest } render = { (props) => (
+      getLS("jwtToken") ? < Component {...props }/>
+      : <Redirect to='/' />
+  )} />
+);
+
+export const validateTokenAsynch = () => {
+  const token = getToken();
+
+  if (token.error && token.error === "Expired")
+     store.dispatch(deleteToken)
+  if (token.error && token.error === "Not found")
+     store.dispatch(errorSetup(token.error))
+  else
+   store.dispatch(userSetup(token, false)) // set up user
 }
