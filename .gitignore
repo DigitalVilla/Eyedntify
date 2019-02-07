@@ -12,9 +12,7 @@ client/node_modules
 /coverage
 
 # production
-*/build/
-*build/
-client/build/
+
 /client/bkup.7z
 
 # misc
@@ -31,3 +29,13 @@ yarn-error.log*
 # this is a file with my DB credentials you should crete ypur own and export it.
 # /server/config/keys.js
 /server/config/keys_dev.js
+
+# //github deploymentment
+# */build/
+# *build/
+# client/build/
+
+# toggle /////////////////
+
+client/public/
+client/src/
