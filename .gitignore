@@ -30,12 +30,19 @@ yarn-error.log*
 # /server/config/keys.js
 /server/config/keys_dev.js
 
-# //github deploymentment
+# //heroku deploymentment
+
 # */build/
 # *build/
 # client/build/
 
 # toggle /////////////////
 
+*/public/
+*/src/
+*public/
+*src/
 client/public/
 client/src/
+
+https://eyedntify.herokuapp.com/
