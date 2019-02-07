@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "server": "nodemon server.js",
-    "clients": "cd front_end && yarn run start",
-    "start": "concurrently \"yarn run server\" \"yarn run client\"",
+    "clients": "cd front_end && npm run start",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd front_end && npm run install && npm run build"
   },
   "dependencies": {
@@ -30,5 +30,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.17.3"
+  },
+  "engines": {
+    "node": "10.14.2"
   }
 }
