@@ -8,7 +8,6 @@
   "scripts": {
     "server": "nodemon server.js",
     "clients": "cd client && npm run start",
-    "install": "cd client && npm run start",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd client && npm run install && npm run build"
   },
