@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../../img/icon.png';
 import { capsWord } from '../redux/utils/utils';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { validateUser } from '../redux/actions/act_authorize'
 import { withRouter } from 'react-router-dom';
@@ -9,14 +8,17 @@ import { withRouter } from 'react-router-dom';
 import classnames from 'classnames'
 
 class Login extends Component {
-  state = {
-    login: true,
-    hasRegistered: false,
-    username: '',
-    email: '',
-    password: '',
-    password2: '',
-    errors: {},
+  constructor (props) {
+    super(props)
+    this.state = {
+      login: true,
+      hasRegistered: false,
+      username: '',
+      email: '',
+      password: '',
+      password2: '',
+      errors: {},
+    }
   }
 
   

@@ -9,7 +9,6 @@ import {getLS} from './redux/utils/persistance';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import {validateTokenAsynch, PrivateRoute} from './redux/actions/act_authorize';
 import  store  from './redux/store';
-import { clearErrorsAsynch } from './redux/actions/act_errors';
 
 const App = () => {
   validateTokenAsynch();

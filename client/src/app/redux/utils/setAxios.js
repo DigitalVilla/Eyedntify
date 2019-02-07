@@ -14,4 +14,6 @@
    }, timeout);
  }
 
- export const PROXY = "http://localhost:5000";
+ 
+ const PRODUCTION = false; 
+ export const PROXY = PRODUCTION ? "https://eyedntify.herokuapp.com" :"http://localhost:5000";
