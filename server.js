@@ -12,10 +12,10 @@ const io = require('socket.io')(http);
 
 
 //Routes
-const users = require('./back_end/routes/api/users');
-const posts = require('./back_end/routes/api/posts');
-const profile = require('./back_end/routes/api/profile');
-const files = require('./back_end/routes/api/files');
+const users = require('./server/routes/api/users');
+const posts = require('./server/routes/api/posts');
+const profile = require('./server/routes/api/profile');
+const files = require('./server/routes/api/files');
 
 
 // Body parser middleware
@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(cors())
 
 //DB connection
-const db = require('./back_end/config/keys').database;
+const db = require('./server/config/keys').database;
 mongoose.connect(db,{
   useCreateIndex: true,
   useNewUrlParser: true})
@@ -34,10 +34,10 @@ mongoose.connect(db,{
 mongoose.set('useFindAndModify', false)
 
 // Passport Config
-require('./back_end/config/passport')(passport);
-require('./back_end/config/passSocketIO')(io);
+require('./server/config/passport')(passport);
+require('./server/config/passSocketIO')(io);
 //socket
-require('./back_end/realtime/socket')(io);
+require('./server/realtime/socket')(io);
 
 // Use Routes
 app.use('/api/users', users);
@@ -54,6 +54,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// require('./back_end/realtime/ipAddress')
+// require('./server/realtime/ipAddress')
 const port = process.env.PORT || 5000;
 http.listen(port, () => console.log(`Server running on port ${port}`));

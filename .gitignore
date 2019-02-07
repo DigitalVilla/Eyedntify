@@ -12,6 +12,7 @@ client/node_modules
 /coverage
 
 # production
+build/
 /client/build/
 /client/bkup.7z
 
