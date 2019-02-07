@@ -144,7 +144,7 @@ router.post('/avatar', upload_A.single('file'), passport.authenticate('jwt', { s
 // @route POST /files
 // @desc  Uploads file to DB
 router.post('/banner', upload_B.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
-  gfs_B.files.findOne({ filename: req.user.avatar }, (err, file) => {
+  gfs_B.files.findOne({ filename: req.user.banner }, (err, file) => {
     if (file !== null)
       gfs_B.remove({ _id: file['_id'], root: DB_B }, (err, gridStore) => console.log(err?err:''));
 
@@ -154,32 +154,49 @@ router.post('/banner', upload_B.single('file'), passport.authenticate('jwt', { s
   });
 });
 
-// @route POST /files
-// @desc  Uploads file to DB
-router.post('/post', upload_P.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
-  res.json(req.file.filename);
+// // @route POST /files
+// // @desc  Uploads file to DB
+// router.post('/post', upload_P.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
+//   res.json(req.file.filename);
+// });
+
+
+// exception to create and delete 
+// @route   POST api/files
+// @desc    Create post
+// @access  Private
+router.post('/newPost',upload_P.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
+    const newPost = new Post({
+      owner: req.user.id,
+      caption: req.body.caption,
+      image: req.file.filename
+    });
+
+    newPost.save()
+    .then(post => res.json({ok:true}))
+    .catch(err => res.status(400).json(parse(err.errmsg)))
 });
 
 
-// router.get('/avatar', upload.single('avatar'), passport.authenticate('jwt', { session: false }), (req, res) => {
+// @route   POST api/posts
+// @desc    Create post
+// @access  Private
+router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
 
 
-//   User.findOneAndUpdate({ email: req.user.email }, { $set: profileFields }, { new: true })
-//         .then(profile => res.json(profile));
-//     } else {  // Create
-//       Profile.findOne({ user: req.user.id})
-//       .populate('following', ['username', 'avatar'])
-//       .populate('user', ['username', 'avatar'])
-//       .then(profile => {
-//         if (profile) {
-//           errors.handle = 'That handle already exists';
-//           res.status(400).json(errors);
-//         }
-//         // Save Profile
-//         new Profile(profileFields).save().then(profile => res.json({ok:true}));
-//       });
-//     }
-// });
+  const newPost = new Post({
+    owner: req.user.id,
+    caption: req.body.caption,
+    image: req.body.image,
+  });
+
+  newPost.save()
+  .then(post => res.json(post));
+}
+);
+
+
+
 
 module.exports = router;
 

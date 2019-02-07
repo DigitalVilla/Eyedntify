@@ -9,26 +9,59 @@ import {
   resetJSON
 } from '../utils/setAxios';
 
-// Clear profile
-export const uploadImage = (file, type) => dispatch => {
-  const width = type === "banner" || type === "post" ? 800 : 200;
-  compress(file, {width}, (resize) => {
-    const image = new FormData();
-    image.append('file', resize)
-    resetJSON();
-    axios.post("/api/files/" + type, image)
-      .then(res =>
-        dispatch({
-          type: UPLOAD_IMAGE,
-          payload: {
-            file: `${PROXY}/api/files/${type}/${res.data}`,
-            type
-          }
-        })
-      )
-      .catch(err => dispatch(errorSetup(err)))
-  })
+// No response just update
+export const uploadImageUDP = (file, type) => dispatch => {
+  if (file.type.indexOf('image') === 0) {
+    const width = type === "banner" || type === "post" ? 800 : 200;
+    compress(file, {width}, (resize) => {
+      const image = new FormData();
+      image.append('file', resize)
+      resetJSON();
+      axios.post("/api/files/" + type, image)
+        .catch(err => dispatch(errorSetup(err)))
+    })
+  } else 
+    dispatch(errorSetup("Invalid Image"))
 };
+
+
+export const uploadImage = (file, type, protocol = 'TCP') => dispatch => {
+  if (!file) return;
+  if (file.type.indexOf('image') === 0) {
+    const width = type === "banner" || type === "post" ? 800 : 200;
+    compress(file, {width}, (resize) => {
+      const image = new FormData();
+      image.append('file', resize)
+      resetJSON();
+      axios.post("/api/files/" + type, image)
+        .then(res => {
+          if (protocol ==='TCP') // fetch data and update store 
+          return  dispatch({
+            type: UPLOAD_IMAGE,
+            payload: {
+              file: `${PROXY}/api/files/${type}/${res.data}`,
+              type
+            }})
+        })
+        .catch(err => protocol ==='TCP' ? dispatch(errorSetup(err)) : '')
+    })
+  } else 
+    dispatch(errorSetup("Invalid Image"))
+};
+
+
+export const renderLocal = (image, next) => {
+  if (image.type.indexOf('image') === 0) {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      next(event.target.result)
+    }
+      reader.readAsDataURL(image);
+  } else 
+ return "Invalid image type"
+
+}
+
 
 const errorSetup = (error) => ({
   type: GET_ERRORS,
@@ -57,10 +90,7 @@ if (!HTMLCanvasElement.prototype.toBlob) {
 }
 
 
-const compress = (image, {
-  width = 200,
-  height = null
-}, next) => {
+export const compress = (image, { width = 200, height = null}, next) => {
   const fileName = image.name;
   const type = image.type;
   const reader = new FileReader();
@@ -82,7 +112,7 @@ const compress = (image, {
             type
           });
           next(file);
-        }, 'image/jpeg', 0.6);
+        }, 'image/jpeg', 0.7);
 
       },
       reader.onerror = error => console.log(error);
@@ -94,4 +124,16 @@ export const renderURL = (type, image) => {
   if (image.indexOf('http') > -1 || image.indexOf('data:image') > -1) return image; 
   let url = `${PROXY}/api/files/${type}/${image}`;
   return url;
+}
+
+export const sizeReader= (bytes, si) => {
+  var thresh = si ? 1000 : 1024;
+  if(bytes < thresh) return bytes + ' B';
+  var units = si ? ['kB','MB','GB','TB','PB','EB','ZB','YB'] : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+  var u = -1;
+  do {
+      bytes /= thresh;
+      ++u;
+  } while(bytes >= thresh);
+  return bytes.toFixed(1)+' '+units[u];
 }

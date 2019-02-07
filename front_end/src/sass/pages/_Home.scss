@@ -9,6 +9,7 @@
   height: 6rem !important;
   width: 6rem !important;
   transition: all .2s;
+  opacity: .8;
   & svg{
       width: 5.5rem;
       height: 5.5rem;
@@ -28,7 +29,14 @@
   }
 
   &:active {
-      transform: translateY(3px)
+    opacity: 1;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0, 0.2);
   }
   
+}
+
+.disable {
+    // opacity: .6;
+    z-index: 80 !important;
+    box-shadow:none;
 }

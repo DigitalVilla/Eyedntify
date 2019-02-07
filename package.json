@@ -7,8 +7,10 @@
   "license": "MIT",
   "scripts": {
     "server": "nodemon server.js",
-    "client": "cd front_end && yarn run start",
-    "start": "concurrently \"yarn run server\" \"yarn run client\""
+    "clients": "cd front_end && yarn run start",
+    "client": "yarn run start --prefix ./front_end/package.json",
+    "start": "concurrently \"yarn run server\" \"yarn run client\"",
+    "deploy": "NPM_CONFIG_PRODUCTION=false npm install --prefix front_end && npm run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -46,7 +46,6 @@ export const validateUser = (newUser, login) => dispatch => {
 };
 
 export const fetchUser = ({local}) => dispatch => {
-
   if(local)
   return dispatch({  type: GET_THIS_USER  })
   
@@ -71,6 +70,7 @@ const errorSetup = (error) => ({
 
 export const userSetup = (token, persist = true) => {
   if (persist) persistLS("jwtToken", token);
+  if(!token) return;
   setAxiosToken(token);
   const decoded = jwt_decode(token)
   return {

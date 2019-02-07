@@ -3,7 +3,7 @@ import Navbar from '../components/navbar';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getProfile, updateProfile } from '../redux/actions/act_profile'
-import { uploadImage, renderURL } from '../redux/actions/act_fileUploader'
+import { uploadImage, renderURL, renderLocal } from '../redux/actions/act_fileUploader'
 import EyeBtn from '../components/EyeBtn'
 import classnames from 'classnames';
 import { validateToken } from '../redux/actions/act_authorize';
@@ -19,7 +19,10 @@ class Profile extends Component {
     edit: false,
     posts: [],
     user: { avatar, banner },
-    intro: ''
+    intro: '',
+    disable: false,
+    avatarLocal:'',
+    bannerLocal:''
   }
 
   componentWillMount() {
@@ -27,12 +30,7 @@ class Profile extends Component {
     // this.props.getProfile();
   }
   componentDidMount() {
-    this.props.getProfile();
-    // this.setState(state => {
-    //   state.user.avatar = avatar;
-    //   state.user.banner = banner;
-    //   return state
-    // })
+    this.props.getProfile({});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,20 +38,22 @@ class Profile extends Component {
       const {following, followers, posts, favorite, user, intro} = nextProps.profile.profile;
       this.setState({  following, followers, posts, favorite, user, intro});
     }
-
-    if (nextProps.uploads && nextProps.uploads.file)
-      this.setState({ user: { ...this.state.user, [nextProps.uploads.type]: nextProps.uploads.file } });
-
+    // if (nextProps.uploads && nextProps.uploads.file) // comented as it was a local first aproach
+    //   this.setState({ user: { ...this.state.user, [nextProps.uploads.type]: nextProps.uploads.file } });
     if (nextProps.errors)
       this.setState({ errors: nextProps.errors});
-
   }
 
   editProfile = (e) => {
-    const {edit, intro } = this.state
+    const {edit, intro, avatarFile, bannerFile } = this.state
     this.setState({ edit: !edit })
     if (edit) { //upload
-      this.props.updateProfile({intro})
+      this.props.uploadImage(avatarFile, "avatar","UDP"); //online
+      this.props.uploadImage(bannerFile, "banner","UDP"); // online
+      setTimeout(() => {
+        this.props.updateProfile({intro})
+      }, 500);
+
     }
   }
 
@@ -63,37 +63,37 @@ class Profile extends Component {
   uploadFile = (e) => {
     const image = e.target.files[0];
     const value = e.target.name;
-    if (image)
-      this.props.uploadImage(image, value);
+    if (image && image.type.indexOf('image') === 0) {
+      renderLocal(image, (url) => {
+        this.setState({[value+'Local']: url, [value+"File"]: image })
+      }) 
+    } 
   }
 
+  disableBtn = () => this.setState({ disable: !this.state.disable })
+
   render() {
-    const {following, followers, posts, favorite, user, intro, edit} = this.state;
-    console.log('rendered');
-    
+    const {following, followers, posts, favorite, user, intro, edit, disable, avatarLocal, bannerLocal} = this.state;
     return (
       <React.Fragment>
-        <Navbar />
+        <Navbar toMute={this.disableBtn} />
         <div className="container profile">
-          <input type="file" id="uploader" 
-             onChange={this.uploadFile} name="banner"
-            ref={fileInput => this.bannerPicker = fileInput} />
 
-          <input type="file" id="uploader"
-             onChange={this.uploadFile} name="avatar"
-            ref={fileInput => this.avatarPicker = fileInput} />
+          <input type="file" onChange={this.uploadFile} name="banner"
+             id="uploader" ref={fileInput => this.bannerPicker = fileInput} />
+          <input type="file" onChange={this.uploadFile} name="avatar"
+             id="uploader" ref={fileInput => this.avatarPicker = fileInput} />
 
           <figure className={classnames("banner", { "editImage": edit })} >
             <h1>{user.username}</h1>
             <img onClick={() => edit ? this.bannerPicker.click() : ""}
-              src={renderURL('banner', user.banner)}
+              src={bannerLocal || renderURL('banner', user.banner)}
               alt="Add Banner" />
-
             <img onClick={() => edit ? this.avatarPicker.click() : ""}
               className={classnames("headShot", { "editImage": edit })}
-              src={renderURL('avatar', user.avatar)} alt="Avatar" />
-
+              src={ avatarLocal || renderURL('avatar',user.avatar)} alt="Avatar" />
           </figure>
+
           <div className="badges">
             <ul>
               <li><span>{(posts).length}</span>Eyefy's</li>
@@ -112,9 +112,8 @@ class Profile extends Component {
               maxLength="300"
               name='intro'
               value={intro} />}
-
           </div>
-          <EyeBtn icon={!edit ? "pencil" : "upload"}
+          <EyeBtn icon={!edit ? "pencil" : "upload"} className={classnames({"disable":disable})} 
             style={{ paddingLeft: '7px' }} onClick={this.editProfile} />
         </div>
       </React.Fragment>
@@ -125,13 +124,12 @@ class Profile extends Component {
 Profile.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  uploads: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
-  uploads: state.uploads,
+  // uploads: state.uploads,
   profile: state.profile
 });
 

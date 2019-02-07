@@ -16,7 +16,9 @@ class Navbar extends Component {
 
     openMenu = (e) => {
         if (e.target.className === "title" && this.state.showMenu === false) 
-            return
+        return
+        if (this.props.toMute) // mute a parent component 
+            this.props.toMute() 
         this.setState({ showMenu: !this.state.showMenu })
         let container = document.querySelector(".menu-container");
         container.children[0].classList.toggle("fadeOut")
@@ -48,7 +50,6 @@ class Navbar extends Component {
             this.props.logoutUser();
             this.props.clearProfile();
             this.props.clearPOSTS();
-                
                 break;
         
             default:
@@ -75,7 +76,7 @@ class Navbar extends Component {
                     <Icon icon="menu" size="2.7rem" action={this.openMenu} />
                 </div>
                 <SideMenu buttons={btns} btnHandler={this.btnHandler}
-                    toShow={this.state.showMenu} closeMenu={this.openMenu} />
+                    toShow={this.state.showMenu} animate={this.animate} closeMenu={this.openMenu} />
             </nav>
         )
     }

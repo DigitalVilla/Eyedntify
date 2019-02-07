@@ -7,7 +7,7 @@
      delete axios.defaults.headers.common['Authorization'];
  }
 
- export const resetJSON = (timeout = 500) => {
+ export const resetJSON = (timeout = 100) => {
    axios.defaults.headers.common['Content-Type'] = "multipart/form-data";
    setTimeout(() => {
      axios.defaults.headers.common['Content-Type'] = "application/json";

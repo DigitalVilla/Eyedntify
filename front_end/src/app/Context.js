@@ -15,7 +15,6 @@ const reducer = (state, action) => {
         cards: favHandler(action.payload, state)
       }
     default:
-      console.log("sad");
       break;
   }
 }

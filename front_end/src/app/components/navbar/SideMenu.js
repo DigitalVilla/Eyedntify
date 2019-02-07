@@ -2,9 +2,10 @@ import React from 'react'
 import classnames from 'classnames'
 import sprite from '../../../img/sprite.svg'
 import { Link } from 'react-router-dom'
-
+import {spriteLoad} from './sprite'
 
 const SideMenu = (props) => {
+    spriteLoad();
 
     const onURL = (value) => {
         return window.location.pathname.indexOf(value) === 1;
@@ -33,7 +34,7 @@ const SideMenu = (props) => {
                             </Link>
                         })
                     }
-                    <div className="sideMenu-img colibri"></div>
+                    <div onClick= {props.animate.bind(this, 50)} className="sideMenu-img colibri"></div>
                     <div className="sideMenu-bg "></div>
                 </ul>
             </div>

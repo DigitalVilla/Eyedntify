@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
           banner: user.banner,
         };
         
-        jwt.sign(payload, keys.secret,{ expiresIn: 3600 },
+        jwt.sign(payload, keys.secret,{ expiresIn: 3600 * 3 }, //3hrs
           (err, token) => res.json({token: 'Bearer ' + token})
         );
     });

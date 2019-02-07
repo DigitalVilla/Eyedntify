@@ -5,6 +5,15 @@ export const GET_USER = 'GET_USER';
 export const GET_THIS_USER = 'GET_THIS_USER';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
+export const GET_ALL_POSTS = 'GET_ALL_POSTS';
+export const UPLOAD_POST = 'UPLOAD_POST';
+export const LIKE_IMAGE = 'LIKE_IMAGE';
+
+
+
+
+// export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
 export const VALID_REGISTRATION = 'VALID_REGISTRATION';
 
 export const SET_PROFILE = 'SET_PROFILE';
@@ -13,6 +22,8 @@ export const PROFILE_LOADING = 'PROFILE_LOADING';
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const GET_PROFILES = 'GET_PROFILES';
+export const GET_THIS_PROFILE = 'GET_THIS_PROFILE';
 
 export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 export const IMAGE_LOADING = 'IMAGE_LOADING';
+

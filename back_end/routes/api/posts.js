@@ -59,23 +59,23 @@ router.get('/:id', (req, res) => {
     );
 });
 
-// @route   POST api/posts
-// @desc    Create post
-// @access  Private
-router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { errors, isValid } = validatePostInput(req.body);
-    if (!isValid) return res.status(400).json(errors);
+// // @route   POST api/posts
+// // @desc    Create post
+// // @access  Private
+// router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+//     const { errors, isValid } = validatePostInput(req.body);
+//     if (!isValid) return res.status(400).json(errors);
 
-    const newPost = new Post({
-      owner: req.user.id,
-      caption: req.body.caption,
-      image: req.body.image,
-    });
+//     const newPost = new Post({
+//       owner: req.user.id,
+//       caption: req.body.caption,
+//       image: req.body.image,
+//     });
 
-    newPost.save()
-    .then(post => res.json(post));
-  }
-);
+//     newPost.save()
+//     .then(post => res.json(post));
+//   }
+// );
 
 
 // @route   POST api/posts
@@ -126,23 +126,6 @@ router.put('/comment/:id', passport.authenticate('jwt', { session: false }), (re
   })
 });
 
-// @route   POST api/posts
-// @desc    Create post
-// // @access  Private
-// router.delete('/comment/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-//   const { errors, isValid } = validatePostInput(req.body);
-//   if (!isValid) return res.status(400).json(errors);
-
-//   const newPost = new Post({
-//     owner: req.user.id,
-//     caption: req.body.caption,
-//     image: req.body.image,
-//   });
-
-//   newPost.save()
-//   .then(post => res.json(post));
-// }
-// );
 
 
 // @route   POST api/posts

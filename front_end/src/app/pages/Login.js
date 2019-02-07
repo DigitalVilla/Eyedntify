@@ -29,7 +29,6 @@ class Login extends Component {
 
       
     if (nextProps.errors) {
-      console.log(nextProps);
       this.setState({ errors: nextProps.errors, hasRegistered: false});
     }
 
@@ -128,11 +127,6 @@ function Input({ onChange, value, state, errors, login }) {
   )
 }
 
-Login.propTypes = {
-  validateUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
   auth: state.auth,
