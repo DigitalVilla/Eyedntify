@@ -2,8 +2,8 @@
 
 # dependencies
 node_modules/
-front_end/node_modules/test/node_modules/
-front_end/node_modules
+client/node_modules/test/node_modules/
+client/node_modules
 
 /.pnp
 .pnp.js
@@ -12,8 +12,8 @@ front_end/node_modules
 /coverage
 
 # production
-front_end/build
-front_end/bkup.7z
+client/build
+client/bkup.7z
 
 # misc
 .DS_Store

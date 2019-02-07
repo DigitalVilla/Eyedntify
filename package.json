@@ -7,9 +7,9 @@
   "license": "MIT",
   "scripts": {
     "server": "nodemon server.js",
-    "clients": "cd front_end && npm run start",
+    "client": "npm run start --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd ./front_end && npm run install && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
