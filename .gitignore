@@ -12,7 +12,7 @@ front_end/node_modules
 /coverage
 
 # production
-/build
+front_end/build
 front_end/bkup.7z
 
 # misc
