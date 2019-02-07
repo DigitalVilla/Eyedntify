@@ -8,9 +8,8 @@
   "scripts": {
     "server": "nodemon server.js",
     "clients": "cd front_end && yarn run start",
-    "client": "yarn run start --prefix ./front_end/package.json",
     "start": "concurrently \"yarn run server\" \"yarn run client\"",
-    "deploy": "NPM_CONFIG_PRODUCTION=false npm install --prefix front_end && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd front_end && npm run install && npm run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
