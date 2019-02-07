@@ -13,7 +13,7 @@ client/node_modules
 
 # production
 /client/build/
-client/bkup.7z
+/client/bkup.7z
 
 # misc
 .DS_Store
