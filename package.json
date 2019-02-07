@@ -9,7 +9,7 @@
     "server": "nodemon server.js",
     "clients": "cd front_end && npm run start",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd front_end && npm run install && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd ./front_end && npm run install && npm run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
