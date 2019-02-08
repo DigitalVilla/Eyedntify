@@ -15,5 +15,5 @@
  }
 
  
- const PRODUCTION = !1; 
+ const PRODUCTION = !0; 
  export const PROXY = PRODUCTION ? "https://eyedntify.herokuapp.com" :"http://localhost:5000";
