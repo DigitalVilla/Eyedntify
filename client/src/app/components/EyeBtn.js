@@ -11,5 +11,4 @@ const EyeBtn = ({onClick,icon, style, className }) => {
   </button>
   )
 }
-
 export default EyeBtn

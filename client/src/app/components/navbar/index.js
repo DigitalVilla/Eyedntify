@@ -1,47 +1,59 @@
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
-import Icon from '../Icon'
+// import Icon from '../Icon'
 import SideMenu from './SideMenu'
-import { Link } from 'react-router-dom'
-import { logoutUser } from '../../redux/actions/act_authorize'
-import { clearProfile } from '../../redux/actions/act_profile'
-import { clearPOSTS } from '../../redux/actions/act_post'
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 class Navbar extends Component {
-    state = {
-        showMenu: false
-    }
+    constructor (props) {
+super(props)
+        this.state = {
+            showMenu: false,
+            still: 'colibri',
+            margin: "-3.8rem"
+        }
+        }
 
     openMenu = (e) => {
         // if (e.target.className === "title" && this.state.showMenu === false) 
         // return
-        if (this.props.toMute) // mute a parent component 
+        setTimeout(() => {
+            if (this.props.toMute) // mute a parent component 
             this.props.toMute() 
+        }, 100);
         this.setState({ showMenu: !this.state.showMenu })
         let container = document.querySelector(".menu-container");
         container.children[0].classList.toggle("fadeOut")
         container.children[1].classList.toggle("fadeInRight")
         container.children[1].classList.toggle("fadeOutRight")
-        this.animate(0);
+        if (!this.state.showMenu) this.animate(0);
         let time = this.state.showMenu ? 400 : 0;
         setTimeout(function () {
             container.classList.toggle("hide");
         }, time)
     }
 
+    // animate = (a) => {
+    //     const image = document.querySelector(".sideMenu-img");
+    //     for (let i = 1; i <= 5; i++) {
+    //         setTimeout(function (a) {
+    //             image.classList.add("colibri" + i);
+    //             1 === i && (image.style.marginTop = "-4.3rem");
+    //             image.classList.remove("colibri" + (i - 1));
+    //             5 === i && (image.style.marginTop = "-4rem")
+    //         }, a += 100)
+    //     }
+    //     image.style.marginTop = "-3.8rem";
+    // }
     animate = (a) => {
-        const image = document.querySelector(".sideMenu-img");
-        for (let i = 1; i <= 5; i++) {
-            setTimeout(function (a) {
-                image.classList.add("colibri" + i);
-                1 === i && (image.style.marginTop = "-4.3rem");
-                image.classList.remove("colibri" + (i - 1));
-                5 === i && (image.style.marginTop = "-4rem")
-            }, a += 100)
-        }
-        image.style.marginTop = "-3.8rem";
+            for (let i = 1; i <= 5; i++) {
+                setTimeout((a) => {
+                    let still = "colibri" + i;
+                    let margin = 1 === i ? "-4.3rem"
+                    : 5 === i ? "-4rem": this.state.margin;
+                    this.setState({still, margin})
+                }, a += 100)
+            }
+            this.setState({still: 'colibri', margin: "-3.8rem"})
     }
 
     btnHandler =(btn)=> {
@@ -65,6 +77,11 @@ class Navbar extends Component {
             {value:"finder",icon:"globe" },
             {value:"settings",icon:"settings" },
             {value:"logout",icon:"exit" }];
+            
+            const animation =  {
+                marginTop: this.state.margin,
+                still: this.state.still
+            }
 
         return (
             <nav className="myNav-bar" >
@@ -75,20 +92,11 @@ class Navbar extends Component {
                     <SearchBar action={this.openMenu} placeholder="Search by..." />
                     {/* <Icon icon="menu" size="2.7rem" action={this.openMenu} /> */}
                 </div>
-                <SideMenu buttons={btns} btnHandler={this.btnHandler}
+                <SideMenu buttons={btns} btnHandler={this.btnHandler} animation={animation}
                     toShow={this.state.showMenu} animate={this.animate} closeMenu={this.openMenu} />
             </nav>
         )
     }
 }
 
-Navbar.propTypes = {
-    logoutUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
-  };
-  
-  const mapStateToProps = state => ({
-    auth: state.auth,
-  });
-
-export default connect(mapStateToProps, { clearProfile, clearPOSTS,logoutUser })(Navbar);
+export default Navbar;

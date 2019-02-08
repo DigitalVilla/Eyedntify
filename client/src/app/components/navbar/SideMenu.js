@@ -9,7 +9,6 @@ const SideMenu = (props) => {
     const onURL = (value) => {
         return window.location.pathname.indexOf(value) === 1;
     }
-
     return (
         <div className="menu-container hide">
             <div onClick={props.closeMenu}
@@ -33,7 +32,8 @@ const SideMenu = (props) => {
                             </Link>
                         })
                     }
-                    <div onClick= {props.animate.bind(this, 50)} className="sideMenu-img colibri"></div>
+                    <div onClick= {props.animate.bind(this, 50)} style={{marginTop: props.animation.marginTop}}
+                    className={classnames("sideMenu-img colibri",{[props.animation.still]: props.animation })}></div>
                     <div className="sideMenu-bg "></div>
                 </ul>
             </div>

@@ -1,14 +1,14 @@
 {
-  "main.css": "/static/css/main.2d7440f2.chunk.css",
-  "main.js": "/static/js/main.e604e728.chunk.js",
-  "main.js.map": "/static/js/main.e604e728.chunk.js.map",
-  "static/js/1.50f75fd4.chunk.js": "/static/js/1.50f75fd4.chunk.js",
-  "static/js/1.50f75fd4.chunk.js.map": "/static/js/1.50f75fd4.chunk.js.map",
+  "main.css": "/static/css/main.bfdc2115.chunk.css",
+  "main.js": "/static/js/main.db67e9c6.chunk.js",
+  "main.js.map": "/static/js/main.db67e9c6.chunk.js.map",
+  "static/js/1.59937388.chunk.js": "/static/js/1.59937388.chunk.js",
+  "static/js/1.59937388.chunk.js.map": "/static/js/1.59937388.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
   "static/media/colibri.png": "/static/media/colibri.83b8edb9.png",
-  "static/css/main.2d7440f2.chunk.css.map": "/static/css/main.2d7440f2.chunk.css.map",
+  "static/css/main.bfdc2115.chunk.css.map": "/static/css/main.bfdc2115.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.298d436098d598c96846414e16acfa3d.js": "/precache-manifest.298d436098d598c96846414e16acfa3d.js",
+  "precache-manifest.53515a88419fe5e8c87e63925580a4ee.js": "/precache-manifest.53515a88419fe5e8c87e63925580a4ee.js",
   "service-worker.js": "/service-worker.js"
 }
