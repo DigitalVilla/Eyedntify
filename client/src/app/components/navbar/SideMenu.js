@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-import sprite from '../../../img/sprite.svg'
 import { Link } from 'react-router-dom'
 import {spriteLoad} from './sprite'
 
@@ -26,7 +25,7 @@ const SideMenu = (props) => {
                             return <Link key={i} onClick={props.btnHandler.bind(this, e.value)}  to={"/" + e.value}>
                                 <li className={"sideMenu-item " + myClass} >
                                     <svg className="sm">
-                                        <use href={sprite + '#icon-' + e.icon}>
+                                        <use href={'img/sprite.svg#icon-' + e.icon}>
                                         </use>
                                     </svg>
                                     <span>{e.value}</span>

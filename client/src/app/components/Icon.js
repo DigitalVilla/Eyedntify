@@ -1,5 +1,4 @@
 import React from 'react'
-import sprite from '../../img/sprite.svg'
 
 const Icon = (props) => {
     
@@ -15,7 +14,7 @@ const Icon = (props) => {
             <svg className={props.className}
                 style={styles}>
                 <use
-                    href={sprite + '#icon-' + props.icon}>
+                    href={'img/sprite.svg#icon-' + props.icon}>
                 </use>
             </svg>
         </button>

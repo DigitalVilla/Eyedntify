@@ -15,8 +15,8 @@ class Navbar extends Component {
     }
 
     openMenu = (e) => {
-        if (e.target.className === "title" && this.state.showMenu === false) 
-        return
+        // if (e.target.className === "title" && this.state.showMenu === false) 
+        // return
         if (this.props.toMute) // mute a parent component 
             this.props.toMute() 
         this.setState({ showMenu: !this.state.showMenu })
@@ -69,11 +69,11 @@ class Navbar extends Component {
         return (
             <nav className="myNav-bar" >
                 <div className="myNav-container">
-                    <Link to="/camera">
+                    {/* <Link to="/camera">
                         <Icon icon="camera" size="3rem" />
-                    </Link>
+                    </Link> */}
                     <SearchBar action={this.openMenu} placeholder="Search by..." />
-                    <Icon icon="menu" size="2.7rem" action={this.openMenu} />
+                    {/* <Icon icon="menu" size="2.7rem" action={this.openMenu} /> */}
                 </div>
                 <SideMenu buttons={btns} btnHandler={this.btnHandler}
                     toShow={this.state.showMenu} animate={this.animate} closeMenu={this.openMenu} />

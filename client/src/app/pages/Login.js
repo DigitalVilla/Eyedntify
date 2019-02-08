@@ -116,7 +116,7 @@ function Input({ onChange, value, state, errors, login }) {
     <React.Fragment>
       <input
         onChange={onChange}
-        value={""}
+        value={state[value]}
         maxLength={value === "email" ? "50" : "20"}
         className={classnames("loginInput",
         { "isInvalid": errors[value] || (value === "username" && errors.login) })}
