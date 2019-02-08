@@ -11,7 +11,7 @@ export default function searchBox(props) {
         // </Link>
         <div className="title" onClick={props.action.bind(this)}>
             <img className="title" src={logo} alt="logo"/>
-            Eyedentify
+            Eyedntify
         </div>
         // <div className="search">
         //     <input type="text" className="search_input" placeholder={props.placeholder}/>

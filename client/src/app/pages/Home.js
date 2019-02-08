@@ -72,10 +72,10 @@ class Home extends Component {
   cancelPost = () => this.setState({ toPost: false, newPost: {} });
   disableBtn = () => this.setState({ disable: !this.state.disable });
   onChange = (e) => this.setState({ newPost: { ...this.state.newPost, caption: e.target.value } });
-  setImage = (image) => this.setState({ newPost: { ...this.state.newPost, image: image } });
+  setImage = (image) => this.setState({ newPost: { ...this.state.newPost, image} });
 
   render() {
-    const { disable, posts, user, toPost } = this.state;
+    const { disable, posts, user, toPost, newPost } = this.state;
     // console.log(posts);
 
     return (
@@ -83,6 +83,7 @@ class Home extends Component {
         <Navbar toMute={this.disableBtn} />
         {toPost &&
           <NewPost avatar={user.avatar}
+            value={newPost.caption}
             username={user.username}
             setImage={this.setImage}
             onChange={this.onChange}

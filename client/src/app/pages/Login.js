@@ -81,7 +81,7 @@ resetState = (login) => {
       <div className="login__container">
         <div className="header">
           <img src={logo} alt="logo" />
-          <h1> Eyedentify</h1>
+          <h1> Eyedntify</h1>
         </div>
         <form onSubmit={this.submitForm} className="loginForm">
           {this.state.hasRegistered &&
