@@ -25,6 +25,7 @@
         padding: 0;
         margin: 0;
         color: inherit;
+       
     }
 
 }
@@ -43,10 +44,11 @@
     border-left: 6px solid transparent;
     color: #fff;
     font-size: 2rem;
+    text-transform: capitalize;
 
     & svg {
         fill: #fff;
-        margin: 0 1rem 0 33%;
+        margin: 0 2rem 0 33%;
     }
 
     @media only screen and (max-width: $bp-450) {
@@ -83,9 +85,14 @@
 }
 
 .active {
+
     background: rgba($color3, .6);
     font-weight: 700;
     border-left: 6px solid rgba(255, 255, 255, .8);
     box-shadow: 0 0.5rem 0.5rem rgba(41, 43, 44, 0.2);
     width: 100%;
+    & svg {
+        margin-left: 29%;
+
+    }
 }

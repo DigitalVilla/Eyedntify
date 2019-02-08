@@ -40,8 +40,8 @@ class Profile extends Component {
     }
     // if (nextProps.uploads && nextProps.uploads.file) // comented as it was a local first aproach
     //   this.setState({ user: { ...this.state.user, [nextProps.uploads.type]: nextProps.uploads.file } });
-    if (nextProps.errors)
-      this.setState({ errors: nextProps.errors });
+    // if (nextProps.errors)
+    //   this.setState({ errors: nextProps.errors });
   }
 
   editProfile = (e) => {
@@ -78,7 +78,6 @@ class Profile extends Component {
       <React.Fragment>
         <Navbar toMute={this.disableBtn} />
         <div className="container profile">
-          <form >
             <input type="file" onChange={this.uploadFile} name="banner"
               id="uploader" ref={fileInput => this.bannerPicker = fileInput} />
             <input type="file" onChange={this.uploadFile} name="avatar"
@@ -115,7 +114,6 @@ class Profile extends Component {
             </div>
             <EyeBtn icon={!edit ? "pencil" : "upload"} className={classnames({ "disable": disable })}
               style={{ paddingLeft: '7px' }} onClick={this.editProfile} />
-          </form>
         </div>
       </React.Fragment>
     )

@@ -72,10 +72,10 @@ class Home extends Component {
   cancelPost = () => this.setState({ toPost: false, newPost: {} });
   disableBtn = () => this.setState({ disable: !this.state.disable });
   onChange = (e) => this.setState({ newPost: { ...this.state.newPost, caption: e.target.value } });
-  setImage = (image) => this.setState({ newPost: { ...this.state.newPost, image} });
+  setImage = (image) => this.setState({ newPost: { ...this.state.newPost, image: image } });
 
   render() {
-    const { disable, posts, user, toPost, newPost } = this.state;
+    const { disable, posts, user, toPost } = this.state;
     // console.log(posts);
 
     return (
@@ -83,7 +83,6 @@ class Home extends Component {
         <Navbar toMute={this.disableBtn} />
         {toPost &&
           <NewPost avatar={user.avatar}
-            value={newPost.caption}
             username={user.username}
             setImage={this.setImage}
             onChange={this.onChange}
@@ -92,10 +91,10 @@ class Home extends Component {
         <div className="container home">
           {
             posts.map((c) => {
-              return <Card key={c.id} body={c}/>
+              return <Card key={c._id} body={c}/>
             })
           }
-          <EyeBtn className={classnames({ "disable": disable })} icon="send"
+          <EyeBtn className={classnames({ "disable": disable })} icon="plane"
             onClick={this.toPost} />
         </div>
       </React.Fragment>

@@ -10,8 +10,10 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import {validateTokenAsynch, PrivateRoute} from './redux/actions/act_authorize';
 import  store  from './redux/store';
 
+
 const App = () => {
   validateTokenAsynch();
+
   return (
     <Provider store={store}>
       <Router>
