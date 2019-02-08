@@ -135,6 +135,8 @@
 
         & svg {
             fill: #555;
+            height: 3rem !important;
+            width: 3rem !important; 
 
             &.liked {
                 fill: rgb(243, 43, 70);

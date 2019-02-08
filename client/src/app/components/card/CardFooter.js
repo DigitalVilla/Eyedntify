@@ -12,7 +12,7 @@ const CardFooter = ({body, dispatch}) => {
     dispatch({type:'FAV_IMAGE', payload:id})
   }
 
-  const size = "3rem";
+  const size = "2rem !important";
   return (
     <div className="EyeCard__footer">
       <Icon size={size}

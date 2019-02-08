@@ -26,13 +26,10 @@ const icons = {
 
 const Icon = (props) => {
 
-    const height = props.size || "3rem";
-    const width = props.size || "3rem";
-
     return (
         <button style={props.style || null} className={"icon_BTN "+props.className}
             onClick={props.action || null}>
-            <svg width={width} height={height} viewBox="0 0 1024 1024">
+            <svg width={props.size} height={props.size} viewBox="0 0 1024 1024">
                 <path d={icons[props.icon]}></path>
             </svg>
         </button>
