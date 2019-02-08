@@ -65,7 +65,7 @@ class NewPost extends Component {
               }
 
             </figure>
-            <textarea  onChange={this.props.onChange} placeholder="Write a caption in 144 characters or less!"
+            <textarea  onChange={this.props.onChange} value='' placeholder="Write a caption in 144 characters or less!"
               className="textArea" maxLength="144" >
             </textarea>
           </form>

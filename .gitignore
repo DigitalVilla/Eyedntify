@@ -38,11 +38,4 @@ yarn-error.log*
 
 # toggle /////////////////
 
-*/public/
-*/src/
-*public/
-*src/
-client/public/
-client/src/
-
-https://eyedntify.herokuapp.com/
+# https://eyedntify.herokuapp.com/
