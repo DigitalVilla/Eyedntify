@@ -16,11 +16,11 @@ $bp-360: 22.5em;
 *,
 *::after,
 *::before {
-    outline: none !important;
+    // outline: none !important;
     padding: 0;
     margin: 0;
     box-sizing: inherit;
-    user-select: none;
+    // user-select: none;
 }
 
 html {
