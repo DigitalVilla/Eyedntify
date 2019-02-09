@@ -24,29 +24,34 @@ const icons = {
     exit: "M768 640v-128h-320v-128h320v-128l192 192zM704 576v256h-320v192l-384-192v-832h704v320h-64v-256h-512l256 128v576h256v-192z"
 }
 
-const Icon = (props) => {
+const size = "20px"; 
 
+const Icon = (props) => {
     return (
-        <button style={props.style || null} className={"icon_BTN "+props.className}
+        <button
+            className={"icon_BTN "+props.className}
+            style={props.style || null}
             onClick={props.action || null}>
-            <svg width={props.size} height={props.size} viewBox="0 0 1024 1024">
+            <svg 
+                width={props.size || size}
+                height={props.size || size}
+                viewBox="0 0 1024 1024">
                 <path d={icons[props.icon]}></path>
             </svg>
         </button>
     )
 }
-
 export default Icon;
 
 
 export const SVG = (props) => {
-    console.log(props);
-    
-    const height = props.size || "2rem";
-    const width = props.size || "2rem";
     return (
-            <svg className={props.className} width={width} height={height} viewBox="0 0 1024 1024">
-                <path d={icons[props.icon]}></path>
-            </svg>
+        <svg
+            className={props.className} 
+            width={props.size || size}
+            height={props.size || size}
+            viewBox="0 0 1024 1024">
+            <path d={icons[props.icon]}></path>
+        </svg>
     )
 }
