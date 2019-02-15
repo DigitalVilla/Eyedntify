@@ -1,33 +1,13 @@
-import {
-  setAxiosToken
-} from '../utils/setAxios';
-import {
-  Route,
-  Redirect
-} from 'react-router-dom';
-import {
-  persistLS,
-  deleteLS,
-  getLS
-} from '../utils/persistance';
+import {  setAxiosToken } from '../utils/setAxios';
+import { Route, Redirect } from 'react-router-dom';
+import { persistLS, deleteLS, getLS} from '../utils/persistance';
 import React from 'react';
-import {
-  isEmpty
-} from '../utils/utils';
-import {
-  validate
-} from '../utils/validate';
+import { isEmpty } from '../utils/utils';
+import {validate } from '../utils/validate';
 import jwt_decode from 'jwt-decode';
 import store from '../store';
 import axios from 'axios';
-
-import {
-  VALID_REGISTRATION,
-  SET_CURRENT_USER,
-  GET_THIS_USER,
-  GET_ERRORS,
-  GET_USER
-} from './types';
+import { VALID_REGISTRATION, SET_CURRENT_USER, GET_ERRORS} from './types';
 
 // Register User
 export const validateUser = (newUser, login) => dispatch => {
@@ -45,22 +25,9 @@ export const validateUser = (newUser, login) => dispatch => {
     .catch(err => dispatch(errorSetup(err.response.data)));
 };
 
-export const fetchUser = ({local}) => dispatch => {
-  if(local)
-  return dispatch({  type: GET_THIS_USER  })
-  
-  axios.get(`/api/users/`)
-    .then(res => {
-      return dispatch({
-        type: GET_USER,
-        payload: res.data
-      })
-    })
-    .catch(err => dispatch(errorSetup(err.response.data)));
-};
 
-export const logoutUser = () => dispatch => {
-  dispatch(deleteToken(null));
+export const logoutUser = () => {
+  store.dispatch(deleteToken(null));
 };
 
 const errorSetup = (error) => ({
@@ -70,7 +37,6 @@ const errorSetup = (error) => ({
 
 export const userSetup = (token, persist = true) => {
   if (persist) persistLS("jwtToken", token);
-  if(!token) return;
   setAxiosToken(token);
   const decoded = jwt_decode(token)
   return {
@@ -93,41 +59,36 @@ export const deleteToken = () => {
 
 export const validateToken = () => dispatch => {
   const token = getToken();
-  if (token.error && token.error === "Expired")
-     dispatch(deleteToken)
-  if (token.error && token.error === "Not found")
-     dispatch(errorSetup(token.error))
+  if (token === "Not found" || token === "Expired")
+     dispatch(errorSetup(token))
   else
    dispatch(userSetup(token, false)) // set up user
 }
 
 export const getToken = () => {
+  // debugger
   const token = getLS("jwtToken")
-  if (!token)
-    return { error: "Not found" }
-  if (jwt_decode(token).exp < Date.now().valueOf() / 1000) /* dead  */
-    return {
-      error: "Expired"
-    }
-  else
-    return token;
+  if (typeof token === 'undefined' || !token)
+    return "Not found"
+  if (typeof token !== 'undefined') {
+    const time = Date.now().valueOf() / 1000;
+    const exp = jwt_decode(token).exp
+    if (exp < time) /* dead  */
+      return "Expired"
+    else
+      return token;
+  }
 }
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest } render = { (props) => (
-      getLS("jwtToken") ? < Component {...props }/>
+        validToken() ? < Component {...props }/>
       : <Redirect to='/' />
   )} />
 );
 
-export const validateTokenAsynch = () => {
+export const validToken = () => {
   const token = getToken();
-
-  if (token.error && token.error === "Expired")
-     store.dispatch(deleteToken)
-  if (token.error && token.error === "Not found")
-     store.dispatch(errorSetup(token.error))
-  else
-   store.dispatch(userSetup(token, false)) // set up user
+  return token.indexOf('Bearer') >= 0;
 }
 

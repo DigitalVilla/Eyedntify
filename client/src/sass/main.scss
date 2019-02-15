@@ -1,11 +1,14 @@
-@import './abstract/animation';
 @import './abstract/base';
+@import './abstract/animation';
 @import './abstract/typography';
 @import './components/navbar';
 @import './components/card';
 @import './components/sidemenu';
 @import './components/newpost';
-@import './pages/camera';
+@import './components/searchBar';
+@import './components//contactCard';
 @import './pages/home';
 @import './pages/profile';
+@import './pages/finder';
 @import './pages/login';
+@import './pages/loading';

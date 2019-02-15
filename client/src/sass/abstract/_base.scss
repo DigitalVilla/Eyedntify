@@ -12,21 +12,21 @@ $bp-600: 37.5em;
 $bp-450: 28.13em;
 $bp-360: 22.5em;
 
+$navbar: 5rem;
 
 *,
 *::after,
 *::before {
-    // outline: none !important;
     padding: 0;
     margin: 0;
     box-sizing: inherit;
-    // user-select: none;
 }
 
 html {
     box-sizing: border-box;
     font-size: 62.5%;
     color: #333;
+    overflow-x: hidden;
 }
 
 
@@ -75,12 +75,12 @@ body {
 
 
 ::selection {
-    background: transparent;
+    // background: transparent;
     // color: #ff005e
 }
 
 ::-moz-selection {
-    background: transparent;
+    // background: transparent;
     // color: #ff005e
 }
 

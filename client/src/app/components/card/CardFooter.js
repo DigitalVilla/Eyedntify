@@ -1,35 +1,28 @@
 import React from 'react'
 import Icon from '../Icon'
 import classnames from 'classnames'
+import {} from '../../redux/actions/act_post'
 
-const CardFooter = ({body, dispatch}) => {
-  
-  const likeHandler = (id,e) => {
-    dispatch({type:'LIKE_IMAGE', payload:id})
-  }
-
-  const favHandler = (id,e) => {
-    dispatch({type:'FAV_IMAGE', payload:id})
-  }
+const CardFooter = ({body, likeHandler, faveHandler, state}) => {
 
   const size = "3rem";
   return (
     <div className="EyeCard__footer">
       <Icon size={size}
-        className={classnames({ "liked": body.liked })}
-        action={likeHandler.bind(this, body.id)}
+        className={classnames({ "liked": state.liked })}
+        action={likeHandler}
         icon={classnames({
-          "heart": !body.liked,
-          "heartFull": body.liked,
+          "heart": !state.liked,
+          "heartFull": state.liked,
         })} />
       <Icon size={size} icon="comment" />
       <Icon
-        className={classnames({ "favorite": body.favorite })}
+        className={classnames({ "favorite": state.favorite })}
         size={size}
-        action={favHandler.bind(this, body.id)}
+        action={faveHandler}
         icon={classnames({
-          "star": !body.favorite,
-          "starFull": body.favorite,
+          "star": !state.favorite,
+          "starFull": state.favorite,
         })} />
         
     </div>

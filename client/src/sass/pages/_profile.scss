@@ -1,12 +1,15 @@
 .profile {
   background: #eee;
   height: 100vh;
+  margin-top: 0;
+  overflow: hidden;
 
   & figure.banner {
     border-bottom: 3px solid $color2;
     position: relative;
     height: 40vh;
     z-index: 0;
+    margin-top: $navbar;
     transition: all .3s;
 
     & h1 {
@@ -21,7 +24,6 @@
       text-shadow: 0 .4rem .1rem rgba(0, 0, 0, 0.5);
     }
 
-  
     & img {
       width: 100%;
       height: 100%;
@@ -41,9 +43,6 @@
       transition: all .3s;
     }
   }
-
-
-
 
   .badges {
     margin: 6rem 0 1rem 0;
@@ -76,43 +75,52 @@
 
     & ul:last-of-type {
       padding: 1rem 0 1rem 3rem;
-      // border: 1px solid rgb(255, 0, 242);
     }
   }
 
   & .about {
     height: 35%;
 
-    & p {
-      padding: 1rem 2rem;
+    & p,
+    textarea.editText {
+      padding: 4rem;
       font-size: 2rem;
       text-align: justify;
-      height: 80%;
+      height: 100%;
       width: 100%;
       word-wrap: break-word;
+      line-height: 1.5;
       color: #444;
     }
+
     p.placeholder {
       text-align: center;
       margin-top: 6rem;
       font-size: 2.5rem;
     }
-   }
 
-
-  @media only screen and (min-width: $bp-900) {
-
-    .badges {
-      font-size: 2rem;
+    textarea.editText {
+      background: none;
+      border: none;
+      font-family: inherit;
+      border: 2px solid rgba($color2, .8);
     }
   }
 
-  @media only screen and (max-width: $bp-600) {
+  figure.editImage,
+  img.editImage {
+    filter: blur(0) !important;
+    border: 4px solid $color2 !important;
+    cursor: pointer !important;
+  }
 
+
+  @media only screen and (max-width: $bp-600) {
     & figure.banner {
       & h1 {
         font-size: 4rem;
       }
+
       img.headShot {
         width: 16rem !important;
         height: 16rem !important;
@@ -121,116 +129,115 @@
 
     & .badges {
       font-size: 1.6rem;
+
+      ul {
+        li {
+          font-size: 2rem;
+        }
+      }
+    }
+
+    .about {
+
+      & p,
+      textarea.editText {
+        padding: 1rem 3rem;
+        font-size: 1.6rem;
+      }
+
+      p.placeholder {
+        text-align: center;
+        margin-top: 4rem;
+        font-size: 1.4rem;
+      }
     }
   }
 
   @media only screen and (max-width: $bp-450) {
-
     & figure.banner {
       & h1 {
         font-size: 4rem;
         top: 40%;
       }
+
       img.headShot {
         width: 14rem !important;
         height: 14rem !important;
+        margin-bottom: 2rem;
       }
     }
 
-    & div.badges {
-      margin: 4rem 0 1rem 0;
+    & .badges {
 
-      // font-size: 1.4rem;
-      & ul {
-        padding: 0 !important;
+      ul,
+      ul:last-of-type {
+        padding: 0;
 
-      }
-
-      li {
-       font-size: 1.8rem 
-      }
-
-      & ul:last-of-type {
-        & li:last-of-type {
-          // border: 1px solid #00f;
-          // padding-right: 1rem;
+        li {
+          font-size: 1.8rem;
         }
       }
+    }
 
-      & p {
-        padding: 1rem 2rem;
+    .about {
+
+      & p,
+      textarea.editText {
+        padding: 2rem;
         font-size: 1.6rem;
-        color: #444;
       }
+
       p.placeholder {
         text-align: center;
         margin-top: 4rem;
-        font-size: 2rem;
+        font-size: 1.4rem;
       }
-
     }
+
   }
 
   @media only screen and (max-width: $bp-360) {
     & figure.banner {
-      // height: 35vh;
-
       & h1 {
-        top: 35%;
+        font-size: 4rem;
+        top: 40%;
       }
 
       img.headShot {
-        width: 12rem !important;
-        height: 12rem !important;
+        width: 14rem !important;
+        height: 14rem !important;
+        margin-bottom: 2rem;
       }
     }
 
-    .badges {
-      margin: 2rem 0 1rem 0;
-    }
+    & .badges {
+      margin-top: 3.5rem;
+      ;
 
-    & .about {
-      & h1 {
-        line-height: 1.2;
+      ul,
+      ul:last-of-type {
+        padding: 0;
+
+        li {
+          font-size: 1.4rem;
+        }
       }
-      p {
-        line-height: 1.3;
+    }
+
+    .about {
+
+      & p,
+      textarea.editText {
+        padding: 0 2rem;
+        font-size: 1.5rem;
+      }
+
+      p.placeholder {
+        text-align: center;
+        margin-top: 4rem;
+        font-size: 1.6rem;
       }
     }
-  }
-
-  figure.editImage,
-  img.editImage {
-    filter: blur(0) !important;
-    border: 4px solid #eee !important;
-    cursor: pointer !important;
-  }
-
-  @keyframes border {
-    0% {
-      border: 1px solid rgba($color2, .3);
-    }
-
-    100% {
-      border: 2px solid rgba($color2, .8);
-    }
 
   }
-
-  textarea.editText {
-    background: none;
-    padding: 0 2rem;
-    border: none;
-    width: 100%;
-    height: 100%;
-    font-size: 1.6rem;
-    text-align: justify;
-    font-size: inherit;
-    font-family: inherit;
-    line-height: 1.5;
-    animation: border .3s;
-    border: 4px solid rgba($color2, .8);
-
-  }
-
 }

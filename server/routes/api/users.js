@@ -4,6 +4,7 @@ const passport = require('passport');
 const router = require('express').Router();
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
+const expiry = 3600 * 3;
 
 // Load Input Validation
 const validateRegisterInput = require('../../validation/register');
@@ -69,7 +70,7 @@ router.post('/login', (req, res) => {
           banner: user.banner,
         };
         
-        jwt.sign(payload, keys.secret,{ expiresIn: 3600 * 3 }, //3hrs
+        jwt.sign(payload, keys.secret,{ expiresIn: expiry}, //3hrs
           (err, token) => res.json({token: 'Bearer ' + token})
         );
     });
@@ -129,14 +130,10 @@ router.get('/current', passport.authenticate('jwt', { session: false }),
 // @desc    Return current user
 // @access  Private
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-  User.findOne({username : req.user.username})
-  .then(user => {
-    if (!user) return res.status(404).json({error: 'User not found'});
-    res.json({
-      avatar:user.avatar,
-      banner:user.banner,
-      username: user.username
-    });
+  User.find().select('username avatar')
+  .then(users => {
+    if (!users) return res.status(404).json({error: 'User not found'});
+    res.json(users);
   })
   .catch((error)=> res.status(404).json({error: error}))
 });

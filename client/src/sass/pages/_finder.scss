@@ -1,0 +1,35 @@
+.finder {
+  height: 100vh;
+  position: relative;
+
+  .searchBar {
+    width: 30rem;
+    position: fixed;
+    top:  6rem;
+  }
+
+.userList {
+  list-style: none;
+  margin-top: 12rem;
+  & li {
+    border: 1px solid #00f;
+    display: flex;
+    height: 10rem;
+    justify-content: space-around;
+    align-items: center;
+    margin: 1rem;
+    background: #eee;
+    img {
+      width: 8rem;
+      border-radius: 10px;
+    }
+    & span {
+      font-size: 2rem;
+      text-transform:capitalize;
+      font-weight: 700;
+
+    }
+  }
+}
+  
+}

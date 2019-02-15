@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import SearchBar from './SearchBar'
-// import Icon from '../Icon'
 import SideMenu from './SideMenu'
+import logo from '../../../img/icon.png'
+import { logoutUser } from '../../redux/actions/act_authorize'
+import { clearProfile } from '../../redux/actions/act_profile'
 
 class Navbar extends Component {
     constructor(props) {
@@ -14,8 +15,6 @@ class Navbar extends Component {
     }
 
     openMenu = (e) => {
-        // if (e.target.className === "title" && this.state.showMenu === false) 
-        // return
         const { showMenu } = this.state;
         setTimeout(() => {
             if (this.props.toMute) // mute a parent component 
@@ -40,25 +39,13 @@ class Navbar extends Component {
         container.children[0].classList.toggle("fadeOut")
         container.children[1].classList.toggle("fadeInRight")
         container.children[1].classList.toggle("fadeOutRight")
-       
-        if (showMenu) this.animate(0);
+        if (!showMenu) this.animate(0);
         let time = showMenu ? 400 : 0;
         setTimeout(function () {
             container.classList.toggle("hide");
         }, time)
     }
-    // animate = (a) => {
-    //     const image = document.querySelector(".sideMenu-img");
-    //     for (let i = 1; i <= 5; i++) {
-    //         setTimeout(function (a) {
-    //             image.classList.add("colibri" + i);
-    //             1 === i && (image.style.marginTop = "-4.3rem");
-    //             image.classList.remove("colibri" + (i - 1));
-    //             5 === i && (image.style.marginTop = "-4rem")
-    //         }, a += 100)
-    //     }
-    //     image.style.marginTop = "-3.8rem";
-    // }
+
     animate = (a) => {
         for (let i = 1; i <= 5; i++) {
             setTimeout((a) => {
@@ -74,15 +61,13 @@ class Navbar extends Component {
     btnHandler = (btn) => {
         switch (btn) {
             case "logout":
-                this.props.logoutUser();
-                this.props.clearProfile();
-                this.props.clearPOSTS();
+                logoutUser();
+                clearProfile();
                 break;
 
             default:
                 break;
         }
-        // console.log(btn);
     }
 
     render() {
@@ -101,11 +86,11 @@ class Navbar extends Component {
         return (
             <nav className="myNav-bar" >
                 <div className="myNav-container">
-                    {/* <Link to="/camera">
-                        <Icon icon="camera" size="3rem" />
-                    </Link> */}
-                    <SearchBar action={this.openMenu} placeholder="Search by..." />
-                    {/* <Icon icon="menu" size="2.7rem" action={this.openMenu} /> */}
+                    <div className="title" onClick={this.openMenu.bind(this)}>
+                        <img className="title" src={logo} alt="logo" />
+                        <span> Eyedntify</span>
+                    </div>
+             
                 </div>
                 {this.state.showMenu &&
                     <SideMenu buttons={btns} btnHandler={this.btnHandler} animation={animation}

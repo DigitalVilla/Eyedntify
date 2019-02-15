@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import store from '../store';
 import {
   GET_PROFILE,
   PROFILE_LOADING,
@@ -48,10 +48,10 @@ export const setProfileLoading = () => {
 
 // Clear profile
 export const clearProfile = () => {
-  return {
+  store.dispatch({
     type: CLEAR_PROFILE,
     payload: {}
-  };
+  })
 };
 
 // eslint-disable-next-line

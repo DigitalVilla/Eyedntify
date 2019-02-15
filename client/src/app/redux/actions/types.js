@@ -1,20 +1,19 @@
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const GET_ERRORS = 'GET_ERRORS';
 
-export const GET_USER = 'GET_USER';
+
+export const GET_USERS = 'GET_USERS';
 export const GET_THIS_USER = 'GET_THIS_USER';
-export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
 
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const UPLOAD_POST = 'UPLOAD_POST';
 export const LIKE_IMAGE = 'LIKE_IMAGE';
 
 
-
-
-// export const SET_CURRENT_USER = 'SET_CURRENT_USER';
-
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const VALID_REGISTRATION = 'VALID_REGISTRATION';
+
 
 export const SET_PROFILE = 'SET_PROFILE';
 export const GET_PROFILE = 'GET_PROFILE';

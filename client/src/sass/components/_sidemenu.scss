@@ -3,96 +3,98 @@
     background: linear-gradient(to bottom, $color2, $color1);
     box-shadow: -2rem 0 6rem rgba(41, 43, 44, 0.6);
     min-height: 100vh;
-    width: 65vw;
-    max-width: 30rem;
+    width: 50vw;
+    max-width: 22rem;
     right: 0;
-    top: 0
-}
+    top: 0;
 
-.sideMenu-list {
-    height: 100%;
-    list-style: none;
-    padding-top: 1rem;
-    height: 45vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
 
-    & a {
-        text-decoration: none;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        color: inherit;
-       
+    &__list {
+        height: 100%;
+        list-style: none;
+        padding-top: 1rem;
+        height: 45vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        & a {
+            text-decoration: none;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            color: inherit;
+
+        }
+
     }
 
-}
+    &__item {
+        z-index: 2000;
+        padding: 1.5rem 2rem 1.5rem  0;
+        width: 90%;
+        text-align: right;
+        color: darken($color1, 10%);
+        transition: all .2s;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+        border-left: 6px solid transparent;
+        color: #fff;
+        font-size: 2rem;
+        text-transform: capitalize;
 
-.sideMenu-item {
-    z-index: 2000;
-    padding: 1.5rem 0;
-    width: 90%;
-    text-align: right;
-    color: darken($color1, 10%);
-    transition: all .2s;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-    border-left: 6px solid transparent;
-    color: #fff;
-    font-size: 2rem;
-    text-transform: capitalize;
+        & svg {
+            fill: #fff;
+            margin: 0 2rem 0 33%;
+        }
 
-    & svg {
-        fill: #fff;
-        margin: 0 2rem 0 33%;
+        @media only screen and (max-width: $bp-450) {
+            font-size: 1.5rem;
+        }
+
+        &.active {
+
+            background: rgba($color3, .6);
+            font-weight: 700;
+            border-left: 6px solid rgba(255, 255, 255, .8);
+            box-shadow: 0 0.5rem 0.5rem rgba(41, 43, 44, 0.2);
+            width: 100%;
+
+            & svg {
+                margin-left: 29%;
+
+            }
+        }
     }
 
-    @media only screen and (max-width: $bp-450) {
-        font-size: 1.5rem;
+    .sideMenu__bird {
+        position: absolute;
+        top: 55%;
+        z-index: 0;
+        margin-left: -6rem;
+        margin-top: 2rem;
+        left: 0;
+        transition: margin .35s;
+        animation: fadeInRight .6s
     }
 }
 
-.sideMenu-img {
-    position: absolute;
-    top: 47%;
-    z-index: 0;
-    margin-left: -6rem;
-    margin-top: -4rem;
-    left: 0;
-    transition: margin .35s;
-    animation: fadeInRight .6s
-}
-
-.menu-bg {
+.sideMenu__bg {
     background: rgba(0, 0, 0, 0.2);
     width: 100%;
     min-height: 100vh;
-    opacity: 0;
-    z-index: 200;
+    // opacity: 0;
+    z-index: 180;
 }
 
-.menu-bg::after {
+.sideMenu__bg::after {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
     width: 35vw
-}
-
-.active {
-
-    background: rgba($color3, .6);
-    font-weight: 700;
-    border-left: 6px solid rgba(255, 255, 255, .8);
-    box-shadow: 0 0.5rem 0.5rem rgba(41, 43, 44, 0.2);
-    width: 100%;
-    & svg {
-        margin-left: 29%;
-
-    }
 }

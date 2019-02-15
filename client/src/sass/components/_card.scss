@@ -33,9 +33,9 @@
 
 
 .EyeCard {
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     height: 67rem;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.212);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
     transition: all .3s;
 
     & figure {
@@ -82,11 +82,14 @@
         background: rgb(245, 245, 245);
         transition: all .3s;
 
+
         & div {
             display: flex;
             align-items: center;
             font-size: 2rem;
             letter-spacing: 1px;
+            font-weight: 700;
+            text-transform: capitalize;
         }
 
         // logo

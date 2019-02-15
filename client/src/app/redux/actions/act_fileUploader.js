@@ -49,7 +49,7 @@ export const uploadImage = (file, type, protocol = 'TCP') => dispatch => {
     dispatch(errorSetup("Invalid Image"))
 };
 
-
+//upload image to local browser
 export const renderLocal = (image, next) => {
   if (image.type.indexOf('image') === 0) {
     const reader = new FileReader();

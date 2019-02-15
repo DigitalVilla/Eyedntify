@@ -24,7 +24,7 @@ const icons = {
     exit: "M768 640v-128h-320v-128h320v-128l192 192zM704 576v256h-320v192l-384-192v-832h704v320h-64v-256h-512l256 128v576h256v-192z"
 }
 
-const size = "20px"; 
+const size = "30px"; 
 
 const Icon = (props) => {
     return (
@@ -33,8 +33,8 @@ const Icon = (props) => {
             style={props.style || null}
             onClick={props.action || null}>
             <svg 
-                width={props.size || size}
-                height={props.size || size}
+                width={size}
+                height={size}
                 viewBox="0 0 1024 1024">
                 <path d={icons[props.icon]}></path>
             </svg>

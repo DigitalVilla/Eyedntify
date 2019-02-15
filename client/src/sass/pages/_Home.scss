@@ -6,13 +6,12 @@
 .plusBtn{
   background: linear-gradient(to right, #579ca5, $color2) !important;
   border-radius: 50%;
-  height: 6rem !important;
-  width: 6rem !important;
-  transition: all .2s;
-  opacity: .8;
+  height: 5rem !important;
+  width: 5rem !important;
+  transition: all .1s;
   & svg{
-      width: 5.5rem;
-      height: 5.5rem;
+      width: 5rem;
+      height: 5rem;
       fill: #fff;
       padding: 1rem;
       padding-left: .3rem;
