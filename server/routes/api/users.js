@@ -131,6 +131,7 @@ router.get('/current', passport.authenticate('jwt', { session: false }),
 // @access  Private
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   User.find().select('username avatar')
+  .sort({username:1})
   .then(users => {
     if (!users) return res.status(404).json({error: 'User not found'});
     res.json(users);

@@ -54,11 +54,11 @@
     }
 
     & .isInvalid {
-      border-bottom: 2px solid $color-danger;
+      border-bottom: 2px solid $colorDanger;
     }
 
     & .errMsg {
-      color: $color-danger;
+      color: $colorDanger;
       line-height: 1.4;
       letter-spacing: 1px;
       margin-bottom: -1rem;

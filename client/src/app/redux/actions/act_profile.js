@@ -12,7 +12,7 @@ import {
 // Get current profile
 export const updateProfile = (profile, protocol = "TCP") => dispatch => {
   // dispatch(setProfileLoading());
-  axios.post('/api/profile', profile)
+  axios.post('/api/profile/', profile)
     .then(res => {
       if (protocol === 'TCP') // fetch data and update store 
         return dispatch({

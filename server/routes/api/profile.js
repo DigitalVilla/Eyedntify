@@ -92,6 +92,7 @@ router.get('/email/:email', passport.authenticate('jwt', { session: false }), (r
     );
 });
 
+
 // @route   POST api/profile
 // @desc    Create or edit user profile
 // @access  Private
@@ -104,7 +105,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
      profileFields.handler = req.user.username;
     if (req.body.intro) profileFields.intro = req.body.intro;
     
-    // Skills - Spilt into array
     if (typeof req.body.following !== 'undefined') 
       profileFields.following = req.body.following;
 

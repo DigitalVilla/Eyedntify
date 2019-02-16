@@ -1,27 +1,23 @@
 .searchBar {
-  flex: 0 0 60%;
+  // flex: 0 0 60%;
   display: flex;
   align-items: center;
   // justify-content: center;
-  margin-left: 1rem;
-  // ---
+  // margin-left: 1rem;
 
   &__input {
     box-shadow: 0 0.2rem 0.3rem rgba(41, 43, 44, 0.1);
-
     font-family: inherit;
     font-size: inherit;
     color: #818181;
     background-color: #efefef;
     border: none;
     border-radius: 5px;
-    padding: .7rem 3rem;
-    width: 80%;
+    padding: 1.2rem 2rem;
+    width: 15rem;
     transition: all .2s;
     margin-right: -3.25rem;
-    height: 4rem;
-    // opacity: .85;
-    border: 1px solid rgb(219, 219, 219);
+    border: 1px solid rgb(197, 197, 197);
 
 
     @media only screen and (max-width: $bp-450) {
@@ -30,12 +26,13 @@
 
     &:focus {
       box-shadow: 0 0.5rem 1rem rgba(41, 43, 44, 0.2);
+    
       background-color: #f0f0f0;
       outline: none;
-      width: 100%;
+      width: 60%;
       opacity: 1;
 
-      &+.searchBar__icon {
+      & + .searchBar__icon {
         fill: #009646;
         cursor: pointer
       }
@@ -47,7 +44,7 @@
     svg {
       height: 3rem !important;
       width: 3rem !important;
-      fill: #b4b4b4;
+      fill: #c5c5c5;
     }
 
     padding: 0;

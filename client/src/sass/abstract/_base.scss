@@ -2,7 +2,7 @@ $color1 : #579ca5;
 $color2 : #41bd9c;
 $color3 : #57a5a2;
 
-$color-danger : #ff004c;
+$colorDanger : #ff004c;
 
 $bp-1200: 75em;
 $bp-1000: 62.5em;
@@ -75,16 +75,25 @@ body {
 
 
 ::selection {
-    // background: transparent;
+    background: rgba($color2, .3);
     // color: #ff005e
 }
 
 ::-moz-selection {
-    // background: transparent;
-    // color: #ff005e
+    background: rgba($color2, .3);
+    color: #ff005e
 }
 
 input#uploader {
     display: none;
 }
 
+.noSelect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+  }

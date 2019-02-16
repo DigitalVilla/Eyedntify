@@ -65,10 +65,9 @@
     }
 
     @media only screen and (max-width: $bp-450) {
-        height: 65rem;
-
+        height: 56rem;
         & figure {
-            height: 48rem;
+            height: 40rem;
         }
     }
 
@@ -139,7 +138,7 @@
         & svg {
             fill: #555;
             height: 3rem !important;
-            width: 3rem !important; 
+            width: 3rem !important;
 
             &.liked {
                 fill: rgb(243, 43, 70);

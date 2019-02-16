@@ -1,35 +1,99 @@
 .finder {
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
+  border: 1px solid transparent;
 
-  .searchBar {
-    width: 30rem;
-    position: fixed;
-    top:  6rem;
+
+  .search__container {
+    padding: 1rem;
   }
 
-.userList {
-  list-style: none;
-  margin-top: 12rem;
-  & li {
-    border: 1px solid #00f;
-    display: flex;
-    height: 10rem;
-    justify-content: space-around;
-    align-items: center;
-    margin: 1rem;
-    background: #eee;
-    img {
-      width: 8rem;
-      border-radius: 10px;
-    }
-    & span {
-      font-size: 2rem;
-      text-transform:capitalize;
-      font-weight: 700;
 
+  .userList {
+    list-style: none;
+
+    &__card {
+      border-radius: 5px;
+      display: flex;
+      height: 10rem;
+      justify-content: space-around;
+      align-items: center;
+      margin: 1rem;
+      background: #eee;
+      box-shadow: 0 0.3rem .5rem rgba(41, 43, 44, 0.2);
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 8rem;
+        border-radius: 5px;
+      }
+
+      & span {
+        font-size: 2rem;
+        text-transform: capitalize;
+        font-weight: 700;
+        width: 25%;
+      }
+
+      & div {
+        width: 10%;
+
+      }
+
+      &--icon {
+        width: 5rem;
+
+        & svg {
+          width: 4rem;
+          height: 3rem;
+          fill: $color3;
+          transition: all .3s;
+        }
+        &:active {
+
+          transform: scale(1)
+        }
+      }
+    }
+
+  }
+
+
+
+  @media only screen and (max-width: $bp-450) {
+    .search__container {
+      padding: .5rem;
+    }
+
+
+    .userList {
+      &__card {
+        height: 7rem;
+        margin: 0 auto 1rem auto;
+
+        img {
+          width: 6rem;
+        }
+
+        & span {
+          font-size: 1.6rem;
+        }
+
+        &--icon {
+          & svg {
+            width: 3rem;
+            height: 2rem;
+          }
+        }
+      }
     }
   }
 }
-  
+
+.unfollowIcon {
+  svg {
+    fill: rgb(199, 199, 199) !important;
+    transform: scale(.8)
+  }
 }

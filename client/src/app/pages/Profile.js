@@ -7,7 +7,7 @@ import { uploadImage, renderURL, renderLocal } from '../redux/actions/act_fileUp
 import EyeBtn from '../components/EyeBtn'
 import classnames from 'classnames';
 import { validateToken } from '../redux/actions/act_authorize';
-import avatar from '../../img/holder_A.png';
+import avatar from '../../img/avatar.png';
 import banner from '../../img/holder_B.png';
 import Loading from './Loading'
 import Spinner from "../components/Spinner";
@@ -54,7 +54,7 @@ class Profile extends Component {
       this.props.updateProfile({ intro })
       setTimeout(() => {
         this.setState({ edit: !edit })
-      }, 800);
+      }, 500);
     }
   }
 

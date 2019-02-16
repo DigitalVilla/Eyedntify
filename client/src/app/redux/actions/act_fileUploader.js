@@ -112,7 +112,7 @@ export const compress = (image, { width = 200, height = null}, next) => {
             type
           });
           next(file);
-        }, 'image/jpeg', 0.7);
+        }, 'image/jpeg', 0.8);
 
       },
       reader.onerror = error => console.log(error);

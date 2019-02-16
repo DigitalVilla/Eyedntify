@@ -9,13 +9,12 @@ export default function(state = initialState, action) {
     return {
       ...state,
       profile: action.payload,
-      loading: false
     };
 
     case SET_PROFILE:
       return {
         ...state,
-        loading: true
+        profile: action.payload
       };
    
       case CLEAR_PROFILE:
@@ -24,7 +23,6 @@ export default function(state = initialState, action) {
       case PROFILE_LOADING:
       return {
         ...state,
-        loading: true
       };
       
       case GET_THIS_PROFILE:

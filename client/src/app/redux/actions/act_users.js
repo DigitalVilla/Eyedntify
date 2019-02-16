@@ -18,14 +18,14 @@ export const fetchUser = ({local}) => dispatch => {
 
 
 export const getUsers = ( ) => dispatch => {
-  axios.get(`http://localhost:5000/api/users/`)
+  axios.get(`/api/users/`)
     .then(res => {
       return dispatch({
         type: GET_USERS,
         payload: res.data
       })
     })
-    .catch(err => dispatch(errorSetup(err.response.data)));
+    .catch(err => dispatch(errorSetup(err.response ? err.response.data : err)));
 };
 
 const errorSetup = (error) => ({

@@ -26,7 +26,7 @@ class Card extends Component {
   }
 
   faveHandler = () => {
-      this.setState({favorite: !this.state.favorite})
+      this.setState(prevState => ({favorite: !prevState.favorite}))
       // dispatch({ type: 'LIKE_IMAGE', payload: body.id })
     }
 
@@ -51,7 +51,7 @@ render() {
   return (
     <div className="EyeCard">
       <CardHeader logo={renderURL('avatar', owner.avatar)} author={owner.username} />
-      <figure onClick={this.likeHandler} >
+      <figure className='noSelect' onClick={this.likeHandler} >
         <img src={renderURL('post',image)}  alt="Your pic!" />
           <Icon
             className={classnames({ "hide": !liked })}
