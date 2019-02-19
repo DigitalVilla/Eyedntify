@@ -1,5 +1,4 @@
 import { GET_THIS_USER, GET_ERRORS, GET_USERS } from './types';
-import store from '../store';
 import axios from 'axios';
 
 
