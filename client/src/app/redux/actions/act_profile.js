@@ -8,28 +8,29 @@ import {
   SET_PROFILE,
   GET_THIS_PROFILE
 } from './types';
+import { PROXY } from '../utils/setAxios';
 
 // Get current profile
 export const updateProfile = (profile, protocol = "TCP") => dispatch => {
   // dispatch(setProfileLoading());
-  axios.post('/api/profile/', profile)
+  axios.post(`/api/profile/`, profile)
     .then(res => {
-      if (protocol === 'TCP') // fetch data and update store 
+      if (protocol === 'TCP') // fetch data and update store
         return dispatch({
           type: SET_PROFILE,
           payload: res.data
         })
     })
     .catch(err => protocol === 'TCP' ? dispatch(errorSetup(err)) : '')
-  };
+};
 
 // Get current profile
-export const getProfile = ({username = '', local = false}) => dispatch => {
+export const getProfile = (username = '', local = false) => dispatch => {
   // dispatch(setProfileLoading());
   if (local)
-  return dispatch({  type: GET_THIS_PROFILE  })
+    return dispatch({ type: GET_THIS_PROFILE })
 
-  axios.get('/api/profile/' + username)
+  axios.get(`/api/profile/` + username)
     .then(res =>
       dispatch({
         type: GET_PROFILE,

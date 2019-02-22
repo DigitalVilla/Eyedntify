@@ -17,83 +17,90 @@ $navbar: 5rem;
 *,
 *::after,
 *::before {
-    padding: 0;
-    margin: 0;
-    box-sizing: inherit;
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
 }
 
 html {
-    box-sizing: border-box;
-    font-size: 62.5%;
-    color: #333;
-    overflow-x: hidden;
+  box-sizing: border-box;
+  font-size: 62.5%;
+  color: #333;
+  overflow-x: hidden;
 }
 
 
-input:active ,
+input:active,
 input:focus,
-button:active ,
-button:focus, {
-    outline: none !important;
+button:active,
+button:focus,
+  {
+  outline: none !important;
 }
 
-::-moz-focus-inner { 
-    border: 0; 
-  }
-  
+::-moz-focus-inner {
+  border: 0;
+}
+
 
 
 body {
-    font-family: "Lato", sans-serif;
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1.7;
-    background: #e7e7e7;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  font-family: "Lato", sans-serif;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.7;
+  background: #e7e7e7;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 
 .frameIt {
-    border: 1px solid #ff9a9a !important
+  border: 1px solid #ff9a9a !important
 }
 
 #myLine {
-    width: 90%;
-    margin: 2rem auto;
-    border: 1px solid #ccc !important
+  width: 90%;
+  margin: 2rem auto;
+  border: 1px solid #ccc !important
 }
 
 .container {
-    max-width: 900px;
-    margin: auto;
-    position: relative;
-    margin-top: 5rem;
-    transition: all .3s;
-    animation: showIn .5s;
+  max-width: 900px;
+  margin: auto;
+  position: relative;
+  margin-top: 5rem;
+  transition: all .3s;
+  animation: showIn .5s;
 }
 
 
 ::selection {
-    background: rgba($color2, .3);
-    // color: #ff005e
+  background: rgba($color2, .3);
+  // color: #ff005e
 }
 
 ::-moz-selection {
-    background: rgba($color2, .3);
-    color: #ff005e
+  background: rgba($color2, .3);
+  color: #ff005e
 }
 
 input#uploader {
-    display: none;
+  display: none;
 }
 
 .noSelect {
-    -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-       -khtml-user-select: none; /* Konqueror HTML */
-         -moz-user-select: none; /* Firefox */
-          -ms-user-select: none; /* Internet Explorer/Edge */
-              user-select: none; /* Non-prefixed version, currently
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
                                     supported by Chrome and Opera */
-  }
+}

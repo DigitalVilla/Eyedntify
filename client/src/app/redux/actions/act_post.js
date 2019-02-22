@@ -1,14 +1,14 @@
-import { GET_ALL_POSTS, UPLOAD_POST, GET_ERRORS} from '../actions/types';
+import { GET_ALL_POSTS, UPLOAD_POST, GET_ERRORS } from '../actions/types';
 import axios from 'axios';
-import {  resetJSON } from '../utils/setAxios';
-import {isEmpty} from '../utils/utils'
-import {compress} from './act_fileUploader';
+import { resetJSON, PROXY } from '../utils/setAxios';
+import { isEmpty } from '../utils/utils'
+import { compress } from './act_fileUploader';
 
 export const clearPOSTS = () => dispatch => {
 
 }
 
-export const getAllPosts = ({ local}) => dispatch => {
+export const getAllPosts = () => dispatch => {
   axios.get(`/api/posts/`)
     .then(res => {
       return dispatch({
@@ -19,16 +19,16 @@ export const getAllPosts = ({ local}) => dispatch => {
     .catch(err => dispatch(errorSetup(err.response.data)));
 }
 
-export const uploadPost = ({caption, image},next) => dispatch => {
-  compress(image, {width:800}, (resized) => {
+export const uploadPost = ({ caption, image }, next) => dispatch => {
+  compress(image, { width: 800 }, (resized) => {
     const file = new FormData();
-    file.append('file', resized,)
-    file.append('caption', caption )
-    resetJSON(); 
-    axios.post("/api/files/newpost", file)
-      .then(err =>  dispatch(getAllPosts({})))
+    file.append('file', resized)
+    file.append('caption', caption)
+    resetJSON();
+    axios.post(`/api/files/newpost`, file)
+      .then(err => dispatch(getAllPosts({})))
       // .catch(err =>  console.log((err)))
-      .catch(err =>  dispatch(errorSetup(err)))
+      .catch(err => dispatch(errorSetup(err)))
   })
 }
 
@@ -44,5 +44,5 @@ export const validPost = (post) => {
     errors.caption = `Please enter a caption`
   if (!post.image)
     errors.image = `Please upload an image`
-    return (!isEmpty(errors)) ? errors : true;
+  return (!isEmpty(errors)) ? errors : true;
 }

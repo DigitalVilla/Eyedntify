@@ -133,8 +133,8 @@ router.get('/banner/:filename', (req, res) => {
 router.post('/avatar', upload_A.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
   gfs_A.files.findOne({ filename: req.user.avatar }, (err, file) => {
     if (file !== null)
-      gfs_A.remove({ _id: file['_id'], root: DB_A }, (err, gridStore) => console.log(err?err:''));
-      
+      gfs_A.remove({ _id: file['_id'], root: DB_A }, (err, gridStore) => console.log(err ? err : ''));
+
     User.findOneAndUpdate({ username: req.user.username }, { $set: { avatar: req.file.filename } }, { new: true })
       .then((user) => res.json(user.avatar))
       .catch(err => res.status(400).json(parse(err.errmsg)))
@@ -146,11 +146,11 @@ router.post('/avatar', upload_A.single('file'), passport.authenticate('jwt', { s
 router.post('/banner', upload_B.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
   gfs_B.files.findOne({ filename: req.user.banner }, (err, file) => {
     if (file !== null)
-      gfs_B.remove({ _id: file['_id'], root: DB_B }, (err, gridStore) => console.log(err?err:''));
+      gfs_B.remove({ _id: file['_id'], root: DB_B }, (err, gridStore) => console.log(err ? err : ''));
 
-  User.findOneAndUpdate({ username: req.user.username }, { $set: { banner: req.file.filename } }, { new: true })
-    .then((user) => res.json(user.banner))
-    .catch(err => res.status(400).json(parse(err.errmsg)))
+    User.findOneAndUpdate({ username: req.user.username }, { $set: { banner: req.file.filename } }, { new: true })
+      .then((user) => res.json(user.banner))
+      .catch(err => res.status(400).json(parse(err.errmsg)))
   });
 });
 
@@ -161,19 +161,19 @@ router.post('/banner', upload_B.single('file'), passport.authenticate('jwt', { s
 // });
 
 
-// exception to create and delete 
+// exception to create and delete
 // @route   POST api/files
 // @desc    Create post
 // @access  Private
-router.post('/newPost',upload_P.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
-    const newPost = new Post({
-      owner: req.user.id,
-      caption: req.body.caption,
-      image: req.file.filename
-    });
+router.post('/newPost', upload_P.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
+  const newPost = new Post({
+    owner: req.user.id,
+    caption: req.body.caption,
+    image: req.file.filename
+  });
 
-    newPost.save()
-    .then(post => res.json({ok:true}))
+  newPost.save()
+    .then(post => res.json({ ok: true }))
     .catch(err => res.status(400).json(parse(err.errmsg)))
 });
 
@@ -191,7 +191,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, re
   });
 
   newPost.save()
-  .then(post => res.json(post));
+    .then(post => res.json(post));
 }
 );
 

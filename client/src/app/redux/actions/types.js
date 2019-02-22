@@ -26,3 +26,7 @@ export const GET_THIS_PROFILE = 'GET_THIS_PROFILE';
 export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 export const IMAGE_LOADING = 'IMAGE_LOADING';
 
+export const IS_LOADING = 'IS_LOADING';
+export const HAS_LOADED = 'HAS_LOADED';
+export const START_SPINNING = 'START_SPINNING';
+export const DONE_SPINNING = 'DONE_SPINNING';

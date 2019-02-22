@@ -17,22 +17,22 @@ router.get('/test', (req, res) => res.json({ msg: 'Profile Works' }));
 // @desc    Get current users profile
 // @access  Private
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const errors = {};
-    Profile.findOne({ user: req.user.id })
+  const errors = {};
+  Profile.findOne({ user: req.user.id })
     // .populate('posts', ['username', 'avatar'])
     // .populate('favorite', ['username', 'avatar'])
     // .populate('followers', ['username', 'avatar'])
     // .populate('following', ['username', 'avatar'])
-    .populate('user', ['username', 'avatar','banner'])
-      .then(profile => {
-        if (!profile) {
-          errors.noprofile = 'There is no profile for this user';
-          return res.status(404).json(errors);
-        }
-        res.json(profile);
-      })
-      .catch(err => res.status(404).json(err));
-  }
+    .populate('user', ['username', 'avatar', 'banner'])
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = 'There is no profile for this user';
+        return res.status(404).json(errors);
+      }
+      res.json(profile);
+    })
+    .catch(err => res.status(404).json(err));
+}
 );
 
 // @route   GET api/profile/all
@@ -42,7 +42,7 @@ router.get('/all', passport.authenticate('jwt', { session: false }), (req, res) 
   const errors = {};
 
   Profile.find()
-    .populate('user', ['username', 'avatar','banner'])
+    .populate('user', ['username', 'avatar', 'banner'])
     .then(profiles => {
       if (!profiles) {
         errors.noprofile = 'There are no profiles';
@@ -69,7 +69,7 @@ router.get('/:username', passport.authenticate('jwt', { session: false }), (req,
     .then(profile => {
       console.log(profile);
       if (profile) return res.json(profile);
-       return res.status(404).json({profile : 'There is no profile for this user'});
+      return res.status(404).json({ profile: 'There is no profile for this user' });
     })
     .catch(err =>
       res.status(404).json({ profile: 'There is no profile for this user' })
@@ -82,10 +82,10 @@ router.get('/:username', passport.authenticate('jwt', { session: false }), (req,
 router.get('/email/:email', passport.authenticate('jwt', { session: false }), (req, res) => {
   const errors = {};
   Profile.findOne({ email: req.params.email })
-    .populate('user', ['username', 'avatar','banner'])
+    .populate('user', ['username', 'avatar', 'banner'])
     .then(profile => {
       if (profile) return res.json(profile);
-        return res.status(404).json({profile : 'There is no profile for this user'});
+      return res.status(404).json({ profile: 'There is no profile for this user' });
     })
     .catch(err =>
       res.status(404).json({ profile: 'There is no profile for this user' })
@@ -97,42 +97,43 @@ router.get('/email/:email', passport.authenticate('jwt', { session: false }), (r
 // @desc    Create or edit user profile
 // @access  Private
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { errors, isValid } = validateProfileInput(req.body);
-    if (!isValid) return res.status(400).json(errors);
+  const { errors, isValid } = validateProfileInput(req.body);
+  if (!isValid) return res.status(400).json(errors);
 
-     const profileFields = {};
-     profileFields.user = req.user.id;
-     profileFields.handler = req.user.username;
-    if (req.body.intro) profileFields.intro = req.body.intro;
-    
-    if (typeof req.body.following !== 'undefined') 
-      profileFields.following = req.body.following;
+  const profileFields = {};
+  profileFields.user = req.user.id;
+  profileFields.handler = req.user.username;
+  if (req.body.intro) profileFields.intro = req.body.intro;
 
-    if (typeof req.body.followers !== 'undefined') 
-      profileFields.followers = req.body.followers;
+  if (typeof req.body.following !== 'undefined')
+    profileFields.following = req.body.following;
 
-    if (typeof req.body.favorite !== 'undefined') 
-      profileFields.favorite = req.body.favorite;
+  if (typeof req.body.followers !== 'undefined')
+    profileFields.followers = req.body.followers;
 
-    if (typeof req.body.posts !== 'undefined') 
-      profileFields.posts = req.body.posts;
+  if (typeof req.body.favorite !== 'undefined')
+    profileFields.favorite = req.body.favorite;
 
-    Profile.findOne({ user: req.user.id })
-     
+  if (typeof req.body.posts !== 'undefined')
+    profileFields.posts = req.body.posts;
+
+  Profile.findOne({ user: req.user.id })
+
     .then(profile => {
       if (profile) {
         Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true })
+          .populate('user', ['username', 'avatar', 'banner'])
           .then(profile => res.json(profile));
       } else {  // Create
-        Profile.findOne({ user: req.user.id})
-        .then(profile => {
-          if (profile) {
-            errors.handle = 'That Profile already exists';
-            res.status(400).json(errors);
-          }
-          // Save Profile
-          new Profile(profileFields).save().then(profile => res.json({ok:true}));
-        });
+        Profile.findOne({ user: req.user.id })
+          .then(profile => {
+            if (profile) {
+              errors.handle = 'That Profile already exists';
+              res.status(400).json(errors);
+            }
+            // Save Profile
+            new Profile(profileFields).save().then(profile => res.json({ ok: true }));
+          });
       }
     });
 });

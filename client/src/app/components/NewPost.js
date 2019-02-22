@@ -31,10 +31,11 @@ class NewPost extends Component {
     const image = e.target.files[0];
     if (image && image.type.indexOf('image') === 0) {
       renderLocal(image, (url) => {
-        this.setState({postImg: url, postFile: image })
+        this.setState({ postImg: url, postFile: image })
       })
       this.props.setImage(image)
     }
+    this.props.setImage(false)
   }
 
 
@@ -65,7 +66,7 @@ class NewPost extends Component {
               }
 
             </figure>
-            <textarea  onChange={this.props.onChange} value={this.props.text} placeholder="Write a caption in 144 characters or less!"
+            <textarea onChange={this.props.onChange} value={this.props.text} placeholder="Write a caption in 144 characters or less!"
               className="textArea" maxLength="144" >
             </textarea>
           </form>

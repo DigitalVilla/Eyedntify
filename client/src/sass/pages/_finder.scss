@@ -2,56 +2,69 @@
   min-height: 100vh;
   position: relative;
   border: 1px solid transparent;
-
-
-  .search__container {
-    padding: 1rem;
-  }
-
+  height: 110vh;
+  margin-top: 5rem;
+  padding: 0 4rem;
 
   .userList {
     list-style: none;
 
+    &__bg {
+      margin-top: 1rem;
+      border-radius: 5px;
+      height: 12rem;
+      background: linear-gradient(to top right, $color1, $color2);
+      display: flex;
+      align-items: center;
+      padding: 2px;
+    }
+
     &__card {
       border-radius: 5px;
-      display: flex;
-      height: 10rem;
-      justify-content: space-around;
-      align-items: center;
-      margin: 1rem;
+      height: 100%;
+      width: 100%;
       background: #eee;
       box-shadow: 0 0.3rem .5rem rgba(41, 43, 44, 0.2);
       display: flex;
       align-items: center;
+      overflow: hidden;
+
+      figure {
+        width: 40%;
+        height: 100%;
+        border-radius: 2px;
+        overflow: hidden;
+      }
 
       img {
-        width: 8rem;
-        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
       }
 
       & span {
         font-size: 2rem;
         text-transform: capitalize;
         font-weight: 700;
-        width: 25%;
+        text-align: center;
+        width: 40%;
       }
 
       & div {
-        width: 10%;
+        width: 20%;
 
       }
 
       &--icon {
-        width: 5rem;
-
         & svg {
-          width: 4rem;
-          height: 3rem;
+          width: 5rem;
+          height: 4rem;
           fill: $color3;
           transition: all .3s;
         }
-        &:active {
 
+        &:active {
           transform: scale(1)
         }
       }
@@ -62,19 +75,15 @@
 
 
   @media only screen and (max-width: $bp-450) {
-    .search__container {
-      padding: .5rem;
-    }
-
+    padding: 0 2rem;
 
     .userList {
-      &__card {
-        height: 7rem;
-        margin: 0 auto 1rem auto;
 
-        img {
-          width: 6rem;
-        }
+      &__bg {
+        height: 8rem;
+      }
+
+      &__card {
 
         & span {
           font-size: 1.6rem;
@@ -82,8 +91,8 @@
 
         &--icon {
           & svg {
-            width: 3rem;
-            height: 2rem;
+            width: 4rem;
+            height: 3rem;
           }
         }
       }

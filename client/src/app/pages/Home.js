@@ -3,14 +3,15 @@ import Card from '../components/card'
 import Navbar from '../components/navbar';
 import NewPost from '../components/NewPost';
 import EyeBtn from '../components/EyeBtn'
-import { validToken,validateToken } from '../redux/actions/act_authorize'
+import { validToken, validateToken } from '../redux/actions/act_authorize'
 import { validPost, uploadPost, getAllPosts } from '../redux/actions/act_post'
 import { getProfile } from '../redux/actions/act_profile'
 import { connect } from 'react-redux';
 import classnames from 'classnames'
-import Loading from './Loading'
+import Loading from '../components/Loading'
+import { isEmpty } from '../redux/utils/utils';
 
-// const serverURI = process.env.REACT_APP_SERVER 
+// const serverURI = process.env.REACT_APP_SERVER
 // const io = require('socket.io-client')
 class Home extends Component {
   state = {
@@ -25,14 +26,16 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.posts && nextProps.posts.posts && nextProps.profile && nextProps.profile.profile){
+    if (nextProps.posts.posts.length > 0 && nextProps.profile && nextProps.profile.profile) {
       setTimeout(() => {
-        this.setState({posts: nextProps.posts.posts, loading: false,
-          user: { ...this.state.user,
+        this.setState({
+          posts: nextProps.posts.posts, loading: false,
+          user: {
+            ...this.state.user,
             favorite: nextProps.profile.profile.favorite,
-            username:nextProps.profile.profile.user.username,
-            avatar:nextProps.profile.profile.user.avatar,
-            id:nextProps.profile.profile.user._id,
+            username: nextProps.profile.profile.user.username,
+            avatar: nextProps.profile.profile.user.avatar,
+            id: nextProps.profile.profile.user._id,
           }
         });
       }, 500);
@@ -44,7 +47,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.validateToken();
-    this.setState({ isValid:  validToken() });
+    this.setState({ isValid: validToken() });
     this.props.getProfile({});
     this.props.getAllPosts({ local: false });
     // validateToken()
@@ -68,12 +71,12 @@ class Home extends Component {
     if (!toPost)
       return this.setState({ toPost: true, disable: false })
     if (toPost) { //upload
-      const errors = validPost(newPost);
-      if (typeof errors === 'boolean') {
+      // const errors = isEmpty(newPost);
+      if (!isEmpty(newPost)) {
         this.props.uploadPost(newPost)
         this.props.getAllPosts({ local: false });
       }
-      this.setState({ toPost: false })
+      this.setState({ toPost: false, newPost: {} })
     }
   }
 
@@ -81,18 +84,24 @@ class Home extends Component {
   cancelPost = () => this.setState({ toPost: false, newPost: {} });
   disableBtn = () => this.setState({ disable: !this.state.disable });
   onChange = (e) => this.setState({ newPost: { ...this.state.newPost, caption: e.target.value } });
-  setImage = (image) => this.setState({ newPost: { ...this.state.newPost, image: image } });
+  setImage = (image) => {
+    if (image)
+      this.setState({ newPost: { ...this.state.newPost, image: image } });
+    else
+      this.setState({});
+  }
+
 
   render() {
-    const {isValid, loading, disable, posts, user, toPost } = this.state;
+    const { isValid, loading, disable, posts, user, toPost } = this.state;
 
     return (
       <React.Fragment>
         <Navbar toMute={this.disableBtn} />
-        <Loading loading={loading}/>
+        <Loading loading={loading} />
         {!loading &&
           <React.Fragment>
-            {!isValid && <h1 style={{marginTop:'10rem'}}>Your Session has expired</h1> }
+            {!isValid && <h1 style={{ marginTop: '10rem' }}>Your Session has expired</h1>}
             {toPost &&
               <NewPost avatar={user.avatar}
                 username={user.username}
@@ -103,7 +112,7 @@ class Home extends Component {
             <div className="container home">
               {
                 posts.map((c) => {
-                  return <Card key={c._id} body={c} user={user}/>
+                  return <Card key={c._id} body={c} user={user} />
                 })
               }
               <EyeBtn className={classnames({ "disable": disable })} icon="plane"
@@ -123,4 +132,4 @@ const mapStateToProps = state => ({
   posts: state.posts,
 });
 
-export default connect(mapStateToProps, {validateToken, getProfile, uploadPost, getAllPosts })(Home);
+export default connect(mapStateToProps, { validateToken, getProfile, uploadPost, getAllPosts })(Home);

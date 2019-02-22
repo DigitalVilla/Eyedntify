@@ -1,73 +1,86 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 
-let speed = 150;
-let pid1;
-let pid2;
 export default class spinning extends Component {
-  state = {
-    spinning: true,
-    still: 'myid0',
-    marginTop: "-3.8rem",
+  constructor(props) {
+    super(props)
+    this.speed = 200;
+    this.pid1 = '';
+    this.pid2 = '';
+
+    this.state = {
+      still: 'myid0',
+      spinning: false,
+      marginTop: "-3.8rem",
+    }
   }
 
   componentDidMount() {
-    this.spinning();
-    pid1 = setInterval(() => this.spinning(), speed * 6);
+    // this.spinning();
+    //  this.pid1 = setInterval(() => this.spinning(),  this.speed * 6);
   }
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.spinning){
-      this.unload()
-      clearInterval(pid1)
-      clearTimeout(pid2);
+
+    if (this.state.spinning && !nextProps.spinning) {
+      this.relaod(false)
+      clearInterval(this.pid1)
+      clearTimeout(this.pid1);
       setTimeout(() => {
-        this.setState({ spinning: 'none' })
-      }, 500);
-    } 
+        this.setState({ spinning: false })
+      }, 1000);
+    } else if (!this.state.spinning && nextProps.spinning) {
+      this.setState({ spinning: true })
+      this.spinning();
+      this.relaod(true)
+      this.pid1 = setInterval(() => this.spinning(), this.speed * 6);
+    }
   }
 
   componentWillUnmount() {
-    clearInterval(pid1)
-      clearTimeout(pid2);
+    clearInterval(this.pid1)
+    clearTimeout(this.pid1);
   }
 
   spinning = (showMenu) => {
     this.animate(0);
   }
 
-  unload = () => {
-    let container = document.getElementById("loadingScreen");
-    container.classList.toggle("fadeOut")
+  relaod = (laod) => {
+    let bird = document.getElementById("SpinnerBtn");
+    if (laod) {
+      bird.classList.remove("fadeOut")
+      bird.classList.add("fadeIn")
+    } else {
+      bird.classList.remove("fadeIn")
+      bird.classList.add("fadeOut")
+    }
   }
 
   animate = (a) => {
-    for (let i = 1; i <= 5; i++) {
-      pid2 = setTimeout(() => {
+    for (let i = 1; i < 5; i++) {
+      this.pid1 = setTimeout(() => {
 
         let still = 1 === 4 ? 'myColibri4c' : 'myColibri' + i;
         let marginTop = 1 === i ? '0'
-          : 3 === i ? '2rem'
-            : 5 === i ?  '1rem' :
+          : 3 === i ? '1rem'
+            : 5 === i ? '.5rem' :
               this.state.marginTop;
         this.setState({ still, marginTop })
-      }, a += speed);
+      }, a += this.speed);
     }
-    this.setState({ still: 'myColibri0', marginTop: '0'})
+    this.setState({ still: 'myColibri0', marginTop: '0' })
   }
-
-
 
   render() {
-    console.log("spinning ender");
+    console.log("spinning render");
     const { still, spinning, marginTop } = this.state;
-      return (
-        <div id='SpinnerBtn' style={{display: spinning?'block': 'none'}}>
-          <div id='SpinnerBird'
-            style={{ marginTop }}
-            className={classnames("myColibri0", { [still]: spinning })}>
-          </div>
+    return (
+      <div id='SpinnerBtn' className='fadeIn' style={{ display: spinning ? 'block' : 'none' }}>
+        <div id='SpinnerBird'
+          style={{ marginTop }}
+          className={classnames("myColibri0", { [still]: spinning })}>
         </div>
-      )
+      </div>
+    )
   }
 }
-

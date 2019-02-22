@@ -5,13 +5,10 @@ let pid1, pid2, speed = 150;
 
 export default class Loading extends Component {
 
-
-
   state = {
     loading: 'block',
     still: 'myid0',
-    opacity: "-3.8rem",
-    spinner: false
+    opacity: "-3.8rem"
   }
 
   componentDidMount() {
@@ -19,19 +16,19 @@ export default class Loading extends Component {
     pid1 = setInterval(() => this.loading(), speed * 9);
   }
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.loading){
-      this.unload()
+    if (!nextProps.loading) {
       clearInterval(pid1)
       clearTimeout(pid2);
+      this.unload()
       setTimeout(() => {
         this.setState({ loading: 'none' })
       }, 500);
-    } 
+    }
   }
 
   componentWillUnmount() {
     clearInterval(pid1)
-      clearTimeout(pid2);
+    clearTimeout(pid2);
   }
 
   loading = (showMenu) => {
@@ -40,7 +37,7 @@ export default class Loading extends Component {
 
   unload = () => {
     let container = document.getElementById("loadingScreen");
-    container.classList.toggle("fadeOut")
+    container.classList.add("fadeOut")
   }
 
   animate = (a) => {
@@ -57,19 +54,16 @@ export default class Loading extends Component {
     this.setState({ still: 'myid0', opacity: .7 })
   }
 
-
-
   render() {
     const { still, loading, opacity } = this.state;
-      return (
-        <div id='loadingScreen' style={{display: loading}}>
-          <div id='loadingBird'
-            style={{ opacity }}
-            className={classnames("myid0", { [still]: loading })}>
-          </div>
-          <h1>© Digital Villa</h1>
+    return (
+      <div id='loadingScreen' style={{ display: loading }}>
+        <div id='loadingBird'
+          style={{ opacity }}
+          className={classnames("myid0", { [still]: loading })}>
         </div>
-      )
+        <h1>© Digital Villa</h1>
+      </div>
+    )
   }
 }
-

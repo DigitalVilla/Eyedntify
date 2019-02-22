@@ -5,7 +5,14 @@ import posts from './red_posts';
 import profile from './red_profile';
 import users from './red_users';
 import uploads from './red_fileUploads';
+import loader from './red_loader';
 
 export default combineReducers({
-  auth, errors, users, profile, uploads, posts
+  auth,
+  errors,
+  loader,
+  users,
+  profile,
+  uploads,
+  posts
 });

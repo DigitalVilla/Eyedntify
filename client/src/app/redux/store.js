@@ -3,18 +3,18 @@ import rootReducer from './reducers'
 import thunk from 'redux-thunk';
 
 const initialState = {};
-const middleware = [thunk]; 
+const middleware = [thunk];
 
 const store = createStore(
   rootReducer,
   initialState,
   compose(
     applyMiddleware(...middleware)
-  //   // eslint-disable-next-line 
-    ,window.__REDUX_DEVTOOLS_EXTENSION__ && window .__REDUX_DEVTOOLS_EXTENSION__()
+    //   // eslint-disable-next-line
+    , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 
 
-export default store; 
+export default store;
 // https://hackernoon.com/shape-your-redux-store-like-your-database-98faa4754fd5

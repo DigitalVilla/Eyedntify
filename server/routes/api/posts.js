@@ -24,15 +24,15 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
   Post.find()
     .sort({ date: -1 })
     .populate('owner', ['username', 'avatar'])
-    .populate('likes',  ['username', 'avatar'])
-    .populate({ 
+    .populate('likes', ['username', 'avatar'])
+    .populate({
       path: 'comments',
       model: 'Comment',
       populate: {
         path: 'user',
         model: 'User'
-      } 
-   })
+      }
+    })
     .then(posts => res.json(posts))
     .catch(err => res.status(404).json({ noposts: 'No posts found' }));
 });
@@ -43,14 +43,14 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 router.get('/:id', (req, res) => {
   Post.findById(req.params.id)
     .populate('owner', ['username', 'avatar'])
-    .populate('likes',  ['username', 'avatar'])
-    .populate({ 
+    .populate('likes', ['username', 'avatar'])
+    .populate({
       path: 'comments',
       model: 'Comment',
       populate: {
         path: 'user',
         model: 'User',
-        select: ['avatar','username']
+        select: ['avatar', 'username']
       }
     })
     .then(post => res.json(post))
@@ -82,19 +82,19 @@ router.get('/:id', (req, res) => {
 // @desc    Create post
 // @access  Private
 router.put('/like/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Post.findById(req.params.id) .then(post => {
-    
+  Post.findById(req.params.id).then(post => {
+
     const myLikes = post.likes;
     myLikes.push(req.user.id);
     console.log(myLikes);
     const updates = {};
-    updates.likes =  myLikes;
+    updates.likes = myLikes;
 
-    Post.findOneAndUpdate({_id : req.params.id},  { $set: updates},{ new: true })
-    .then(post => res.json(post))
-    .catch(err =>
-      res.status(404).json({ nopostfound: 'No post found with that ID' })
-    );
+    Post.findOneAndUpdate({ _id: req.params.id }, { $set: updates }, { new: true })
+      .then(post => res.json(post))
+      .catch(err =>
+        res.status(404).json({ nopostfound: 'No post found with that ID' })
+      );
   })
 });
 
@@ -102,27 +102,27 @@ router.put('/like/:id', passport.authenticate('jwt', { session: false }), (req, 
 // @desc    Create post
 // @access  Private
 router.put('/comment/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const { errors, isValid } = validatePostInput({caption:req.body.text},true);
+  const { errors, isValid } = validatePostInput({ caption: req.body.text }, true);
   if (!isValid) return res.status(400).json(errors);
-  
-  Post.findById(req.params.id) .then(post => {
+
+  Post.findById(req.params.id).then(post => {
     const newComment = new Comment({
-      user : req.user.id,
-      text : req.body.text
-    }); 
+      user: req.user.id,
+      text: req.body.text
+    });
     newComment.save()
-    
+
     const myComms = post.comments;
     myComms.push(newComment);
 
     const updates = {};
-    updates.comments =  myComms;
+    updates.comments = myComms;
 
-    Post.findOneAndUpdate({_id : req.params.id},  { $set: updates},{ new: true })
-    .then(post => res.json(post))
-    .catch(err =>
-      res.status(404).json({ nopostfound: 'No post found with that ID' })
-    );
+    Post.findOneAndUpdate({ _id: req.params.id }, { $set: updates }, { new: true })
+      .then(post => res.json(post))
+      .catch(err =>
+        res.status(404).json({ nopostfound: 'No post found with that ID' })
+      );
   })
 });
 
@@ -132,19 +132,19 @@ router.put('/comment/:id', passport.authenticate('jwt', { session: false }), (re
 // @desc    Create post
 // @access  Private
 router.put('/like/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Post.findById(req.params.id) .then(post => {
-    
+  Post.findById(req.params.id).then(post => {
+
     const myLikes = post.likes;
     myLikes.push(req.user.id);
     console.log(myLikes);
     const updates = {};
-    updates.likes =  myLikes;
+    updates.likes = myLikes;
 
-    Post.findOneAndUpdate({_id : req.params.id},  { $set: updates},{ new: true })
-    .then(post => res.json(post))
-    .catch(err =>
-      res.status(404).json({ nopostfound: 'No post found with that ID' })
-    );
+    Post.findOneAndUpdate({ _id: req.params.id }, { $set: updates }, { new: true })
+      .then(post => res.json(post))
+      .catch(err =>
+        res.status(404).json({ nopostfound: 'No post found with that ID' })
+      );
   })
 });
 

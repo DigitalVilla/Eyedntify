@@ -4,11 +4,11 @@ import { capsWord } from '../redux/utils/utils';
 import { connect } from 'react-redux';
 import { validateUser } from '../redux/actions/act_authorize'
 import { withRouter } from 'react-router-dom';
-
+import { getProfile, updateProfile } from '../redux/actions/act_profile'
 import classnames from 'classnames'
 
 class Login extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       login: true,
@@ -21,19 +21,22 @@ class Login extends Component {
     }
   }
 
-  
   componentWillReceiveProps(nextProps) {
+    console.log('nextProps', nextProps);
     if (nextProps.auth.user.ok)
-    return this.resetState(true);
- 
-    if (nextProps.auth.isAuthenticated)
-      return this.props.history.push('/home');
+      return this.resetState(true);
 
-      
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors, hasRegistered: false});
+    if (nextProps.profile.profile) {
+      return this.props.history.push(this.state.hasRegistered ? '/profile' : '/home');
     }
 
+    if (nextProps.errors.errors) {
+      this.setState(() => ({ errors: nextProps.errors.errors, hasRegistered: false }));
+    }
+
+    if (nextProps.auth.isAuthenticated) {
+      this.props.updateProfile({});
+    }
   }
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
@@ -49,7 +52,6 @@ class Login extends Component {
         password: this.state.password,
         password2: this.state.password2
       }
-
     this.props.validateUser(payload, this.state.login);
   }
 
@@ -58,16 +60,16 @@ class Login extends Component {
     this.resetState();
   }
 
-resetState = (login) => {
-  this.setState({
-    login: login || !this.state.login,
-    hasRegistered: login || false,
-    password2: '',
-    password: '',
-    email: '',
-    errors: {}
-  })
-}
+  resetState = (login) => {
+    this.setState((state) => ({
+      login: login || !state.login,
+      hasRegistered: login || false,
+      password2: '',
+      password: '',
+      email: '',
+      errors: {}
+    }))
+  }
 
   resetPass = (e) => {
     e.preventDefault();
@@ -76,7 +78,6 @@ resetState = (login) => {
 
   render() {
     const { errors } = this.state;
-
     return (<div className="container login">
       <div className="login__container">
         <div className="header">
@@ -96,7 +97,7 @@ resetState = (login) => {
             </React.Fragment>
           }
           <button className="loginBtn" type="submit">
-          {this.state.login ? "Login" : "Sign up"} 
+            {this.state.login ? "Login" : "Sign up"}
           </button>
           <div className="links">
             {this.state.login && !this.state.hasRegistered &&
@@ -119,7 +120,7 @@ function Input({ onChange, value, state, errors, login }) {
         value={state[value]}
         maxLength={value === "email" ? "50" : "20"}
         className={classnames("loginInput",
-        { "isInvalid": errors[value] || (value === "username" && errors.login) })}
+          { "isInvalid": errors[value] || (value === "username" && errors.login) })}
         name={value} type={value.indexOf('pass') > -1 ? 'password' : 'text'}
         placeholder={login ? "Username or Email" : value === "password2" ? "Repeat password" : capsWord(value)} />
       {(errors[value] || (value === "username" && errors.login)) &&
@@ -129,10 +130,10 @@ function Input({ onChange, value, state, errors, login }) {
   )
 }
 
-
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  profile: state.profile
 });
 
-export default connect(mapStateToProps, { validateUser })(withRouter(Login));
+export default connect(mapStateToProps, { validateUser, updateProfile })(withRouter(Login));

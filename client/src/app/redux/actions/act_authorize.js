@@ -1,13 +1,13 @@
-import {  setAxiosToken } from '../utils/setAxios';
+import { setAxiosToken, PROXY } from '../utils/setAxios';
 import { Route, Redirect } from 'react-router-dom';
-import { persistLS, deleteLS, getLS} from '../utils/persistance';
+import { persistLS, deleteLS, getLS } from '../utils/persistance';
 import React from 'react';
 import { isEmpty } from '../utils/utils';
-import {validate } from '../utils/validate';
+import { validate } from '../utils/validate';
 import jwt_decode from 'jwt-decode';
 import store from '../store';
 import axios from 'axios';
-import { VALID_REGISTRATION, SET_CURRENT_USER, GET_ERRORS} from './types';
+import { VALID_REGISTRATION, SET_CURRENT_USER, GET_ERRORS } from './types';
 
 // Register User
 export const validateUser = (newUser, login) => dispatch => {
@@ -22,7 +22,7 @@ export const validateUser = (newUser, login) => dispatch => {
         payload: res.data
       })
     })
-    .catch(err => dispatch(errorSetup(err.response.data)));
+    .catch(err => dispatch(errorSetup(err.response)));
 };
 
 
@@ -60,9 +60,9 @@ export const deleteToken = () => {
 export const validateToken = () => dispatch => {
   const token = getToken();
   if (token === "Not found" || token === "Expired")
-     dispatch(errorSetup(token))
+    dispatch(errorSetup(token))
   else
-   dispatch(userSetup(token, false)) // set up user
+    dispatch(userSetup(token, false)) // set up user
 }
 
 export const getToken = () => {
@@ -81,8 +81,8 @@ export const getToken = () => {
 }
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest } render = { (props) => (
-        validToken() ? < Component {...props }/>
+  <Route {...rest} render={(props) => (
+    validToken() ? < Component {...props} />
       : <Redirect to='/' />
   )} />
 );
@@ -91,4 +91,3 @@ export const validToken = () => {
   const token = getToken();
   return token.indexOf('Bearer') >= 0;
 }
-

@@ -1,64 +1,62 @@
 .searchBar {
-  // flex: 0 0 60%;
-  display: flex;
-  align-items: center;
-  // justify-content: center;
-  // margin-left: 1rem;
+  width: 0;
+  transition: all .1s;
+  position: fixed;
+  left: 2rem;
+  bottom: 2rem;
+  z-index: 100;
+
+  &__active {
+    width: 40rem;
+  }
+
+
+  @media only screen and (min-width: $bp-900) {
+    left: calc(50vw - 430px);
+  }
+
+  @media only screen and (max-width: $bp-450) {
+    &__active {
+      width: 90%;
+    }
+  }
+
+  &__bg {
+    background: linear-gradient(to top right, $color1, $color2);
+    width: 0;
+    transition: all .2s;
+    border-radius: 5px;
+    height: 5rem;
+    margin-left: 2.5rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0.2rem 0.3rem rgba(41, 43, 44, 0.1);
+  }
+
+
 
   &__input {
-    box-shadow: 0 0.2rem 0.3rem rgba(41, 43, 44, 0.1);
+    border: 1px solid transparent;
     font-family: inherit;
-    font-size: inherit;
+    font-size: 1.6rem;
     color: #818181;
-    background-color: #efefef;
+    background-color: #e9e9e9;
     border: none;
     border-radius: 5px;
-    padding: 1.2rem 2rem;
-    width: 15rem;
+    // padding: 1.2rem 1rem 1.2rem 5rem;
+    text-align: center;
+    width: 100%;
+    height: 4.4rem;
     transition: all .2s;
     margin-right: -3.25rem;
-    border: 1px solid rgb(197, 197, 197);
-
-
-    @media only screen and (max-width: $bp-450) {
-      font-size: 1.2rem;
-    }
-
-    &:focus {
-      box-shadow: 0 0.5rem 1rem rgba(41, 43, 44, 0.2);
-    
-      background-color: #f0f0f0;
-      outline: none;
-      width: 60%;
-      opacity: 1;
-
-      & + .searchBar__icon {
-        fill: #009646;
-        cursor: pointer
-      }
-    }
+    // border: 2px solid $color2;
+    letter-spacing: 1px;
+    margin-right: .3rem;
   }
 
-  &__icon {
-
-    svg {
-      height: 3rem !important;
-      width: 3rem !important;
-      fill: #c5c5c5;
-    }
-
-    padding: 0;
-    outline: 0;
-    cursor: none;
-    transform: translateY(0);
-    transition: all .3s;
-
-    &:focus {
-      transform: translateY(0)
-    }
-
-    &:active {
-      transform: translateY(2px)
-    }
+  .active {
+    width: calc(100% - 2.5rem) !important;
   }
+
+
 }
