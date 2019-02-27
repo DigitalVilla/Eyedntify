@@ -5,7 +5,7 @@ const passport = require('passport');
 const cors = require('cors');
 const path = require('path');
 
-//server setup 
+//server setup
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -26,9 +26,10 @@ app.use(cors())
 
 //DB connection
 const db = require('./server/config/keys').database;
-mongoose.connect(db,{
+mongoose.connect(db, {
   useCreateIndex: true,
-  useNewUrlParser: true})
+  useNewUrlParser: true
+})
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err))
 mongoose.set('useFindAndModify', false)
@@ -42,7 +43,7 @@ require('./server/realtime/socket')(io);
 // Use Routes
 app.use('/api/users', users);
 app.use('/api/posts', posts);
-app.use('/api/profile', profile); 
+app.use('/api/profile', profile);
 app.use('/api/files', files);
 
 // Server static assets if in production
