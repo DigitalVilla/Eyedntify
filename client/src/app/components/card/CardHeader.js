@@ -3,6 +3,8 @@ import Icon from '../Icon'
 import avatar from '../../../img/holder_A.png';
 
 const CardHeader = (props) => {
+
+
   return (
     <div className="EyeCard__header">
       <div>
@@ -10,9 +12,9 @@ const CardHeader = (props) => {
         <span> {props.author}</span>
       </div>
       <Icon
-        action = {props.action}
+        action={props.owner ? props.onClick : ''}
         size='3rem'
-        icon={props.icon ||"dots"} />
+        icon={props.owner ? 'cancel' : "dots"} />
     </div>
   )
 }

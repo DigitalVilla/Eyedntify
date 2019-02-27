@@ -22,7 +22,7 @@ export const validateUser = (newUser, login) => dispatch => {
         payload: res.data
       })
     })
-    .catch(err => dispatch(errorSetup(err.response)));
+    .catch(err => dispatch(errorSetup(err.response.data)));
 };
 
 

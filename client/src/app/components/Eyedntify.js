@@ -3,21 +3,21 @@ import Navbar from './navbar';
 import Loading from './Loading'
 import { connect } from 'react-redux';
 import { deleteToken, validateToken } from '../redux/actions/act_authorize'
-import { hasLoaded, isLoading, startSpin, stopSpin } from '../redux/actions/act_loader'
-import Spinner from "../components/Spinner";
+import { hasLoaded, isLoading } from '../redux/actions/act_loader'
+import { updateProfile } from '../redux/actions/act_profile'
 
 class Eyedntify extends Component {
   state = {
-    spinning: false,
     isValid: false,
-    loading: true
+    loading: true,
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated)
-      this.setState((ps) => ({
-        isValid: true
-      }))
+    if (nextProps.auth.isAuthenticated) {
+      this.setState((ps) => ({ isValid: true }))
+    } else if (nextProps.auth.isAuthenticated) {
+      this.setState((ps) => ({ isValid: false }))
+    }
 
     if (nextProps.loader.spinning !== this.state.spinning) {
       this.setState((ps) => ({
@@ -34,8 +34,9 @@ class Eyedntify extends Component {
 
   componentDidMount() {
     this.props.validateToken();
+    this.props.updateProfile({ new: true });
     setTimeout(() => {
-      if (this.state.loading) // stopp loading in one second
+      if (this.state.loading) // stopp loading in 2 seconds
         this.setState({ loading: false })
     }, 2000);
   }
@@ -47,7 +48,7 @@ class Eyedntify extends Component {
   }
 
   render() {
-    const { isValid, loading, spinning } = this.state;
+    const { isValid, loading } = this.state;
     return (
       <React.Fragment>
         <Navbar toMute={this.disableBtn} />
@@ -55,24 +56,23 @@ class Eyedntify extends Component {
           Your Session has expired</h1>}
         {isValid && <Loading loading={loading} />}
         {isValid && this.props.children}
-        {spinning && <Spinner spinning={spinning} />}
       </React.Fragment>
     )
   }
 }
 const mapStateToProps = state => ({
+  auth: state.auth,
   errors: state.errors,
   loader: state.loader,
-  auth: state.auth
+  profile: state.profile
 });
 
 const mapDispatchToProps = (dispatch) => ({
   validateToken: () => dispatch(validateToken()),
+  updateProfile: () => dispatch(updateProfile()),
   deleteToken: () => dispatch(deleteToken()),
   hasLoaded: () => dispatch(hasLoaded()),
   isLoading: () => dispatch(isLoading()),
-  startSpin: () => dispatch(startSpin()),
-  stopSpin: () => dispatch(stopSpin())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Eyedntify)

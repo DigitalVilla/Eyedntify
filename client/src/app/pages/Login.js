@@ -4,8 +4,9 @@ import { capsWord } from '../redux/utils/utils';
 import { connect } from 'react-redux';
 import { validateUser } from '../redux/actions/act_authorize'
 import { withRouter } from 'react-router-dom';
-import { getProfile, updateProfile } from '../redux/actions/act_profile'
+import { updateProfile } from '../redux/actions/act_profile'
 import classnames from 'classnames'
+import Spinner from "../components/Spinner";
 
 class Login extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Login extends Component {
     this.state = {
       login: true,
       hasRegistered: false,
+      spinning: false,
       username: '',
       email: '',
       password: '',
@@ -22,21 +24,25 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps', nextProps);
-    if (nextProps.auth.user.ok)
-      return this.resetState(true);
-
-    if (nextProps.profile.profile) {
-      return this.props.history.push(this.state.hasRegistered ? '/profile' : '/home');
-    }
-
-    if (nextProps.errors.errors) {
-      this.setState(() => ({ errors: nextProps.errors.errors, hasRegistered: false }));
-    }
+    // console.log('nextProps', nextProps);
 
     if (nextProps.auth.isAuthenticated) {
-      this.props.updateProfile({});
+      return this.props.history.push(this.state.hasRegistered ? '/profile' : '/home');
     }
+    else if (nextProps.auth.user.ok) {
+      this.setState(() => ({ spinning: false }));
+      setTimeout(() => {
+        return this.resetState(true);
+      }, 400)
+    }
+    else if (nextProps.errors.errors) {
+      this.setState(() => ({ spinning: false }));
+      setTimeout(() => {
+        this.setState(() => ({ errors: nextProps.errors.errors, hasRegistered: false }));
+      }, 400)
+    }
+
+
   }
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
@@ -52,7 +58,11 @@ class Login extends Component {
         password: this.state.password,
         password2: this.state.password2
       }
-    this.props.validateUser(payload, this.state.login);
+
+    this.setState(() => ({ spinning: true, errors: {} }));
+    setTimeout(() => {
+      this.props.validateUser(payload, this.state.login);
+    }, 500)
   }
 
   nextForm = (e) => {
@@ -64,6 +74,7 @@ class Login extends Component {
     this.setState((state) => ({
       login: login || !state.login,
       hasRegistered: login || false,
+      spinning: false,
       password2: '',
       password: '',
       email: '',
@@ -71,13 +82,13 @@ class Login extends Component {
     }))
   }
 
-  resetPass = (e) => {
+  resetPass = (e) => { // to be implementes
     e.preventDefault();
     // this.setState({ login: !this.state.login })
   }
 
   render() {
-    const { errors } = this.state;
+    const { login, errors, spinning, username, hasRegistered } = this.state;
     return (<div className="container login">
       <div className="login__container">
         <div className="header">
@@ -86,27 +97,28 @@ class Login extends Component {
         </div>
         <form onSubmit={this.submitForm} className="loginForm">
           {this.state.hasRegistered &&
-            <h2 className="welcome">Welcome {this.state.username}!</h2>
+            <h2 className="welcome">Welcome {username}!</h2>
           }
-          <Input value="username" login={this.state.login} state={this.state} onChange={this.onChange} errors={errors} />
+          <Input value="username" login={login} state={this.state} onChange={this.onChange} errors={errors} />
           <Input value="password" state={this.state} onChange={this.onChange} errors={errors} />
-          {!this.state.login &&
+          {!login &&
             <React.Fragment>
               <Input value="password2" state={this.state} onChange={this.onChange} errors={errors} />
               <Input value="email" state={this.state} onChange={this.onChange} errors={errors} />
             </React.Fragment>
           }
           <button className="loginBtn" type="submit">
-            {this.state.login ? "Login" : "Sign up"}
+            {login ? "Login" : "Sign up"}
           </button>
           <div className="links">
-            {this.state.login && !this.state.hasRegistered &&
+            {login && !hasRegistered &&
               <button className="next" onClick={this.resetPass}>Password?</button>}
-            {!this.state.hasRegistered &&
-              <button className="next" onClick={this.nextForm}>{this.state.login ? "Sign up!" : "Login!"}</button>
+            {!hasRegistered &&
+              <button className="next" onClick={this.nextForm}>{login ? "Sign up!" : "Login!"}</button>
             }
           </div>
         </form>
+        <Spinner spinning={spinning} />
       </div>
     </div>)
   }

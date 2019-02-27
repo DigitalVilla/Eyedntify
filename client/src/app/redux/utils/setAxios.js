@@ -15,5 +15,5 @@ export const resetJSON = (timeout = 100) => {
 }
 
 
-const PRODUCTION = false;
+const PRODUCTION = true;
 export const PROXY = PRODUCTION ? "https://eyedntify.herokuapp.com" : "http://localhost:5000";

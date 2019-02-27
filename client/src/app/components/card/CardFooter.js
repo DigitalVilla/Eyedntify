@@ -1,9 +1,9 @@
 import React from 'react'
 import Icon from '../Icon'
 import classnames from 'classnames'
-import {} from '../../redux/actions/act_post'
+import { } from '../../redux/actions/act_post'
 
-const CardFooter = ({body, likeHandler, faveHandler, state}) => {
+const CardFooter = ({ likeHandler, faveHandler, state }) => {
 
   const size = "3rem";
   return (
@@ -24,7 +24,7 @@ const CardFooter = ({body, likeHandler, faveHandler, state}) => {
           "star": !state.favorite,
           "starFull": state.favorite,
         })} />
-        
+
     </div>
   )
 }

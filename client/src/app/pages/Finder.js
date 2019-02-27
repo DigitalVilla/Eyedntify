@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import SearchBar from '../components/SearchBar'
 import { connect } from 'react-redux';
 import { getUsers } from '../redux/actions/act_users'
-import { getProfile, updateProfile } from '../redux/actions/act_profile'
+import { updateProfile, followUser } from '../redux/actions/act_profile'
 import { renderURL } from '../redux/actions/act_fileUploader'
 import avatar from '../../img/avatar.png';
 import escapeRegExp from 'escape-string-regexp'
 import Icon from '../components/Icon'
-import { binarySearch, swapR } from '../redux/utils/utils'
+import { binarySearch } from '../redux/utils/utils'
 import classnames from 'classnames'
 import Eyedntify, { setTitle } from '../components/Eyedntify';
 import { hasLoaded } from '../redux/actions/act_loader'
@@ -25,16 +25,18 @@ class Finder extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.state.loading && nextProps.users.users
       && nextProps.profile.profile && nextProps.users.users.length > 0
-      && nextProps.auth.isAuthenticated && nextProps.profile.profile.intro)
+      && nextProps.auth.isAuthenticated && nextProps.profile.profile.intro) {
       this.setState({
         loading: false,
         users: nextProps.users.users,
         user: nextProps.profile.profile.user._id,
         following: nextProps.profile.profile.following.sort()
       })
-    setTimeout(() => {
-      this.props.hasLoaded();
-    }, 500);
+      setTimeout(() => {
+        this.props.hasLoaded();
+      }, 500);
+    }
+
     if (!this.state.loading && nextProps.profile.profile) {
       this.setState({
         following: nextProps.profile.profile.following.sort()
@@ -44,8 +46,8 @@ class Finder extends Component {
 
   componentDidMount() {
     setTitle('Finder');
-    this.props.getProfile();
     this.props.getUsers();
+    this.props.updateProfile({ new: true });
   }
 
   updateQuery = (query) => {
@@ -53,9 +55,7 @@ class Finder extends Component {
   }
 
   followHandler = (id) => {
-    this.props.updateProfile({
-      following: swapR(this.state.following, id)
-    })
+    this.props.followUser(id);
   }
 
   componentWillUnmount() {
@@ -71,7 +71,7 @@ class Finder extends Component {
   render() {
     const { users, query, toSearch, user, following } = this.state;
 
-    console.log("render: ", + Math.floor(Date.now() / 1000));
+    // console.log("render: ", + Math.floor(Date.now() / 1000));
 
     let filteredUsers;
     if (query) {
@@ -140,9 +140,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateProfile: (a) => dispatch(updateProfile(a)),
-  getProfile: () => dispatch(getProfile()),
   hasLoaded: () => dispatch(hasLoaded()),
-  getUsers: () => dispatch(getUsers())
+  getUsers: () => dispatch(getUsers()),
+  followUser: (a) => dispatch(followUser(a)),
 })
 
 

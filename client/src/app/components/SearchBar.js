@@ -3,7 +3,7 @@ import EyeBtn from '../components/EyeBtn'
 import classnames from "classnames";
 export default function searchBox(props) {
 
-  console.log(props.toSearch);
+  // console.log(props.toSearch);
 
   return (
     <div className={classnames("searchBar", {

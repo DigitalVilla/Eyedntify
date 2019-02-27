@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getProfile, updateProfile } from '../redux/actions/act_profile'
+import { updateProfile } from '../redux/actions/act_profile'
 import { uploadImage, renderURL, renderLocal } from '../redux/actions/act_fileUploader'
-import { hasLoaded, startSpin, stopSpin } from '../redux/actions/act_loader'
+import { hasLoaded } from '../redux/actions/act_loader'
 import EyeBtn from '../components/EyeBtn'
 import classnames from 'classnames';
 import avatar from '../../img/holder_A.png';
 import banner from '../../img/holder_B.png';
 import Eyedntify, { setTitle } from '../components/Eyedntify';
-
+import Spinner from "../components/Spinner";
 
 class Profile extends Component {
   state = {
@@ -23,39 +23,50 @@ class Profile extends Component {
     disable: false,
     avatarLocal: '',
     bannerLocal: '',
-    hasChanged: false
+    hasChanged: false,
+    spinning: false,
+    reloaded: false
   }
 
   componentDidMount() {
     setTitle('Profile')
-    this.props.getProfile();
+
+    // this.props.updateProfile({ new: true });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.intro != '') return; //load live and do not wait for
-
-    if (nextProps.profile.profile && nextProps.profile.profile.handler) {
+    // console.log('Profile', nextProps);
+    if (this.state.intro != '') return; //load live and do not wait for ajax
+    if (nextProps.profile.profile) {
       const { following, followers, posts, favorite, user, intro } = nextProps.profile.profile;
       this.setState({ following, followers, posts, favorite, user, intro });
       setTimeout(() => {
         this.props.hasLoaded();
-      }, 500);
+      }, 700);
     }
   }
 
   editProfile = (e) => {
     const { edit, intro, avatarFile, bannerFile, hasChanged } = this.state
-    this.setState({ edit: !edit })
+    if (!edit)
+      this.setState({ edit: true })
 
-    if (edit && hasChanged) { //upload
-      this.props.startSpin()
-      this.props.uploadImage(bannerFile, "banner", "UDP"); // online
-      this.props.uploadImage(avatarFile, "avatar", "UDP"); //online
-      this.props.updateProfile({ intro })
+    if (edit) { //upload
+      this.setState({ spinning: true });
       setTimeout(() => {
-        this.setState({ edit: false, hasChanged: false })
-        this.props.stopSpin()
-      }, 1000);
+        if (hasChanged) {
+          this.props.uploadImage(bannerFile, "banner", "UDP"); // online
+          this.props.uploadImage(avatarFile, "avatar", "UDP"); //online
+          this.props.updateProfile({ intro })
+        }
+        setTimeout(() => {
+          this.setState({ spinning: false });
+          setTimeout(() => {
+            this.setState({ edit: false, hasChanged: false })
+          }, 400);
+        }, 400)
+      }, 400);
+
     }
   }
 
@@ -75,12 +86,13 @@ class Profile extends Component {
   disableBtn = () => this.setState({ disable: !this.state.disable })
 
   render() {
-    const { following, followers, posts, favorite, user, intro, edit, disable, avatarLocal, bannerLocal } = this.state;
-    console.log(this.state);
+    const { following, followers, posts, spinning, favorite, user, intro, edit, disable, avatarLocal, bannerLocal } = this.state;
+    // console.log(this.state);
 
     return (
       <Eyedntify >
         <div className="container profile">
+          <Spinner spinning={spinning} />
           <input type="file" onChange={this.uploadFile} name="banner"
             id="uploader" ref={fileInput => this.bannerPicker = fileInput} />
           <input type="file" onChange={this.uploadFile} name="avatar"
@@ -142,10 +154,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
   uploadImage: (a, b, c) => dispatch(uploadImage(a, b, c)),
   updateProfile: (a) => dispatch(updateProfile(a)),
-  getProfile: (a) => dispatch(getProfile(a)),
-  hasLoaded: () => dispatch(hasLoaded()),
-  startSpin: () => dispatch(startSpin()),
-  stopSpin: () => dispatch(stopSpin())
+  hasLoaded: () => dispatch(hasLoaded())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

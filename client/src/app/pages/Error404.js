@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const Error404 = (props) => {
   setTitle('Error 404');
 
-  console.log('Error', props);
+  // console.log('Error', props);
 
   // setTimeout(() => {
   //   props.hasLoaded();

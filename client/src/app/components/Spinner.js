@@ -22,16 +22,16 @@ export default class spinning extends Component {
   componentWillReceiveProps(nextProps) {
 
     if (this.state.spinning && !nextProps.spinning) {
-      this.relaod(false)
+      // this.relaod(false)
       clearInterval(this.pid1)
       clearTimeout(this.pid1);
       setTimeout(() => {
         this.setState({ spinning: false })
-      }, 1000);
+      }, 250);
     } else if (!this.state.spinning && nextProps.spinning) {
       this.setState({ spinning: true })
       this.spinning();
-      this.relaod(true)
+      // this.relaod(true)
       this.pid1 = setInterval(() => this.spinning(), this.speed * 6);
     }
   }
@@ -48,11 +48,11 @@ export default class spinning extends Component {
   relaod = (laod) => {
     let bird = document.getElementById("SpinnerBtn");
     if (laod) {
-      bird.classList.remove("fadeOut")
-      bird.classList.add("fadeIn")
+      bird.classList.remove("fadeOut1")
+      bird.classList.add("fadeIn1")
     } else {
-      bird.classList.remove("fadeIn")
-      bird.classList.add("fadeOut")
+      bird.classList.remove("fadeIn1")
+      bird.classList.add("fadeOut1")
     }
   }
 
@@ -72,7 +72,7 @@ export default class spinning extends Component {
   }
 
   render() {
-    console.log("spinning render");
+    // console.log("spinning render");
     const { still, spinning, marginTop } = this.state;
     return (
       <div id='SpinnerBtn' className='fadeIn' style={{ display: spinning ? 'block' : 'none' }}>

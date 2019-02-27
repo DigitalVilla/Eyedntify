@@ -12,7 +12,7 @@ import {
 // No response just update
 export const uploadImageUDP = (file, type) => dispatch => {
   if (file.type.indexOf('image') === 0) {
-    const width = type === "banner" || type === "post" ? 800 : 200;
+    const width = type === "banner" || type === "post" ? 500 : 200;
     compress(file, { width }, (resize) => {
       const image = new FormData();
       image.append('file', resize)
@@ -28,7 +28,7 @@ export const uploadImageUDP = (file, type) => dispatch => {
 export const uploadImage = (file, type, protocol = 'TCP') => dispatch => {
   if (!file) return;
   if (file.type.indexOf('image') === 0) {
-    const width = type === "banner" || type === "post" ? 800 : 200;
+    const width = type === "banner" || type === "post" ? 500 : 200;
     compress(file, { width }, (resize) => {
       const image = new FormData();
       image.append('file', resize)
@@ -112,7 +112,7 @@ export const compress = (image, { width = 200, height = null }, next) => {
           type
         });
         next(file);
-      }, 'image/jpeg', 0.8);
+      }, 'image/jpeg', 0.7);
 
     },
       reader.onerror = error => console.log(error);

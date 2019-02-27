@@ -21,10 +21,10 @@ export function capsWord(str) {
 export function binarySearch(arr, target) {
   let left = 0;
   let right = arr.length - 1;
-  let mid; 
+  let mid;
   while (left <= right) {
     mid = left + Math.floor((right - left) / 2);
-    if (arr[mid] === target) {
+    if (arr[mid] == target) {
       return mid;
     }
     if (arr[mid] < target) {
@@ -37,7 +37,7 @@ export function binarySearch(arr, target) {
 }
 
 //function adds/deletes an element from an array
-export function swapR (array, item, cloned = true) {
+export function swapR(array, item, cloned = true) {
   // debugger
   const copy = cloned ? array.slice(0, array.length) : array;
   const indx = binarySearch(copy.sort(), item);
@@ -46,4 +46,15 @@ export function swapR (array, item, cloned = true) {
   else // not found >> add
     copy.splice(~indx, 0, item)
   return copy.sort();
+}
+
+
+export function bFilter(array, test) {
+  const len = array.length;
+  let passed = [];
+  for (let i = 0, j = len - 1; i <= j && j >= i; i++ , j--) {
+    if (test(array[i])) passed.push(array[i]);
+    if (test(array[j])) passed.push(array[j]);
+  }
+  return passed;
 }

@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import Card from '../components/card'
-import Navbar from '../components/navbar';
 import NewPost from '../components/NewPost';
 import EyeBtn from '../components/EyeBtn'
-import { validToken, validateToken } from '../redux/actions/act_authorize'
-import { validPost, uploadPost, getAllPosts } from '../redux/actions/act_post'
-import { getProfile } from '../redux/actions/act_profile'
+import { uploadPost, getAllPosts } from '../redux/actions/act_post'
 import { connect } from 'react-redux';
 import classnames from 'classnames'
-import Loading from '../components/Loading'
 import { isEmpty } from '../redux/utils/utils';
+import Eyedntify, { setTitle } from '../components/Eyedntify';
+import { hasLoaded } from '../redux/actions/act_loader'
+import Spinner from "../components/Spinner";
+import { updateProfile } from '../redux/actions/act_profile'
 
 // const serverURI = process.env.REACT_APP_SERVER
 // const io = require('socket.io-client')
@@ -17,38 +17,52 @@ class Home extends Component {
   state = {
     socket: null,
     toPost: false,
+    spinning: false,
     newPost: {},
     user: {},
     posts: [],
     disable: false,
-    loading: true,
-    isValid: false
+    hasLoaded: false
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.posts.posts.length > 0 && nextProps.profile && nextProps.profile.profile) {
-      setTimeout(() => {
-        this.setState({
-          posts: nextProps.posts.posts, loading: false,
-          user: {
-            ...this.state.user,
-            favorite: nextProps.profile.profile.favorite,
-            username: nextProps.profile.profile.user.username,
-            avatar: nextProps.profile.profile.user.avatar,
-            id: nextProps.profile.profile.user._id,
-          }
-        });
-      }, 500);
+    // console.log('nextProps', nextProps)
+    if (nextProps.posts.posts && nextProps.posts.posts.length > 0
+      && nextProps.profile.profile && nextProps.profile.profile.user) {
+      const { favorite, user } = nextProps.profile.profile;
+      this.setState({
+        posts: nextProps.posts.posts,
+        user: {
+          ...this.state.user,
+          favorite: favorite,
+          username: user.username,
+          avatar: user.avatar,
+          id: user._id,
+        }
+      });
+      if (!this.state.hasLoaded)
+        setTimeout(() => {
+          this.setState({ hasLoaded: true })
+          this.props.hasLoaded(); //call loading only once
+        }, 1000);
+
+      if (this.state.spinning) {
+        setTimeout(() => {
+          this.setState({ spinning: false });
+          setTimeout(() => {
+            this.setState({ toPost: false, newPost: {}, });
+          }, 500);
+        }, 500);
+      }
+
     }
     if (nextProps.errors)
       this.setState({ errors: nextProps.errors });
-
   }
 
   componentDidMount() {
-    this.props.validateToken();
-    this.setState({ isValid: validToken() });
-    this.props.getProfile({});
+    setTitle('Home');
+    // this.props.updateProfile({ new: true });
     this.props.getAllPosts({ local: false });
     // validateToken()
     // const socketURL = "http://localhost:5000";
@@ -67,16 +81,18 @@ class Home extends Component {
   // }
 
   toPost = () => {
-    const { toPost, disable, newPost } = this.state;
+    const { toPost, newPost } = this.state;
     if (!toPost)
       return this.setState({ toPost: true, disable: false })
     if (toPost) { //upload
       // const errors = isEmpty(newPost);
       if (!isEmpty(newPost)) {
+        this.setState({ spinning: true, })
         this.props.uploadPost(newPost)
         this.props.getAllPosts({ local: false });
+      } else {
+        this.setState({ toPost: false, newPost: {} })
       }
-      this.setState({ toPost: false, newPost: {} })
     }
   }
 
@@ -93,34 +109,28 @@ class Home extends Component {
 
 
   render() {
-    const { isValid, loading, disable, posts, user, toPost } = this.state;
+    const { disable, posts, user, toPost, spinning } = this.state;
 
     return (
-      <React.Fragment>
-        <Navbar toMute={this.disableBtn} />
-        <Loading loading={loading} />
-        {!loading &&
-          <React.Fragment>
-            {!isValid && <h1 style={{ marginTop: '10rem' }}>Your Session has expired</h1>}
-            {toPost &&
-              <NewPost avatar={user.avatar}
-                username={user.username}
-                setImage={this.setImage}
-                onChange={this.onChange}
-                cancel={this.cancelPost} />
-            }
-            <div className="container home">
-              {
-                posts.map((c) => {
-                  return <Card key={c._id} body={c} user={user} />
-                })
-              }
-              <EyeBtn className={classnames({ "disable": disable })} icon="plane"
-                onClick={this.toPost} />
-            </div>
-          </React.Fragment>
+      <Eyedntify >
+        {toPost &&
+          <NewPost avatar={user.avatar}
+            username={user.username}
+            setImage={this.setImage}
+            onChange={this.onChange}
+            cancel={this.cancelPost} />
         }
-      </React.Fragment>
+        <Spinner spinning={spinning} />
+        <div className="container home">
+          {
+            posts.map((c) => {
+              return <Card key={c._id} post={c} user={user} />
+            })
+          }
+          <EyeBtn className={classnames({ "disable": disable })} icon="plane"
+            onClick={this.toPost} />
+        </div>
+      </Eyedntify>
     )
   }
 }
@@ -132,4 +142,11 @@ const mapStateToProps = state => ({
   posts: state.posts,
 });
 
-export default connect(mapStateToProps, { validateToken, getProfile, uploadPost, getAllPosts })(Home);
+const mapDispatchToProps = (dispatch) => ({
+  updateProfile: (a) => dispatch(updateProfile(a)),
+  getAllPosts: (a) => dispatch(getAllPosts(a)),
+  uploadPost: (a) => dispatch(uploadPost(a)),
+  hasLoaded: () => dispatch(hasLoaded()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

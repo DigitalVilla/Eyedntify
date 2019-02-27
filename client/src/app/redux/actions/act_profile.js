@@ -11,17 +11,26 @@ import {
 import { PROXY } from '../utils/setAxios';
 
 // Get current profile
-export const updateProfile = (profile, protocol = "TCP") => dispatch => {
+export const updateProfile = (profile) => dispatch => {
   // dispatch(setProfileLoading());
   axios.post(`/api/profile/`, profile)
     .then(res => {
-      if (protocol === 'TCP') // fetch data and update store
-        return dispatch({
-          type: SET_PROFILE,
-          payload: res.data
-        })
+      return dispatch({
+        type: SET_PROFILE,
+        payload: res.data
+      })
     })
-    .catch(err => protocol === 'TCP' ? dispatch(errorSetup(err)) : '')
+    .catch(err => dispatch(errorSetup(err)))
+};
+export const followUser = (userID) => dispatch => {
+  axios.put(`/api/profile/follow/${userID}`)
+    .then(res => {
+      return dispatch({
+        type: SET_PROFILE,
+        payload: res.data
+      })
+    })
+    .catch(err => dispatch(errorSetup(err)))
 };
 
 // Get current profile
