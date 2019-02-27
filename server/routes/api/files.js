@@ -8,7 +8,7 @@ const path = require('path');
 const passport = require('passport');
 const express = require('express');
 const router = express.Router();
-
+const u = require('../../utils/utils');
 const Profile = require('../../models/Profile');
 const Post = require('../../models/Post');
 const User = require('../../models/User');
@@ -173,28 +173,60 @@ router.post('/newPost', upload_P.single('file'), passport.authenticate('jwt', { 
   });
 
   newPost.save()
-    .then(post => res.json({ ok: true }))
+    .then(post => {
+      Profile.findOne({ user: req.user._id }).then(profile => {
+        let newPosts = profile.posts
+        newPosts.push(post._id);
+
+        Profile.findOneAndUpdate({ user: req.user.id }, { $set: { posts: newPosts } }, { new: true })
+          .then(profile => res.json({ ok: true }));
+      })
+    })
     .catch(err => res.status(400).json(parse(err.errmsg)))
 });
 
 
-// @route   POST api/posts
+// @route   POST api/files
 // @desc    Create post
 // @access  Private
-router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.delete('/post/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Post.findById(req.params.id).then((post) => {
+    //REmove Image
+    gfs_P.files.findOne({ filename: post.image }, (err, file) => {
+      if (file !== null)
+        gfs_P.remove({ _id: file['_id'], root: DB_P }, (err, gridStore) => console.log(err ? err : ''));
 
+      //REmove link to user
+      Profile.findOne({ user: req.user._id }).then(profile => {
+        const newPosts = u.swapR(profile.posts, req.params.id);
+        Profile.findOneAndUpdate({ user: req.user.id }, { $set: { posts: newPosts } }, { new: true })
+          .then(profile => {
 
-  const newPost = new Post({
-    owner: req.user.id,
-    caption: req.body.caption,
-    image: req.body.image,
+            //Remove post
+            Post.findByIdAndRemove(req.params.id, (err, post) => {
+              if (err) return res.status(500).send(err);
+              return res.status(200).send(post);
+            })
+          })
+      })
+        .catch(err => res.status(400).json(err.errmsg))
+    })
+  })
+    .catch(err => res.status(400).json(err.errmsg))
+});
+
+// @route POST /files
+// @desc  Uploads file to DB
+router.post('/banner', upload_B.single('file'), passport.authenticate('jwt', { session: false }), (req, res) => {
+  gfs_B.files.findOne({ filename: req.user.banner }, (err, file) => {
+    if (file !== null)
+      gfs_B.remove({ _id: file['_id'], root: DB_P }, (err, gridStore) => console.log(err ? err : ''));
+
+    User.findOneAndUpdate({ username: req.user.username }, { $set: { banner: req.file.filename } }, { new: true })
+      .then((user) => res.json(user.banner))
+      .catch(err => res.status(400).json(parse(err.errmsg)))
   });
-
-  newPost.save()
-    .then(post => res.json(post));
-}
-);
-
+});
 
 
 

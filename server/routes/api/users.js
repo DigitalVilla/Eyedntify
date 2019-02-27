@@ -12,6 +12,7 @@ const validateLoginInput = require('../../validation/login');
 
 // Load User model
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 
 // @route   GET api/users/test
 // @desc    Tests users route
@@ -40,10 +41,21 @@ router.post('/register', (req, res) => {
       scrypt(password, (hash) => {
         newUser.password = hash;
         newUser.save()
-          .then(user => res.json({ ok: true }))
+          .then(user => {
+
+            Profile.findOne({ user: user._id }) //crate an empty profile
+              .then(profile => {
+                const profileFields = {};
+                profileFields.user = user._id;
+                profileFields.handler = user.username;
+                new Profile(profileFields).save()
+                  .then(profile => res.json({ ok: true }))
+              })
+              .catch(err => res.status(400).json(err.errmsg))
+          })
           .catch(err => res.status(400).json(parse(err.errmsg)))
       });
-    });
+    })
 });
 
 // @route   GET api/users/login
@@ -104,15 +116,6 @@ router.put('/', passport.authenticate('jwt', { session: false }), (req, res) => 
       .catch(err => res.status(400).json(parse(err.errmsg)))
 })
 
-const parse = (err) => { // parse duplicate key error
-  const start = (err.indexOf('$') >= 0)
-    ? err.indexOf('$') + 1 //mlab error
-    : err.indexOf('x:') + 3; // local mongo error
-  const end = err.indexOf('_');
-  const type = err.slice(start, end);
-  console.log(type);
-  return { [type]: `That ${type} already exists` };
-}
 
 // @route   GET api/users/current
 // @desc    Return current user
@@ -157,6 +160,18 @@ const scrypt = (password, callback) => {
     });
   });
 }
+
+const parse = (err) => { // parse duplicate key error
+  if (!err) return 'undefined';
+  const start = (err.indexOf('$') >= 0)
+    ? err.indexOf('$') + 1 //mlab error
+    : err.indexOf('x:') + 3; // local mongo error
+  const end = err.indexOf('_');
+  const type = err.slice(start, end);
+  // console.log(type);
+  return { [type]: `That ${type} already exists` };
+}
+
 
 
 

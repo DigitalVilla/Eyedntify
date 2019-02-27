@@ -8,9 +8,11 @@ const passport = require('passport');
 const Post = require('../../models/Post');
 const Comment = require('../../models/Comment');
 // Profile model
-const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 // Validation
 const validatePostInput = require('../../validation/post');
+const u = require('../../utils/utils');
+
 
 // @route   GET api/posts/test
 // @desc    Tests posts route
@@ -59,38 +61,15 @@ router.get('/:id', (req, res) => {
     );
 });
 
-// // @route   POST api/posts
-// // @desc    Create post
-// // @access  Private
-// router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-//     const { errors, isValid } = validatePostInput(req.body);
-//     if (!isValid) return res.status(400).json(errors);
-
-//     const newPost = new Post({
-//       owner: req.user.id,
-//       caption: req.body.caption,
-//       image: req.body.image,
-//     });
-
-//     newPost.save()
-//     .then(post => res.json(post));
-//   }
-// );
-
-
-// @route   POST api/posts
-// @desc    Create post
+// @route   POST api/posts/like/id
+// @desc    handles like/unlike requests
 // @access  Private
 router.put('/like/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
   Post.findById(req.params.id).then(post => {
 
-    const myLikes = post.likes;
-    myLikes.push(req.user.id);
-    console.log(myLikes);
-    const updates = {};
-    updates.likes = myLikes;
+    const newLikes = u.swapR(post.likes, req.user.id + "");
 
-    Post.findOneAndUpdate({ _id: req.params.id }, { $set: updates }, { new: true })
+    Post.findOneAndUpdate({ _id: req.params.id }, { $set: { likes: newLikes } }, { new: true })
       .then(post => res.json(post))
       .catch(err =>
         res.status(404).json({ nopostfound: 'No post found with that ID' })
@@ -98,7 +77,7 @@ router.put('/like/:id', passport.authenticate('jwt', { session: false }), (req, 
   })
 });
 
-// @route   POST api/posts
+// @route   POST api/posts/comment/id
 // @desc    Create post
 // @access  Private
 router.put('/comment/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -129,22 +108,31 @@ router.put('/comment/:id', passport.authenticate('jwt', { session: false }), (re
 
 
 // @route   POST api/posts
-// @desc    Create post
+// @desc    Add/de;ete a post form faveorite list
 // @access  Private
-router.put('/like/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Post.findById(req.params.id).then(post => {
+router.put('/favorite/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Profile.findOne({ user: req.user._id }).then(profile => {
+    //find if the postid is in the faves list
+    const newFaves = u.swapR(profile.favorite, req.params.id);
 
-    const myLikes = post.likes;
-    myLikes.push(req.user.id);
-    console.log(myLikes);
-    const updates = {};
-    updates.likes = myLikes;
+    Profile.findOneAndUpdate({ user: req.user.id }, { $set: { favorite: newFaves } }, { new: true })
+      .populate('user', ['username', 'avatar', 'banner'])
+      .then(profile => res.json(profile));
+  })
+});
 
-    Post.findOneAndUpdate({ _id: req.params.id }, { $set: updates }, { new: true })
-      .then(post => res.json(post))
-      .catch(err =>
-        res.status(404).json({ nopostfound: 'No post found with that ID' })
-      );
+
+// @route   POST api/posts
+// @desc    Add/de;ete a post form faveorite list
+// @access  Private
+router.put('/favorite/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Profile.findOne({ user: req.user._id }).then(profile => {
+    //find if the postid is in the faves list
+    const newFaves = u.swapR(profile.favorite, req.params.id);
+
+    Profile.findOneAndUpdate({ user: req.user.id }, { $set: { favorite: newFaves } }, { new: true })
+      .populate('user', ['username', 'avatar', 'banner'])
+      .then(profile => res.json(profile));
   })
 });
 

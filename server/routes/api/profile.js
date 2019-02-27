@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-
+const u = require('../../utils/utils');
 // Load Validation
 const validateProfileInput = require('../../validation/profile');
 // Load Profile Model
@@ -54,7 +54,7 @@ router.get('/all', passport.authenticate('jwt', { session: false }), (req, res) 
 });
 
 
-// @route   GET api/profile/user/:username
+// @route   GET api/profile/:username
 // @desc    Get profile by user ID
 // @access  Public
 
@@ -67,7 +67,7 @@ router.get('/:username', passport.authenticate('jwt', { session: false }), (req,
     .populate('favorite', ['username', 'avatar'])
     .populate('user', ['username', 'avatar', 'banner'])
     .then(profile => {
-      console.log(profile);
+      // console.log(profile);
       if (profile) return res.json(profile);
       return res.status(404).json({ profile: 'There is no profile for this user' });
     })
@@ -75,10 +75,11 @@ router.get('/:username', passport.authenticate('jwt', { session: false }), (req,
       res.status(404).json({ profile: 'There is no profile for this user' })
     );
 });
+
+
 // @route   GET api/profile/user/:username
 // @desc    Get profile by user ID
 // @access  Public
-
 router.get('/email/:email', passport.authenticate('jwt', { session: false }), (req, res) => {
   const errors = {};
   Profile.findOne({ email: req.params.email })
@@ -138,6 +139,28 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
     });
 });
 
+// @route   GET api/profile/follow/:id
+// @desc    Get profile by user ID
+// @access  Public
+router.put('/follow/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Profile.findOne({ user: req.user.id }).then(profile => { // add/remove following id
+    const newFollowing = u.swapR(profile.following, req.params.id);
+
+    Profile.findOneAndUpdate({ user: req.user.id }, { $set: { following: newFollowing } }, { new: true })
+      .populate('user', ['username', 'avatar', 'banner'])
+      .then(finalProfile => {
+
+        Profile.findOne({ user: req.params.id }).then(profile2 => { // add/remove followers id
+          const newFollowers = u.swapR(profile2.followers, req.user.id);
+
+          Profile.findOneAndUpdate({ user: req.params.id }, { $set: { followers: newFollowers } }, { new: true })
+            .then(rpp => {
+              res.json(finalProfile)
+            })
+        })
+      })
+  })
+});
 
 // @route   DELETE api/profile
 // @desc    Delete user and profile
